@@ -101,6 +101,7 @@ button.gameBtn>span {
   display: flex;
   border-radius: 5px;
   margin-left: 10px;
+  flex-wrap: wrap;
 }
 
 button.settingBtn {
