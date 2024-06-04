@@ -1,0 +1,267 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin-bottom: 1em;
+}
+
+h4 {
+  margin-bottom: .7em;
+}
+
+body {
+  background: rgb(24, 36, 97);
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: rgb(245, 245, 245);
+  padding: 2em;
+  margin: 0
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.mb {
+  margin-bottom: 2em;
+}
+
+.mb-small {
+  margin-bottom: 1em;
+}
+
+.flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.gameBtns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+button.gameBtn {
+  background-color: rgb(50 64 131);
+  padding: 1em;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin: 5px;
+  color: white;
+  border: none;
+  box-shadow: 2px 2px 5px black;
+}
+
+button.gameBtn:hover {
+  background-color: rgb(58, 71, 134);
+}
+
+button.gameBtn>span {
+  font-size: .9em;
+  font-weight: 100;
+  text-transform: none;
+  font-style: italic;
+  margin-top: 0.2em;
+  display: inline-block;
+}
+
+.settingToggle {
+  padding: .5em 1em;
+  display: inline-block;
+  border-radius: 5px;
+}
+
+.settingToggle:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.settingBtns {
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+button.settingBtn {
+  background-color: transparent;
+  color: black;
+  border: none;
+  padding: 0.5em;
+  flex-grow: 1;
+}
+
+#lang {
+  background-color: rgb(234, 234, 234);
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
+button.settingBtn.active {
+  color: black;
+  background-color: #46f746;
+  font-weight: bold;
+}
+
+button.settingBtn.lang.active {
+  background-color: #f2ef4f;
+}
+
+.question {
+  margin-bottom: 1em;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+}
+
+.answer {
+  padding: .3em 1em;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  font-size: 1.1em;
+  margin: 0;
+}
+
+#game>div {
+  border-left: 3px solid rgba(255, 255, 255, 0.5);
+  padding-left: 1em
+}
+
+#settings,
+#documentation {
+  background-color: white;
+  color: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 2em;
+  transform: translateX(-100%);
+  transition: transform .2s linear;
+  z-index: 100;
+}
+
+#settings.active,
+#documentation.active {
+  transform: translateX(0);
+}
+
+.container {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+details {
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  padding: 0.5em 0.5em 0;
+  margin-bottom: 1em;
+}
+
+summary {
+  font-weight: bold;
+  margin: -0.5em -0.5em 0;
+  padding: 0.5em;
+  cursor: pointer;
+}
+
+details[open] {
+  padding: 0.5em;
+}
+
+details[open] summary {
+  border-bottom: 1px solid #aaa;
+  margin-bottom: 0.5em;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0px;
+  margin-bottom: 1em;
+}
+
+table td {
+  padding: 5px;
+  border: 1px solid #8e8e8e;
+  width: 40px;
+  text-align: center;
+}
+
+.accord,
+.gamme {
+  margin-bottom: .7em;
+}
+
+table.strumming td {
+  border: 1px solid white;
+}
+
+#patterns table.strumming td {
+  border: 1px solid #8e8e8e;
+}
+
+table.strumming {
+  margin-right: 1em;
+  flex-shrink: 0;
+}
+
+.partition {
+  display: flex;
+  transition: transform 1s linear;
+}
+
+table.strumming td.active {
+  background-color: rgb(72, 75, 235);
+}
+
+.soundSetting {
+  cursor: pointer;
+  display: inline-block;
+  padding: .5em;
+  border-radius: 5px;
+}
+
+.soundSetting:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#accords .accord {
+  position: relative;
+}
+
+#accords .accord .guitarWrapper {
+  position: absolute;
+  display: none;
+  z-index: 10000;
+  background-color: rgb(97, 97, 97);
+  color: white;
+  border: 1px solid black;
+  left: 30%;
+  top: -50%;
+}
+
+#accords .accord:hover .guitarWrapper {
+  display: block;
+}
