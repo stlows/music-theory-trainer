@@ -1,5 +1,5 @@
 const res = {
-  settings: { fr: "Paramètres", en: "Settings" },
+  settings: { fr: "Param", en: "Settings" },
   title: { fr: "Théorie musique et pratique (Guitare)", en: "Music theory and training (Guitar)" },
   retour: { fr: "Retour", en: "Back" },
   notation: { fr: "Notation", en: "Notation" },
@@ -9,7 +9,7 @@ const res = {
   tempo: { fr: "Tempo", en: "Tempo" },
   repetition: { fr: "Répétition chaque mesure", en: "Each bar repetition" },
   chordProgression: { fr: "Progression accords joués", en: "Chord progression played" },
-  documentation: { fr: "Documentation", en: "Documentation" },
+  documentation: { fr: "Doc", en: "Doc" },
   chords: { fr: "Accords", en: "Chords" },
   chordsSub: { fr: "Notes d'un accord", en: "Chord notes" },
   patterns: { fr: "Patterns", en: "Patterns" },
