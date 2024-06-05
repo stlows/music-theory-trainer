@@ -271,3 +271,12 @@ table.strumming td.active {
 #accords .accord:hover .guitarWrapper {
   display: block;
 }
+
+@media screen and (max-width: 350px) {
+
+  body,
+  #settings {
+    padding: 0.5em;
+    padding-top: 2em;
+  }
+}
