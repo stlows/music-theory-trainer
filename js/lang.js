@@ -46,8 +46,11 @@ const res = {
   mineurHarmonique: { fr: "Mineure harmonique", en: "Harmonic minor" },
   mineurMelodiqueAsc: { fr: "Mineure mélodique ascendante", en: "Ascending melodic minor" },
   mineurMelodiqueDesc: { fr: "Mineure mélodique déscendante", en: "Descending melodic minor" },
-  gamme: { fr: (tonique, name) => `Gamme ${name} de ${tonique} ?`, en: (tonique, name) => `${name} scale of ${tonique}` },
-  chord: { fr: (tonique, name) => `Accord de ${tonique} ${name} ?`, en: (tonique, name) => `${tonique} ${name} chord` },
+  majorPentatonic: { fr: "Pentatonique majeure", en: "Major pentatonic" },
+  minorPentatonic: { fr: "Pentatonique mineure", en: "Minor pentatonic" },
+  chromatic: { fr: "Chromatique", en: "Chromatic" },
+  gamme: { fr: (tonique, name) => `Gamme ${name} de ${tonique}`, en: (tonique, name) => `${name} scale of ${tonique}` },
+  chord: { fr: (tonique, name) => `Accord de ${tonique} ${name}`, en: (tonique, name) => `${tonique} ${name} chord` },
   whatIsThisNote: { fr: "Quelle est cette note?", en: "What is this note?" },
   findSome: { fr: "Trouvez des", en: "Find some" },
   clickForAnswer: { fr: "Cliquez pour la réponse", en: "Click for answer" },
@@ -63,6 +66,19 @@ const res = {
   clickToStart: { fr: "Cliquez pour commencer", en: "Click to start" },
   clickToPause: { fr: "Cliquez pour faire pause", en: "Click to pause" },
   sound: { fr: "Son", en: "Sound" },
+  root: { fr: "Unison", en: "Unison" },
+  m2: { fr: "Seconde mineure", en: "Minor second" },
+  M2: { fr: "Seconde majeure", en: "Major second" },
+  m3: { fr: "Tierce mineure", en: "Minor third" },
+  M3: { fr: "Tierce majeure", en: "Major third" },
+  P4: { fr: "Quarte juste", en: "Perfect fourth" },
+  d5: { fr: "Quinte diminuée", en: "Diminished fifth" },
+  P5: { fr: "Quinte juste", en: "Perfect fifth" },
+  m6: { fr: "Sixte mineure", en: "Minor sixth" },
+  M6: { fr: "Sixte majeure", en: "Major sixth" },
+  m7: { fr: "Septième mineure", en: "Minor seventh" },
+  M7: { fr: "Septième majeure", en: "Major seventh" },
+  P8: { fr: "Octave", en: "Octave" }
 }
 
 function t(key) {

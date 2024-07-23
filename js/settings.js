@@ -8,7 +8,8 @@ let settings = {
   accords: ["majeur", "mineur"],
   gammes: ["majeur", "mineurNaturelle"],
   lang: "en",
-  theme: "dark"
+  theme: "dark",
+  roots: ['C', 'D', 'G']
 }
 const possibleProgressionChords = ["A", "Am", "C", "D", "Dm", "E", "Em", "F", "G"]
 
@@ -94,7 +95,7 @@ function createTempoOptions() {
 }
 
 function createFretOptions() {
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < 8; i++) {
     const button = createOptionbutton("frets", i + 1)
     document.getElementById("frets").appendChild(button)
   }
@@ -123,6 +124,14 @@ function createScalesOptions() {
     document.getElementById("scalesSettings").appendChild(button)
   }
   setDefaultOption("gammes", true)
+}
+
+function createRootsOptions() {
+  for (let i = 0; i < notes.map(n => n.root).length; i++) {
+    const button = createOptionbutton("roots", notes[i].root, true, printNote(notes[i].root))
+    document.getElementById("rootsSettings").appendChild(button)
+  }
+  setDefaultOption("roots", true)
 }
 
 function createChordProgressionOptions() {
@@ -181,4 +190,5 @@ createNotationOptions()
 createAccordsOptions()
 createScalesOptions()
 createChordProgressionOptions()
+createRootsOptions()
 createLanguesOptions()
