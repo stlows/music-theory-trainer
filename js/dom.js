@@ -57,3 +57,9 @@ function caption(text) {
   caption.innerText = text
   return caption
 }
+
+function button(text) {
+  const button = document.createElement("button")
+  button.innerText = text
+  return button
+}

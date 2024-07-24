@@ -2,7 +2,6 @@ const gameEl = document.getElementById("game")
 
 function question() {
   const questionFunc = chooseOne(settings.questions)
-  console.log(questionFunc)
   if (window[questionFunc]) {
     window[questionFunc]()
   }
@@ -21,12 +20,15 @@ function createGuitarQuestion({ questionText = "Test", notes = [], answerText = 
   const guitar = createGuitar({ notes: delayedNotes ? [] : notes, fretCount: FRET_COUNT })
   questionWrapper.appendChild(guitar)
   questionWrapper.addEventListener("click", () => {
+    questionWrapper.classList.add("answered")
     question.innerText = questionText + " " + answerText
     if (delayedNotes) {
       addNotesToGuitar(guitar, notes)
     }
   })
+  questionWrapper.appendChild(correction())
   gameEl.prepend(questionWrapper)
+
 }
 
 function quelleNoteSurManche() {
@@ -57,6 +59,27 @@ function noteSurManche() {
   })
 }
 
+function correction() {
+  const correctionWrapper = div("correction")
+  const buttonGood = button("✅")
+  const buttonBad = button("❌")
+  correctionWrapper.appendChild(buttonGood)
+  correctionWrapper.appendChild(buttonBad)
+  buttonGood.addEventListener("click", () => {
+    console.log("Good")
+    buttonGood.classList.add("selected")
+    buttonGood.disabled = true
+    buttonBad.disabled = true
+  })
+  buttonBad.addEventListener("click", () => {
+    console.log("Bad")
+    buttonBad.classList.add("selected")
+    buttonGood.disabled = true
+    buttonBad.disabled = true
+  })
+  return correctionWrapper
+}
+
 function createQuestion({ questionText, answerText }) {
   const questionWrapper = div("question")
   const question = h4(questionText)
@@ -64,9 +87,11 @@ function createQuestion({ questionText, answerText }) {
   const answer = div("answer")
   answer.addEventListener("click", (a) => {
     a.target.innerText = answerText
+    questionWrapper.classList.add("answered")
   })
   answer.innerText = t("clickForAnswer")
   questionWrapper.appendChild(answer)
+  questionWrapper.appendChild(correction())
   gameEl.prepend(questionWrapper)
 }
 
