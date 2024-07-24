@@ -24,6 +24,10 @@
         <div class="settingBtns" id="notations"></div>
       </div>
       <div class="mb">
+        <h4><span data-t="questionsAsked"></span>:</h4>
+        <div class="settingBtns fullWidth" id="questionsSettings"></div>
+      </div>
+      <div class="mb">
         <h4><span data-t="chordsAsked"></span>:</h4>
         <div class="settingBtns" id="accordsSettings"></div>
       </div>
@@ -92,6 +96,7 @@
 
     </div>
   </div>
+
   <div class="container">
     <div class="settingBtns" id="lang"></div>
 
@@ -108,24 +113,8 @@
     <div class="center mb">
       <h1 data-t="title"></h1>
       <div class="gameBtns">
-        <button class="gameBtn" onclick="whichNote()">
-          <div data-t="intervalles"></div><span data-t="intervallesSub"></span>
-        </button>
-        <button class="gameBtn" onclick="gamme()">
-          <div data-t="gammes"></div><span data-t="gammesSub"></span>
-        </button>
-        <button class="gameBtn" onclick="chord()">
-          <div data-t="chords"></div><span data-t="chordsSub"></span>
-        </button>
-        <button class="gameBtn" onclick="questionFretboard()">
-          <div data-t="fretboard"></div><span data-t="fretboardSub"></span>
-        </button>
-        <button class="gameBtn" onclick="circleOrFifths()">
-          <div data-t="fifths"></div><span data-t="fifthsSub"></span>
-        </button>
-
-        <button class="gameBtn" onclick="strummingQuestion()">
-          <div data-t="strumming"></div><span data-t="strummingSub"></span>
+        <button class="gameBtn" onclick="question()">
+          <div data-t="question"></div><span data-t="questionSub"></span>
         </button>
       </div>
       <p onclick="gameEl.innerHTML = ''" style="cursor: pointer; padding:.5em" data-t="clear"></p>

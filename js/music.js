@@ -95,6 +95,7 @@ const accordsManches = {
 }
 
 const cordes = ["E", "B", "G", "D", "A", "E"].map(x => notes.find(n => n.root === x))
+const chromatic = ["A", "A♯", "B", "C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯"]
 
 const fifths = {
   major: ["F", "C", "G", "D", "A", "E", "B", "F♯", "D♭", "A♭", "E♭", "B♭", "F", "C"],
@@ -102,12 +103,10 @@ const fifths = {
   chords: [{ type: "major", add: 0, roman: "I" }, { type: "minor", add: -1, roman: "ii" }, { type: "minor", add: 1, roman: "iii" }, { type: "major", add: -1, roman: "IV" }, { type: "major", add: 1, roman: "V" }, { type: "minor", add: 0, roman: "vi" }]
 }
 
-// note = {corde: 0, fret: 2}
-// 
-function note(note) {
-  const corde = cordes[note.corde]
-  const noteIndex = notes.indexOf(corde)
-  return notes[(noteIndex + note.fret) % 12]
+function note(corde, fret) {
+  const root = cordes[corde].root
+  const noteIndex = chromatic.indexOf(root)
+  return chromatic[(noteIndex + fret) % 12]
 }
 
 function getGamme(noteIndex, gammeIndex) {

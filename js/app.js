@@ -1,5 +1,13 @@
 const gameEl = document.getElementById("game")
 
+function question() {
+  const questionFunc = chooseOne(settings.questions)
+  console.log(questionFunc)
+  if (window[questionFunc]) {
+    window[questionFunc]()
+  }
+}
+
 function getRandomRootIndex() {
   const tonic = chooseOne(settings.roots)
   return notes.findIndex(x => x.root === tonic)
@@ -26,32 +34,24 @@ function quelleNoteSurManche() {
   const fret = random(parseInt(settings.frets) + 1, 1)
   createGuitarQuestion({
     questionText: t("whatIsThisNote"),
-    answerText: note({ corde: corde - 1, fret })[settings.notation],
+    answerText: printNote(note(corde - 1, fret)),
     notes: [{ corde, fret }]
   })
 }
 
-function questionFretboard() {
-  if (Math.random() < 0.5) {
-    return quelleNoteSurManche()
-  }
-  return noteSurManche()
-}
-
 function noteSurManche() {
-  const noteIndex = random(12)
-  const noteATrouver = notes[noteIndex]
+  const noteATrouver = chooseOne(chromatic)
   const notesSurManche = []
   for (let corde = 0; corde < cordes.length; corde++) {
     for (let fret = 0; fret < FRET_COUNT; fret++) {
-      const laNote = note({ corde: corde, fret })
-      if (laNote.letter === noteATrouver.letter) {
+      const laNote = note(corde, fret)
+      if (laNote === noteATrouver) {
         notesSurManche.push({ corde: corde + 1, fret })
       }
     }
   }
   createGuitarQuestion({
-    questionText: `${t('findSome')} ${noteATrouver[settings.notation]}?`,
+    questionText: `${t('findSome')} ${printNote(noteATrouver)}?`,
     notes: notesSurManche,
     delayedNotes: true
   })
@@ -70,7 +70,7 @@ function createQuestion({ questionText, answerText }) {
   gameEl.prepend(questionWrapper)
 }
 
-function whichNote() {
+function intervalle() {
   const rootIndex = getRandomRootIndex()
   const intervalle = chooseOne(Object.keys(notes[0]))
   createQuestion({
@@ -101,37 +101,47 @@ function gamme() {
   })
 }
 
-function circleOrFifths() {
-  const rnd = Math.random()
-  const keyIndex = random(13, 1)
-  let questionText, answerText
-  const key = fifths.major[keyIndex]
-  if (rnd < 0.3) {
-    // Chords in the Key
-    questionText = t("chordsInTheKey")(key)
-    answerText = fifths.chords.map(x => `${fifths[x.type][keyIndex + x.add]}`).join(" - ")
-  } else if (rnd < 0.6) {
-    // nth in the key
-    const chordIndex = random(fifths.chords.length)
-    const chord = fifths.chords[chordIndex]
-    questionText = t("nthNoteInKey")(key, chord.roman)
-    answerText = fifths[chord.type][keyIndex + chord.add]
-  }
-  else if (rnd < 0.9) {
-    // chords in progression
-    const chords = [...fifths.chords].sort((a, b) => { return Math.random() - 0.5 }).slice(0, 4)
-    const progression = chords.map(x => x.roman).join(" - ")
-    questionText = t("chordsInProgression")(key, progression)
-    answerText = chords.map(x => fifths[x.type][keyIndex + x.add]).join(" - ")
-  } else {
-    // Relative key
-    questionText = t("relativeKey")(key)
-    answerText = fifths.minor[keyIndex]
-  }
+function getCircleOfFifthsKey() {
+  return chooseOne(settings.roots.filter(x => fifths.major.indexOf(x) > -1))
+}
 
+function chordsInKey() {
+  const key = getCircleOfFifthsKey()
+  const keyIndex = fifths.major.indexOf(key)
   createQuestion({
-    questionText,
-    answerText
+    questionText: t("chordsInTheKey")(key),
+    answerText: fifths.chords.map(x => `${fifths[x.type][keyIndex + x.add]}`).join(" - ")
+  })
+}
+
+function nthNoteInKey() {
+  const key = getCircleOfFifthsKey()
+  const keyIndex = fifths.major.indexOf(key)
+  const chordIndex = random(fifths.chords.length)
+  const chord = fifths.chords[chordIndex]
+  createQuestion({
+    questionText: t("nthNoteInKey")(key, chord.roman),
+    answerText: fifths[chord.type][keyIndex + chord.add]
+  })
+}
+
+function chordsInProgression() {
+  const key = getCircleOfFifthsKey()
+  const keyIndex = fifths.major.indexOf(key)
+  const chords = [...fifths.chords].sort((a, b) => { return Math.random() - 0.5 }).slice(0, 4)
+  const progression = chords.map(x => x.roman).join(" - ")
+  createQuestion({
+    questionText: t("chordsInProgression")(key, progression),
+    answerText: chords.map(x => fifths[x.type][keyIndex + x.add]).join(" - ")
+  })
+}
+
+function relativeKey() {
+  const key = getCircleOfFifthsKey()
+  const keyIndex = fifths.major.indexOf(key)
+  createQuestion({
+    questionText: t("relativeKey")(key),
+    answerText: fifths.minor[keyIndex]
   })
 }
 
@@ -155,6 +165,7 @@ function printAllGammes() {
 function printAllAccords() {
   const accordsEl = document.getElementById("accords")
   accordsEl.innerHTML = ""
+  const filters = []
   for (let accordIndex = 0; accordIndex < accords.length; accordIndex++) {
     let accordEl = div("mb")
     accordEl.appendChild(h4(accords[accordIndex].title))

@@ -9,10 +9,22 @@ let settings = {
   gammes: ["majeur", "mineurNaturelle"],
   lang: "en",
   theme: "dark",
-  roots: ['C', 'D', 'G']
+  roots: ['C', 'D', 'G'],
+  questions: ["intervalle"]
 }
 const possibleProgressionChords = ["A", "Am", "C", "D", "Dm", "E", "Em", "F", "G"]
-
+const possibleQuestions = [
+  { func: "intervalle", t: "intervalles" },
+  { func: "gamme", t: "gammes" },
+  { func: "chord", t: "chords" },
+  { func: "quelleNoteSurManche", t: "whatIsThisNote" },
+  { func: "noteSurManche", t: "findSome" },
+  { func: "chordsInKey", t: "chordsInTheKey" },
+  { func: "nthNoteInKey", t: "nthNoteInKey" },
+  { func: "chordsInProgression", t: "chordsInProgression" },
+  { func: "relativeKey", t: "relativeKey" },
+  { func: "strummingQuestion", t: "relativeKey" },
+]
 function toggleSettings() {
   document.getElementById("settings").classList.toggle("active")
 }
@@ -71,11 +83,17 @@ function setOption(optionKey, value, isToggle) {
 
 }
 
-function createOptionbutton(optionKey, value, isToggle = false, btnKey = "") {
+function createOptionbutton(optionKey, value, isToggle = false, btnKey = "", className = "",
+  description = ""
+) {
   const button = document.createElement("button")
   button.dataset.value = value
   button.classList.add("settingBtn")
   button.classList.add(optionKey)
+  if (className) {
+    button.classList.add(className)
+  }
+
   if (btnKey) {
     button.innerText = t(btnKey)
     button.dataset.t = btnKey
@@ -128,10 +146,18 @@ function createScalesOptions() {
 
 function createRootsOptions() {
   for (let i = 0; i < notes.map(n => n.root).length; i++) {
-    const button = createOptionbutton("roots", notes[i].root, true, printNote(notes[i].root))
+    const button = createOptionbutton("roots", notes[i].root, true, printNote(notes[i].root), fifths.major.includes(notes[i].root) ? "highlight" : "")
     document.getElementById("rootsSettings").appendChild(button)
   }
   setDefaultOption("roots", true)
+}
+
+function createQuestionsOptions() {
+  for (let i = 0; i < possibleQuestions.length; i++) {
+    const button = createOptionbutton("questions", possibleQuestions[i].func, true, possibleQuestions[i].func + "Description")
+    document.getElementById("questionsSettings").appendChild(button)
+  }
+  setDefaultOption("questions", true)
 }
 
 function createChordProgressionOptions() {
@@ -191,4 +217,5 @@ createAccordsOptions()
 createScalesOptions()
 createChordProgressionOptions()
 createRootsOptions()
+createQuestionsOptions()
 createLanguesOptions()

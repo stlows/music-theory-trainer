@@ -19,6 +19,9 @@ body {
   padding: 2em;
   margin: 0
 }
+body:has(#settings.active){
+  overflow:hidden;
+}
 
 .center {
   text-align: center;
@@ -59,7 +62,7 @@ button {
 
 .gameBtns {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
 }
 
 button.gameBtn {
@@ -101,8 +104,11 @@ button.gameBtn>span {
   border-radius: 5px;
   margin-left: 10px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
   gap: 5px;
+}
+.settingBtns.fullWidth {
+  grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
 }
 
 button.settingBtn {
@@ -110,6 +116,9 @@ button.settingBtn {
   color: black;
   border: none;
   padding: 0.5em;
+}
+button.settingBtn.highlight{
+  border:1px solid #a3a3a3;
 }
 
 #lang {
@@ -126,12 +135,12 @@ button.settingBtn {
 
 button.settingBtn.active {
   color: black;
-  background-color: #46f746;
+  background-color: #80ff74;
   font-weight: bold;
 }
 
 button.settingBtn.lang.active {
-  background-color: #f2ef4f;
+  background-color: #ffd665;
 }
 
 .question {
@@ -161,7 +170,8 @@ button.settingBtn.lang.active {
   top: 0;
   left: 0;
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
+  overflow-y: auto;
   padding: 2em;
   transform: translateX(-100%);
   transition: transform .2s linear;
@@ -272,11 +282,14 @@ table.strumming td.active {
   display: block;
 }
 
-@media screen and (max-width: 350px) {
-
+@media screen and (max-width: 400px) {
   body,
   #settings {
     padding: 0.5em;
     padding-top: 2em;
+  }
+
+  .settingBtns {
+    grid-template-columns: repeat(auto-fit, minmax(40%, 1fr));
   }
 }

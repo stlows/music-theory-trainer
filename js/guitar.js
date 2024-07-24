@@ -29,7 +29,7 @@ function createGuitar({ notes = [], fretCount }) {
 
   for (const corde of cordes) {
     let cordeEl = div("corde")
-    let cordeNameEl = span(corde[settings.notation])
+    let cordeNameEl = span(corde.root)
     cordeEl.appendChild(cordeNameEl)
     guitar.appendChild(cordeEl)
   }
