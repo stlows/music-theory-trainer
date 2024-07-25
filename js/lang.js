@@ -1,6 +1,9 @@
 const res = {
   settings: { fr: "Param", en: "Settings" },
-  title: { fr: "Théorie musique et pratique (Guitare)", en: "Music theory and training (Guitar)" },
+  title: {
+    fr: "Théorie musique et pratique (Guitare)",
+    en: "Music theory and training (Guitar)",
+  },
   retour: { fr: "Retour", en: "Back" },
   notation: { fr: "Notation", en: "Notation" },
   maximalFret: { fr: "Fret maximale demandée", en: "Maximal fret asked" },
@@ -8,7 +11,10 @@ const res = {
   scalesAsked: { fr: "Gammes demandées", en: "Asked scales" },
   tempo: { fr: "Tempo", en: "Tempo" },
   repetition: { fr: "Répétition chaque mesure", en: "Each bar repetition" },
-  chordProgression: { fr: "Progression accords joués", en: "Chord progression played" },
+  chordProgression: {
+    fr: "Progression accords joués",
+    en: "Chord progression played",
+  },
   documentation: { fr: "Doc", en: "Doc" },
   chords: { fr: "Accords", en: "Chords" },
   patterns: { fr: "Patterns", en: "Patterns" },
@@ -18,15 +24,27 @@ const res = {
   intervalleDescription: { fr: "Intervalles", en: "Intervals" },
   gammeDescription: { fr: "Notes d'une gamme", en: "Notes in a scale" },
   chordDescription: { fr: "Notes d'un accord", en: "Notes in a chord" },
-  quelleNoteSurMancheDescription: { fr: "Quelle est cette note ?", en: "What's this note ?" },
+  quelleNoteSurMancheDescription: {
+    fr: "Quelle est cette note ?",
+    en: "What's this note ?",
+  },
   noteSurMancheDescription: { fr: "Trouvez des ...", en: "Find some ..." },
   chordsInKeyDescription: { fr: "Accords d'une clé", en: "Chords in a key" },
   nthNoteInKeyDescription: { fr: "Degré dans une clé", en: "Degree in a key" },
-  chordsInProgressionDescription: { fr: "Progression dans une clé", en: "Progression in a key" },
+  chordsInProgressionDescription: {
+    fr: "Progression dans une clé",
+    en: "Progression in a key",
+  },
   relativeKeyDescription: { fr: "Clé relative", en: "Relative key" },
-  strummingQuestionDescription: { fr: "Pratiquez le rythme", en: "Rythm practice" },
+  strummingQuestionDescription: {
+    fr: "Pratiquez le rythme",
+    en: "Rythm practice",
+  },
   question: { fr: "Nouvelle question", en: "New question" },
-  questionSub: { fr: "Choisir les types de question posées dans Param", en: "Change question types in Settings" },
+  questionSub: {
+    fr: "Choisir les types de question posées dans Param",
+    en: "Change question types in Settings",
+  },
   strumming: { fr: "Strumming", en: "Strumming" },
   clear: { fr: "Vider", en: "Clear" },
   tonique: { fr: "Tonique", en: "Tonic" },
@@ -51,25 +69,55 @@ const res = {
   mineur: { fr: "Mineur", en: "Minor" },
   mineurNaturelle: { fr: "Mineure naturelle", en: "Natural minor" },
   mineurHarmonique: { fr: "Mineure harmonique", en: "Harmonic minor" },
-  mineurMelodiqueAsc: { fr: "Mineure mélodique ascendante", en: "Ascending melodic minor" },
-  mineurMelodiqueDesc: { fr: "Mineure mélodique déscendante", en: "Descending melodic minor" },
+  mineurMelodiqueAsc: {
+    fr: "Mineure mélodique ascendante",
+    en: "Ascending melodic minor",
+  },
+  mineurMelodiqueDesc: {
+    fr: "Mineure mélodique déscendante",
+    en: "Descending melodic minor",
+  },
   majorPentatonic: { fr: "Pentatonique majeure", en: "Major pentatonic" },
   minorPentatonic: { fr: "Pentatonique mineure", en: "Minor pentatonic" },
   chromatic: { fr: "Chromatique", en: "Chromatic" },
-  gamme: { fr: (tonique, name) => `Gamme ${name} de ${tonique}`, en: (tonique, name) => `${name} scale of ${tonique}` },
-  chord: { fr: (tonique, name) => `Accord de ${tonique} ${name}`, en: (tonique, name) => `${tonique} ${name} chord` },
+  gamme: {
+    fr: (tonique, name) => `Gamme ${name} de ${tonique}`,
+    en: (tonique, name) => `${name} scale of ${tonique}`,
+  },
+  chord: {
+    fr: (tonique, name) => `Accord de ${tonique} ${name}`,
+    en: (tonique, name) => `${tonique} ${name} chord`,
+  },
   whatIsThisNote: { fr: "Quelle est cette note?", en: "What is this note?" },
   findSome: { fr: "Trouvez des", en: "Find some" },
   clickForAnswer: { fr: "Cliquez pour la réponse", en: "Click for answer" },
   halfTone: { fr: "demi-ton", en: "half-tone" },
-  tempo: { fr: (bpm, repeats, chords) => `${bpm}bpm, ${repeats}x chaque - ${chords}`, en: (bpm, repeats, chords) => `${bpm}bpm, ${repeats}x each - ${chords}` },
+  tempo: {
+    fr: (bpm, repeats, chords) => `${bpm}bpm, ${repeats}x chaque - ${chords}`,
+    en: (bpm, repeats, chords) => `${bpm}bpm, ${repeats}x each - ${chords}`,
+  },
   of: { fr: "de", en: "of" },
   fifths: { fr: "Circle of fifths", en: "Circle of fifths" },
-  fifthsSub: { fr: "Apprendre les accords d'une clé", en: "Know chords in keys" },
-  chordsInTheKey: { fr: (key) => `Quels sont les accords de la clé de ${key} ?`, en: (key) => `In the key of ${key}, what are the chords ?` },
-  nthNoteInKey: { fr: (key, roman) => `Quel est l'accord ${roman} dans la clé de ${key} ?`, en: (key, roman) => `In the key of ${key}, what is the ${roman} chord ?` },
-  relativeKey: { fr: (key) => `Quelle est la clé relative mineure de ${key} ?`, en: (key) => `What is the relative minor of ${key}?` },
-  chordsInProgression: { fr: (key, progression) => `Quels sont les accords de la progression ${progression} en ${key} ?`, en: (key, progression) => `What are the chords in a ${progression} progression in ${key}?` },
+  fifthsSub: {
+    fr: "Apprendre les accords d'une clé",
+    en: "Know chords in keys",
+  },
+  chordsInTheKey: {
+    fr: (key) => `Quels sont les accords de la clé de ${key} ?`,
+    en: (key) => `In the key of ${key}, what are the chords ?`,
+  },
+  nthNoteInKey: {
+    fr: (key, roman) => `Quel est l'accord ${roman} dans la clé de ${key} ?`,
+    en: (key, roman) => `In the key of ${key}, what is the ${roman} chord ?`,
+  },
+  relativeKey: {
+    fr: (key) => `Quelle est la clé relative mineure de ${key} ?`,
+    en: (key) => `What is the relative minor of ${key}?`,
+  },
+  chordsInProgression: {
+    fr: (key, progression) => `Quels sont les accords de la progression ${progression} en ${key} ?`,
+    en: (key, progression) => `What are the chords in a ${progression} progression in ${key}?`,
+  },
   clickToStart: { fr: "Cliquez pour commencer", en: "Click to start" },
   clickToPause: { fr: "Cliquez pour faire pause", en: "Click to pause" },
   sound: { fr: "Son", en: "Sound" },
@@ -86,18 +134,24 @@ const res = {
   m7: { fr: "Septième mineure", en: "Minor seventh" },
   M7: { fr: "Septième majeure", en: "Major seventh" },
   P8: { fr: "Octave", en: "Octave" },
-}
+  rootsAsked: { fr: "Tonique demandée", en: "Roots asked" },
+  rythmCategory: { fr: "Strumming", en: "Strumming" },
+  rootsExplanation: {
+    fr: "Les toniques entourées sont utilisés pour les questions de clé",
+    en: "Roots with borders are user in quetsion using keys",
+  },
+};
 
 function t(key) {
   if (!res[key] || !res[key][settings.lang]) {
-    return `${key}`
+    return `${key}`;
   }
-  return res[key][settings.lang]
+  return res[key][settings.lang];
 }
 
 function trad() {
-  document.querySelectorAll("[data-t]").forEach(x => {
-    x.innerText = t(x.dataset.t)
-  })
-  printAllAccords()
+  document.querySelectorAll("[data-t]").forEach((x) => {
+    x.innerText = t(x.dataset.t);
+  });
+  printAllAccords();
 }

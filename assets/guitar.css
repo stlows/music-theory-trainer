@@ -19,7 +19,7 @@
   position: absolute;
 }
 
-.corde>span {
+.corde > span {
   position: absolute;
   transform: translateX(-35px) translateY(-10px);
   text-align: center;
