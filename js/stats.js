@@ -7,6 +7,7 @@ function addResult(result) {
 
 function clearStats() {
   localStorage.setItem("stats", JSON.stringify([]))
+  printStats()
 }
 
 function printStats() {

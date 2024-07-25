@@ -19,14 +19,21 @@ function createGuitarQuestion({ questionText = "Test", notes = [], answerText = 
 
   const guitar = createGuitar({ notes: delayedNotes ? [] : notes, fretCount: FRET_COUNT })
   questionWrapper.appendChild(guitar)
+
+  const timeoutId = addCorrectionAndTimer(questionWrapper, questionWrapper)
+
   questionWrapper.addEventListener("click", () => {
-    questionWrapper.classList.add("answered")
-    question.innerText = questionText + " " + answerText
-    if (delayedNotes) {
-      addNotesToGuitar(guitar, notes)
+    if (!questionWrapper.classList.contains("answered")) {
+      questionWrapper.classList.add("answered")
+      clearInterval(timeoutId)
+      question.innerText = questionText + " " + answerText
+      if (delayedNotes) {
+        addNotesToGuitar(guitar, notes)
+      }
     }
+
   })
-  questionWrapper.appendChild(correction())
+
   gameEl.prepend(questionWrapper)
 
 }
@@ -80,32 +87,45 @@ function correction() {
   return { correctionWrapper, buttonBad, buttonGood }
 }
 
-function createQuestion({ questionText, answerText }) {
-  const questionWrapper = div("question")
-  const question = h4(questionText)
-  questionWrapper.appendChild(question)
-
-  const answer = div("answer")
-  answer.addEventListener("click", (a) => {
-    a.target.innerText = answerText
-    questionWrapper.classList.add("answered")
-  })
-  answer.innerText = t("clickForAnswer")
-  questionWrapper.appendChild(answer)
-
+function addCorrectionAndTimer(questionWrapper, answer) {
   const { correctionWrapper, buttonBad } = correction()
   questionWrapper.appendChild(correctionWrapper)
 
   if (settings.timerInSeconds > 0) {
     questionWrapper.classList.add("timed")
     questionWrapper.style.setProperty("--question-timer", settings.timerInSeconds + "s")
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       answer.click()
       if (settings.autoSelectBadAfterTimer === 'true') {
         buttonBad.click()
       }
     }, settings.timerInSeconds * 1000)
+    return timeoutId
   }
+
+}
+
+function createQuestion({ questionText, answerText }) {
+  const questionWrapper = div("question")
+  const question = h4(questionText)
+  questionWrapper.appendChild(question)
+
+  const answer = div("answer")
+  answer.innerText = t("clickForAnswer")
+  questionWrapper.appendChild(answer)
+
+  const timeoutId = addCorrectionAndTimer(questionWrapper, answer)
+
+  answer.addEventListener("click", (a) => {
+    if (!questionWrapper.classList.contains("answered")) {
+      a.target.innerText = answerText
+      questionWrapper.classList.add("answered")
+      clearInterval(timeoutId)
+    }
+  })
+
+
+
   gameEl.prepend(questionWrapper)
 }
 
@@ -188,34 +208,37 @@ function printAllGammes() {
   const gammesEl = document.getElementById("gammes")
   gammesEl.innerHTML = ""
   for (let gammeIndex = 0; gammeIndex < gammes.length; gammeIndex++) {
-    let gammeEl = div("mb")
+    let { detailsEl, summary } = details()
+    summary.innerText = t(gammes[gammeIndex].name)
+    detailsEl.appendChild(p(join(gammes[gammeIndex].notes), "mb-small"))
+    detailsEl.appendChild(p(getDescriptionGamme(gammeIndex), "mb-small"))
     for (let noteIndex = 0; noteIndex < notes.length; noteIndex++) {
       let wrapper = div("gamme")
       let gamme = getGamme(noteIndex, gammeIndex)
       const gammeTitle = h5(t("gamme")(printNote(notes[noteIndex].root), t(gamme.type.name)))
       wrapper.appendChild(gammeTitle)
-      wrapper.appendChild(p(join(gamme.notes)))
-      gammeEl.appendChild(wrapper)
+      wrapper.appendChild(p(join(gamme.notes.map(x => printNote(x)))))
+      detailsEl.appendChild(wrapper)
     }
-    gammesEl.appendChild(gammeEl)
+    gammesEl.appendChild(detailsEl)
   }
 }
 
 function printAllAccords() {
   const accordsEl = document.getElementById("accords")
   accordsEl.innerHTML = ""
-  const filters = []
   for (let accordIndex = 0; accordIndex < accords.length; accordIndex++) {
-    let accordEl = div("mb")
-    accordEl.appendChild(h4(accords[accordIndex].title))
-    accordEl.appendChild(p(getDescriptionAccord(accordIndex), "mb-small"))
+    let { detailsEl, summary } = details()
+    summary.innerText = t(accords[accordIndex].title)
+    detailsEl.appendChild(p(join(accords[accordIndex].notes), "mb-small"))
+    detailsEl.appendChild(p(getDescriptionAccord(accordIndex), "mb-small"))
     for (let noteIndex = 0; noteIndex < notes.length; noteIndex++) {
       let wrapper = div("accord")
       let accord = getAccord(noteIndex, accordIndex)
       const accordTitle = h5(t("chord")(printNote(notes[noteIndex].root), t(accord.type.name)))
       wrapper.appendChild(accordTitle)
       wrapper.appendChild(p(join(accord.notes)))
-      accordEl.appendChild(wrapper)
+      detailsEl.appendChild(wrapper)
       const accordTypesGuitare = accordsManches[accord.type.name]
       if (accordTypesGuitare) {
         const accordNotesGuitare = accordTypesGuitare[notes[noteIndex].letter]
@@ -225,8 +248,7 @@ function printAllAccords() {
         }
       }
     }
-    accordsEl.appendChild(accordEl)
-    accordsEl.appendChild(hr())
+    accordsEl.appendChild(detailsEl)
   }
 }
 

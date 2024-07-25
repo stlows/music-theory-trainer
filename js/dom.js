@@ -63,3 +63,10 @@ function button(text) {
   button.innerText = text
   return button
 }
+
+function details() {
+  const detailsEl = document.createElement("details")
+  const summary = document.createElement("summary")
+  detailsEl.appendChild(summary)
+  return { detailsEl, summary }
+}

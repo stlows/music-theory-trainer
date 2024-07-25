@@ -187,7 +187,7 @@ function printAllStrumming() {
   const patternsEl = document.getElementById("patterns")
   patternsEl.innerHTML = ""
   for (let patternIndex = 0; patternIndex < patterns.length; patternIndex++) {
-    let patternEl = createPattern(patterns[patternIndex])
+    let patternEl = createPattern(patterns[patternIndex], printNote("C"))
     patternsEl.appendChild(patternEl)
   }
 }

@@ -154,3 +154,7 @@ function getDescriptionAccord(accordIndex) {
   return join(accords[accordIndex].notes.map(i => t(i)))
 }
 
+function getDescriptionGamme(gammeIndex) {
+  return join(gammes[gammeIndex].notes.map(i => t(i)))
+}
+
