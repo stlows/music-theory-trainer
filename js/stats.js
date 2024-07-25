@@ -1,11 +1,3 @@
-function getStats() {
-
-}
-
-function printStats() {
-
-}
-
 function addResult(result) {
   const stats = JSON.parse(localStorage.getItem("stats")) || []
   stats.push({ ...result, date: new Date().valueOf() })
