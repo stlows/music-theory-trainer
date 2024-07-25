@@ -11,8 +11,8 @@ let settings = {
   theme: "dark",
   roots: ["C", "D", "G"],
   questions: ["intervalle"],
-};
-const possibleProgressionChords = ["A", "Am", "C", "D", "Dm", "E", "Em", "F", "G"];
+}
+const possibleProgressionChords = ["A", "Am", "C", "D", "Dm", "E", "Em", "F", "G"]
 const possibleQuestions = [
   { func: "intervalle", t: "intervalles" },
   { func: "gamme", t: "gammes" },
@@ -24,123 +24,127 @@ const possibleQuestions = [
   { func: "chordsInProgression", t: "chordsInProgression" },
   { func: "relativeKey", t: "relativeKey" },
   { func: "strummingQuestion", t: "relativeKey" },
-];
+]
 function toggleSettings() {
-  document.getElementById("settings").classList.toggle("active");
+  document.getElementById("settings").classList.toggle("active")
 }
 
 function toggleDocumentation() {
-  document.getElementById("documentation").classList.toggle("active");
+  document.getElementById("documentation").classList.toggle("active")
+}
+
+function toggleStats() {
+  document.getElementById("stats").classList.toggle("active")
 }
 
 function setDefaultOption(optionKey, isToggle = false) {
-  setOption(optionKey, settings[optionKey], isToggle);
+  setOption(optionKey, settings[optionKey], isToggle)
 }
 
 function setOption(optionKey, value, isToggle) {
   if (isToggle) {
     if (typeof value === "object") {
       for (let i = 0; i < value.length; i++) {
-        const element = document.querySelector(`.settingBtn.${optionKey}[data-value='${value[i]}']`);
-        element.classList.add("active");
+        const element = document.querySelector(`.settingBtn.${optionKey}[data-value='${value[i]}']`)
+        element.classList.add("active")
       }
-      return;
+      return
     }
-    const element = document.querySelector(`.settingBtn.${optionKey}[data-value='${value}']`);
-    element.classList.toggle("active");
-    const indexOfValue = settings[optionKey].indexOf(value);
+    const element = document.querySelector(`.settingBtn.${optionKey}[data-value='${value}']`)
+    element.classList.toggle("active")
+    const indexOfValue = settings[optionKey].indexOf(value)
     if (indexOfValue === -1) {
-      settings[optionKey].push(value);
+      settings[optionKey].push(value)
     } else {
-      settings[optionKey].splice(indexOfValue, 1);
+      settings[optionKey].splice(indexOfValue, 1)
     }
 
     if (settings[optionKey].length === 0) {
       // On choisit le premier
-      const element = document.querySelector(`.settingBtn.${optionKey}:first-child`);
-      element.classList.toggle("active");
-      settings[optionKey].push(element.dataset.value);
+      const element = document.querySelector(`.settingBtn.${optionKey}:first-child`)
+      element.classList.toggle("active")
+      settings[optionKey].push(element.dataset.value)
     }
   } else {
-    const elements = Array.from(document.querySelectorAll(`.settingBtn.${optionKey}`));
+    const elements = Array.from(document.querySelectorAll(`.settingBtn.${optionKey}`))
     for (let i = 0; i < elements.length; i++) {
-      elements[i].classList.remove("active");
+      elements[i].classList.remove("active")
       if (elements[i].dataset.value == value) {
-        elements[i].classList.add("active");
+        elements[i].classList.add("active")
       }
     }
-    settings[optionKey] = value;
+    settings[optionKey] = value
     if (optionKey === "notation") {
-      printAllGammes();
-      printAllAccords();
+      printAllGammes()
+      printAllAccords()
       //printAllIntervalles();
     }
     if (optionKey === "lang") {
-      trad();
+      trad()
     }
   }
-  persistSettings();
+  persistSettings()
 }
 
 function createOptionbutton(optionKey, value, isToggle = false, btnKey = "", className = "", description = "") {
-  const button = document.createElement("button");
-  button.dataset.value = value;
-  button.classList.add("settingBtn");
-  button.classList.add(optionKey);
+  const button = document.createElement("button")
+  button.dataset.value = value
+  button.classList.add("settingBtn")
+  button.classList.add(optionKey)
   if (className) {
-    button.classList.add(className);
+    button.classList.add(className)
   }
 
   if (btnKey) {
-    button.innerText = t(btnKey);
-    button.dataset.t = btnKey;
+    button.innerText = t(btnKey)
+    button.dataset.t = btnKey
   } else {
-    button.innerText = value;
+    button.innerText = value
   }
   button.addEventListener("click", (e) => {
-    setOption(optionKey, e.target.dataset.value, isToggle);
-  });
-  return button;
+    setOption(optionKey, e.target.dataset.value, isToggle)
+  })
+  return button
 }
 function createTempoOptions() {
-  const tempos = [40, 60, 80, 100, 110, 120, 135, 150, 180];
+  const tempos = [40, 60, 80, 100, 110, 120, 135, 150, 180]
   for (let i = 0; i < tempos.length; i++) {
-    const button = createOptionbutton("tempo", tempos[i]);
-    document.getElementById("tempos").appendChild(button);
+    const button = createOptionbutton("tempo", tempos[i])
+    document.getElementById("tempos").appendChild(button)
   }
-  setDefaultOption("tempo");
+  setDefaultOption("tempo")
 }
 
 function createFretOptions() {
   for (let i = 0; i < 8; i++) {
-    const button = createOptionbutton("frets", i + 1);
-    document.getElementById("frets").appendChild(button);
+    const button = createOptionbutton("frets", i + 1)
+    document.getElementById("frets").appendChild(button)
   }
-  setDefaultOption("frets");
+  setDefaultOption("frets")
 }
 
 function createRepetitionOptions() {
   for (let i = 0; i < 4; i++) {
-    const button = createOptionbutton("repeats", i + 1);
-    document.getElementById("repeats").appendChild(button);
+    const button = createOptionbutton("repeats", i + 1)
+    document.getElementById("repeats").appendChild(button)
   }
-  setDefaultOption("repeats");
+  setDefaultOption("repeats")
 }
 
 function createAccordsOptions() {
   for (let i = 0; i < accords.length; i++) {
-    const button = createOptionbutton("accords", accords[i].name, true, accords[i].name);
-    document.getElementById("accordsSettings").appendChild(button);
+    const button = createOptionbutton("accords", accords[i].name, true, accords[i].name)
+    document.getElementById("accordsSettings").appendChild(button)
   }
-  setDefaultOption("accords", true);
+  setDefaultOption("accords", true)
 }
 
 function createScalesOptions() {
   for (let i = 0; i < gammes.length; i++) {
-    const button = createOptionbutton("gammes", gammes[i].name, true, gammes[i].name);
-    document.getElementById("scalesSettings").appendChild(button);
+    const button = createOptionbutton("gammes", gammes[i].name, true, gammes[i].name)
+    document.getElementById("scalesSettings").appendChild(button)
   }
-  setDefaultOption("gammes", true);
+  setDefaultOption("gammes", true)
 }
 
 function createRootsOptions() {
@@ -151,76 +155,76 @@ function createRootsOptions() {
       true,
       printNote(notes[i].root),
       fifths.major.includes(notes[i].root) ? "highlight" : ""
-    );
-    document.getElementById("rootsSettings").appendChild(button);
+    )
+    document.getElementById("rootsSettings").appendChild(button)
   }
-  setDefaultOption("roots", true);
+  setDefaultOption("roots", true)
 }
 
 function createQuestionsOptions() {
   for (let i = 0; i < possibleQuestions.length; i++) {
-    const button = createOptionbutton("questions", possibleQuestions[i].func, true, possibleQuestions[i].func + "Description");
-    document.getElementById("questionsSettings").appendChild(button);
+    const button = createOptionbutton("questions", possibleQuestions[i].func, true, possibleQuestions[i].func + "Description")
+    document.getElementById("questionsSettings").appendChild(button)
   }
-  setDefaultOption("questions", true);
+  setDefaultOption("questions", true)
 }
 
 function createChordProgressionOptions() {
-  const button = createOptionbutton("progressionChords", "Pratique", false, "practice");
-  document.getElementById("progressionChords").appendChild(button);
+  const button = createOptionbutton("progressionChords", "Pratique", false, "practice")
+  document.getElementById("progressionChords").appendChild(button)
 
   for (let i = 0; i < possibleProgressionChords.length; i++) {
-    const button = createOptionbutton("progressionChords", possibleProgressionChords[i]);
-    document.getElementById("progressionChords").appendChild(button);
+    const button = createOptionbutton("progressionChords", possibleProgressionChords[i])
+    document.getElementById("progressionChords").appendChild(button)
   }
 
-  setDefaultOption("progressionChords");
+  setDefaultOption("progressionChords")
 }
 
 function createNotationOptions() {
-  const buttonMot = createOptionbutton("notation", "word", false, "mot");
-  document.getElementById("notations").appendChild(buttonMot);
-  const buttonLetter = createOptionbutton("notation", "letter", false, "lettre");
-  document.getElementById("notations").appendChild(buttonLetter);
-  setDefaultOption("notation");
+  const buttonMot = createOptionbutton("notation", "word", false, "mot")
+  document.getElementById("notations").appendChild(buttonMot)
+  const buttonLetter = createOptionbutton("notation", "letter", false, "lettre")
+  document.getElementById("notations").appendChild(buttonLetter)
+  setDefaultOption("notation")
 }
 
 function createLanguesOptions() {
-  const fr = createOptionbutton("lang", "fr", false, "fr");
-  document.getElementById("lang").appendChild(fr);
-  const en = createOptionbutton("lang", "en", false, "en");
-  document.getElementById("lang").appendChild(en);
-  setDefaultOption("lang");
+  const fr = createOptionbutton("lang", "fr", false, "fr")
+  document.getElementById("lang").appendChild(fr)
+  const en = createOptionbutton("lang", "en", false, "en")
+  document.getElementById("lang").appendChild(en)
+  setDefaultOption("lang")
 }
 
 function loadSettings() {
-  const currentSettings = JSON.parse(localStorage.getItem("settings")) || {};
+  const currentSettings = JSON.parse(localStorage.getItem("settings")) || {}
   for (const key in settings) {
     if (settings.hasOwnProperty(key)) {
       if (!(key in currentSettings) || typeof currentSettings[key] !== typeof settings[key]) {
-        currentSettings[key] = settings[key];
+        currentSettings[key] = settings[key]
       }
     }
   }
-  localStorage.setItem("settings", JSON.stringify(currentSettings));
-  readSettings();
+  localStorage.setItem("settings", JSON.stringify(currentSettings))
+  readSettings()
 }
 
 function persistSettings() {
-  localStorage.setItem("settings", JSON.stringify(settings));
+  localStorage.setItem("settings", JSON.stringify(settings))
 }
 function readSettings() {
-  settings = JSON.parse(localStorage.getItem("settings"));
+  settings = JSON.parse(localStorage.getItem("settings"))
 }
 
-loadSettings();
-createTempoOptions();
-createRepetitionOptions();
-createFretOptions();
-createNotationOptions();
-createAccordsOptions();
-createScalesOptions();
-createChordProgressionOptions();
-createRootsOptions();
-createQuestionsOptions();
-createLanguesOptions();
+loadSettings()
+createTempoOptions()
+createRepetitionOptions()
+createFretOptions()
+createNotationOptions()
+createAccordsOptions()
+createScalesOptions()
+createChordProgressionOptions()
+createRootsOptions()
+createQuestionsOptions()
+createLanguesOptions()

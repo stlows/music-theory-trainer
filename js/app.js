@@ -66,13 +66,13 @@ function correction() {
   correctionWrapper.appendChild(buttonGood)
   correctionWrapper.appendChild(buttonBad)
   buttonGood.addEventListener("click", () => {
-    console.log("Good")
+    addResult({ succes: true })
     buttonGood.classList.add("selected")
     buttonGood.disabled = true
     buttonBad.disabled = true
   })
   buttonBad.addEventListener("click", () => {
-    console.log("Bad")
+    addResult({ succes: false })
     buttonBad.classList.add("selected")
     buttonGood.disabled = true
     buttonBad.disabled = true

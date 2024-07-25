@@ -52,7 +52,7 @@ body {
   padding: 2em;
   margin: 0;
 }
-body:has(#settings.active) {
+body:has(.modal.active) {
   overflow: hidden;
 }
 
@@ -194,8 +194,7 @@ button.settingBtn.active {
   padding-left: 1em;
 }
 
-#settings,
-#documentation {
+.modal {
   background-color: var(--modal-background-color);
   color: var(--modal-color);
   position: absolute;
@@ -210,8 +209,7 @@ button.settingBtn.active {
   z-index: 100;
 }
 
-#settings.active,
-#documentation.active {
+.modal.active{
   transform: translateX(0);
 }
 
@@ -219,6 +217,7 @@ button.settingBtn.active {
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
+  min-height: 100vh;
 }
 
 details {
@@ -316,7 +315,7 @@ table.strumming td.active {
 
 @media screen and (max-width: 400px) {
   body,
-  #settings {
+  .modal {
     padding: 0.5em;
     padding-top: 2em;
   }
@@ -336,7 +335,7 @@ table.strumming td.active {
 .correction button {
   background-color: transparent;
   flex-grow: 1;
-  border: 5px solid var(--correction-button-border);
+  border: 3px solid var(--correction-button-border);
   margin: 0.5em;
   padding: 0.2em;
   font-size: 2em;
@@ -344,4 +343,12 @@ table.strumming td.active {
 
 .correction button.selected {
   background-color: var(--correction-button-selected-background);
+}
+footer {
+  border-top: 1px solid var(--table-border);
+  padding:1em;
+}
+footer a {
+  text-decoration: none;
+  color: var(--button-color-hover);
 }

@@ -140,18 +140,32 @@ const res = {
     fr: "Les toniques entourées sont utilisés pour les questions de clé",
     en: "Roots with borders are user in quetsion using keys",
   },
-};
+  subtitle: { fr: "Bienvenue ! Utilisez ce site pour apprendre et tester vos connaissances en théorie musicale pour la guitare. Vous pouvez personnaliser les questions et leur niveau de difficulté dans vos paramètres.", en: "Welcome! Use this site to learn and test your knowledge of music theory for guitar. You can customize the questions and their difficulty level in your settings." },
+  footer: {
+    fr: "Créé par <a href='https://vbeaulieu.com'>Vincent Beaulieu</a>. N'hésitez pas à me contacter par email pour partager vos commentaires, expériences d'utilisation et idées !",
+    en: "Created by <a href='https://vbeaulieu.com'>Vincent Beaulieu</a>. Feel free to contact me via email to share your feedback, usage experiences, and ideas !"
+  },
+  stats: { fr: "Stats", en: "Stats" },
+  clearStats: { fr: "Écraser les statistiques", en: "Clear stats" },
+  questionsCount: { fr: "Nombre de résultats", en: "Results count" },
+  succesCount: { fr: "Nombre de succès", en: "Success count" },
+  succesRatio: { fr: "Pourcentage de succès", en: "Success percentage" },
+}
 
 function t(key) {
   if (!res[key] || !res[key][settings.lang]) {
-    return `${key}`;
+    return `${key}`
   }
-  return res[key][settings.lang];
+  return res[key][settings.lang]
 }
 
 function trad() {
   document.querySelectorAll("[data-t]").forEach((x) => {
-    x.innerText = t(x.dataset.t);
-  });
-  printAllAccords();
+    if (x.dataset.html === "true") {
+      x.innerHTML = t(x.dataset.t)
+    } else {
+      x.innerText = t(x.dataset.t)
+    }
+  })
+  printAllAccords()
 }
