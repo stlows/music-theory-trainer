@@ -5,12 +5,14 @@ let settings = {
   repeats: 2,
   progressionChords: "D",
   plingAtFirstTempo: false,
-  accords: ["majeur", "mineur"],
+  accords: ["majeur", "mineur", "7"],
   gammes: ["majeur", "mineurNaturelle"],
-  lang: "en",
+  lang: "fr",
   theme: "dark",
-  roots: ["C", "D", "G"],
-  questions: ["intervalle"],
+  roots: ["C", "D", "G", "A"],
+  questions: ["intervalle", "gamme", "chord", "quelleNoteSurManche", "noteSurManche"],
+  timerInSeconds: 10,
+  autoSelectBadAfterTimer: 'true'
 }
 const possibleProgressionChords = ["A", "Am", "C", "D", "Dm", "E", "Em", "F", "G"]
 const possibleQuestions = [
@@ -73,7 +75,8 @@ function setOption(optionKey, value, isToggle) {
         elements[i].classList.add("active")
       }
     }
-    settings[optionKey] = value
+
+    settings[optionKey] = isNaN(value) ? value : Number(value)
     if (optionKey === "notation") {
       printAllGammes()
       printAllAccords()
@@ -115,6 +118,25 @@ function createTempoOptions() {
   setDefaultOption("tempo")
 }
 
+function createTimerOptions() {
+  const timers = [5, 10, 20, 30, 60]
+  const button = createOptionbutton("timerInSeconds", 0, false, "aucun")
+  document.getElementById("timers").appendChild(button)
+  for (let i = 0; i < timers.length; i++) {
+    const button = createOptionbutton("timerInSeconds", timers[i])
+    document.getElementById("timers").appendChild(button)
+  }
+  setDefaultOption("timerInSeconds")
+}
+
+function createTimerAutoBadOptions() {
+  const buttonTrue = createOptionbutton("autoSelectBadAfterTimer", 'true', false, "oui")
+  document.getElementById("autoBad").appendChild(buttonTrue)
+  const buttonFalse = createOptionbutton("autoSelectBadAfterTimer", 'false', false, "non")
+  document.getElementById("autoBad").appendChild(buttonFalse)
+
+  setDefaultOption("autoSelectBadAfterTimer")
+}
 function createFretOptions() {
   for (let i = 0; i < 8; i++) {
     const button = createOptionbutton("frets", i + 1)
@@ -228,3 +250,5 @@ createChordProgressionOptions()
 createRootsOptions()
 createQuestionsOptions()
 createLanguesOptions()
+createTimerOptions()
+createTimerAutoBadOptions()

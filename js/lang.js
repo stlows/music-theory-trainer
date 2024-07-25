@@ -150,6 +150,11 @@ const res = {
   questionsCount: { fr: "Nombre de résultats", en: "Results count" },
   succesCount: { fr: "Nombre de succès", en: "Success count" },
   succesRatio: { fr: "Pourcentage de succès", en: "Success percentage" },
+  timedQuestionCategory: { fr: "Questions chronométrées", en: "Timed questions" },
+  autoBad: { fr: "Échec automatique de la question après délai expiré", en: "Fail question automatically after delay" },
+  aucun: { fr: "Aucun", en: "None" },
+  oui: { fr: "Oui", en: "Yes" },
+  non: { fr: "Non", en: "No" },
 }
 
 function t(key) {

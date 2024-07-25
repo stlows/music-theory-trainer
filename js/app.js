@@ -77,13 +77,14 @@ function correction() {
     buttonGood.disabled = true
     buttonBad.disabled = true
   })
-  return correctionWrapper
+  return { correctionWrapper, buttonBad, buttonGood }
 }
 
 function createQuestion({ questionText, answerText }) {
   const questionWrapper = div("question")
   const question = h4(questionText)
   questionWrapper.appendChild(question)
+
   const answer = div("answer")
   answer.addEventListener("click", (a) => {
     a.target.innerText = answerText
@@ -91,7 +92,20 @@ function createQuestion({ questionText, answerText }) {
   })
   answer.innerText = t("clickForAnswer")
   questionWrapper.appendChild(answer)
-  questionWrapper.appendChild(correction())
+
+  const { correctionWrapper, buttonBad } = correction()
+  questionWrapper.appendChild(correctionWrapper)
+
+  if (settings.timerInSeconds > 0) {
+    questionWrapper.classList.add("timed")
+    questionWrapper.style.setProperty("--question-timer", settings.timerInSeconds + "s")
+    setTimeout(() => {
+      answer.click()
+      if (settings.autoSelectBadAfterTimer === 'true') {
+        buttonBad.click()
+      }
+    }, settings.timerInSeconds * 1000)
+  }
   gameEl.prepend(questionWrapper)
 }
 

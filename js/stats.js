@@ -13,9 +13,12 @@ function printStats() {
   const stats = JSON.parse(localStorage.getItem("stats")) || []
   const statsContainer = document.getElementById("statsContainer")
   statsContainer.innerHTML = ""
-  statsContainer.appendChild(stat(t("questionsCount"), stats.length))
-  statsContainer.appendChild(stat(t("succesCount"), stats.filter(s => s.succes).length))
-  statsContainer.appendChild(stat(t("succesRatio"), stats.filter(s => s.succes).length / stats.length * 100 + "%"))
+  const count = stats.length
+  statsContainer.appendChild(stat(t("questionsCount"), count))
+  const succes = stats.filter(s => s.succes).length
+  statsContainer.appendChild(stat(t("succesCount"), succes))
+  const ratio = stats.length > 0 ? Math.round(succes / count * 100) : ""
+  statsContainer.appendChild(stat(t("succesRatio"), ratio + "%"))
 }
 
 function stat(title, number) {

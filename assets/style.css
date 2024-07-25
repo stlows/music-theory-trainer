@@ -352,3 +352,24 @@ footer a {
   text-decoration: none;
   color: var(--button-color-hover);
 }
+
+.question {
+  position: relative;
+}
+.question.timed:before {
+  content: '';
+  position: absolute;
+  width: 5px;
+  background-color: var(--button-color-hover);
+  left: 0;
+  bottom:0;
+  animation: down var(--question-timer) linear;
+}
+@keyframes down {
+  0%{
+    height: 100%
+  }
+  100%{
+    height: 0%;
+  }
+}
