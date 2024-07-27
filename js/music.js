@@ -1,42 +1,52 @@
 const FRET_COUNT = 9
 
-const notes = [
-  { letter: "C", word: "Do", base: "C", natural: true, alt: { word: "Si♯", letter: "B♯", base: "B" } },
-  { letter: "C♯", word: "Do♯", base: "C", natural: false, alt: { word: "Ré♭", letter: "D♭", base: "D" } },
-  { letter: "D", word: "Ré", base: "D", natural: true },
-  { letter: "D♯", word: "Ré♯", base: "D", natural: false, alt: { word: "Mi♭", letter: "E♭" } },
-  { letter: "E", word: "Mi", base: "E", natural: true, alt: { word: "Fa♭", letter: "F♭" } },
-  { letter: "F", word: "Fa", base: "F", natural: true, alt: { word: "Mi♯", letter: "E♯", base: "E" } },
-  { letter: "F♯", word: "Fa♯", base: "F", natural: false, alt: { word: "Sol♭", letter: "G♭" } },
-  { letter: "G", word: "Sol", base: "G", natural: true },
-  { letter: "G♯", word: "Sol♯", base: "G", natural: false, alt: { word: "La♭", letter: "A♭" } },
-  { letter: "A", word: "La", base: "A", natural: true },
-  { letter: "A♯", word: "La♯", base: "A", natural: false, alt: { word: "Si♭", letter: "B♭" } },
-  { letter: "B", word: "Si", base: "B", natural: true, alt: { word: "Do♭", letter: "C♭" } },
-]
-const naturalNotes = notes.filter(x => x.natural)
+const wordLetter = { C: "Do", D: "Ré", E: "Mi", F: "Fa", G: "Sol", A: "La", B: "Si" }
 
-const intervalles = ["tonique", "minorSecond", "majorSecond", "minorThird", "majorThird", "fourth", "dimFifth", "fifth", "minorSixth", "majorSixth", "minorSeventh", "majorSeventh", "octave"]
+const notes = [
+  { root: "C", m2: "D♭", M2: "D", m3: "E♭", M3: "E", P4: "F", d5: "G♭", P5: "G", m6: "A♭", M6: "A", m7: "B♭", M7: "B", P8: "C" },
+  { root: "D", m2: "E♭", M2: "E", m3: "F", M3: "F♯", P4: "G", d5: "A♭", P5: "A", m6: "B♭", M6: "B", m7: "C", M7: "C♯", P8: "D" },
+  { root: "E", m2: "F", M2: "F♯", m3: "G", M3: "G♯", P4: "A", d5: "B♭", P5: "B", m6: "C", M6: "C♯", m7: "D", M7: "D♯", P8: "E" },
+  { root: "F", m2: "G♭", M2: "G", m3: "A♭", M3: "A", P4: "B♭", d5: "C♭", P5: "C", m6: "D♭", M6: "D", m7: "E♭", M7: "E", P8: "F" },
+  { root: "G", m2: "A♭", M2: "A", m3: "B♭", M3: "B", P4: "C", d5: "D♭", P5: "D", m6: "E♭", M6: "E", m7: "F", M7: "F♯", P8: "G" },
+  { root: "A", m2: "B♭", M2: "B", m3: "C", M3: "C♯", P4: "D", d5: "E♭", P5: "E", m6: "F", M6: "F♯", m7: "G", M7: "G♯", P8: "A" },
+  { root: "B", m2: "C", M2: "C♯", m3: "D", M3: "D♯", P4: "E", d5: "F", P5: "F♯", m6: "G", M6: "G♯", m7: "A", M7: "A♯", P8: "B" },
+  { root: "C♯", m2: "D", M2: "D♯", m3: "E", M3: "E♯", P4: "F♯", d5: "G", P5: "G♯", m6: "A", M6: "A♯", m7: "B", M7: "B♯", P8: "C♯" },
+  { root: "D♯", m2: "E", M2: "E♯", m3: "F♯", M3: "F♯♯", P4: "G♯", d5: "A", P5: "A♯", m6: "B", M6: "B♯", m7: "C♯", M7: "C♯♯", P8: "D♯" },
+  { root: "F♯", m2: "G", M2: "G♯", m3: "A", M3: "A♯", P4: "B", d5: "C", P5: "C♯", m6: "D", M6: "D♯", m7: "E", M7: "E♯", P8: "F♯" },
+  { root: "G♯", m2: "A", M2: "A♯", m3: "B", M3: "B♯", P4: "C♯", d5: "D", P5: "D♯", m6: "E", M6: "E♯", m7: "F♯", M7: "F♯♯", P8: "G♯" },
+  { root: "A♯", m2: "B", M2: "B♯", m3: "C♯", M3: "C♯♯", P4: "D♯", d5: "E", P5: "E♯", m6: "F♯", M6: "F♯♯", m7: "G♯", M7: "G♯♯", P8: "A♯" },
+  { root: "C♭", m2: "D♭♭", M2: "D♭", m3: "E♭♭", M3: "E♭", P4: "F♭", d5: "G♭♭", P5: "G♭", m6: "A♭♭", M6: "A♭", m7: "B♭♭", M7: "B♭", P8: "C♭" },
+  { root: "D♭", m2: "E♭♭", M2: "E♭", m3: "F♭", M3: "F", P4: "G♭", d5: "A♭♭", P5: "A♭", m6: "B♭♭", M6: "B♭", m7: "C♭", M7: "C", P8: "D♭" },
+  { root: "E♭", m2: "F♭", M2: "F", m3: "G♭", M3: "G", P4: "A♭", d5: "B♭♭", P5: "B♭", m6: "C♭", M6: "C", m7: "D♭", M7: "D", P8: "E♭" },
+  { root: "F♭", m2: "G♭♭", M2: "G♭", m3: "A♭♭", M3: "A♭", P4: "B♭♭", d5: "C♭♭", P5: "C♭", m6: "D♭♭", M6: "D♭", m7: "E♭♭", M7: "E♭", P8: "F♭" },
+  { root: "G♭", m2: "A♭♭", M2: "A♭", m3: "B♭♭", M3: "B♭", P4: "C♭", d5: "D♭♭", P5: "D♭", m6: "E♭♭", M6: "E♭", m7: "F♭", M7: "F", P8: "G♭" },
+  { root: "A♭", m2: "B♭♭", M2: "B♭", m3: "C♭", M3: "C", P4: "D♭", d5: "E♭♭", P5: "E♭", m6: "F♭", M6: "F", m7: "G♭", M7: "G", P8: "A♭" },
+  { root: "B♭", m2: "C♭", M2: "C", m3: "D♭", M3: "D", P4: "E♭", d5: "F♭", P5: "F", m6: "G♭", M6: "G", m7: "A♭", M7: "A", P8: "B♭" },
+]
 
 const accords = [
-  { name: "majeur", notes: [0, 4, 7], title: "Majeur" },
-  { name: "mineur", notes: [0, 3, 7], title: "Mineur" },
-  { name: "7", notes: [0, 4, 7, 10], title: "7e" },
-  { name: "maj7", notes: [0, 4, 7, 11], title: "Majeur 7e" },
-  { name: "m7", notes: [0, 3, 7, 10], title: "7e mineur" },
-  { name: "m(maj7)", notes: [0, 3, 7, 11], title: "Majeur 7e mineur" },
-  { name: "add9", notes: [0, 2, 4, 7], title: "Additionné 9" },
-  { name: "add4", notes: [0, 4, 5, 7], title: "Additionné 4" },
-  { name: "sus2", notes: [0, 2, 7], title: "Suspendu 2" },
-  { name: "sus4", notes: [0, 5, 7], title: "Suspendu 4" },
+  { name: "majeur", notes: ["root", "M3", "P5"], title: "Majeur" },
+  { name: "mineur", notes: ["root", "m3", "P5"], title: "Mineur" },
+  { name: "7", notes: ["root", "M3", "P5", "m7"], title: "7e" },
+  { name: "maj7", notes: ["root", "M3", "P5", "M7"], title: "Majeur 7e" },
+  { name: "m7", notes: ["root", "m3", "P5", "m7"], title: "7e mineur" },
+  { name: "m(maj7)", notes: ["root", "m3", "P5", "M7"], title: "Majeur 7e mineur" },
+  { name: "add9", notes: ["root", "M2", "M3", "P5"], title: "Additionné 9" },
+  { name: "add4", notes: ["root", "M3", "P4", "P5"], title: "Additionné 4" },
+  { name: "sus2", notes: ["root", "M2", "P5"], title: "Suspendu 2" },
+  { name: "sus4", notes: ["root", "P4", "P5"], title: "Suspendu 4" },
+  { name: "dim", notes: ["root", "m3", "d5"], title: "Diminué" },
 ]
 
 const gammes = [
-  { name: "majeur", notes: [0, 2, 4, 5, 7, 9, 11] },
-  { name: "mineurNaturelle", notes: [0, 2, 3, 5, 7, 8, 10] },
-  { name: "mineurHarmonique", notes: [0, 2, 3, 5, 7, 8, 11] },
-  { name: "mineurMelodiqueAsc", notes: [0, 2, 3, 5, 7, 9, 11] },
-  { name: "mineurMelodiqueDesc", notes: [0, 2, 4, 5, 7, 9, 10] },
+  { name: "majeur", notes: ["root", "M2", "M3", "P4", "P5", "M6", "M7"] },
+  { name: "mineurNaturelle", notes: ["root", "M2", "m3", "P4", "P5", "m6", "m7"] },
+  { name: "mineurHarmonique", notes: ["root", "M2", "m3", "P4", "P5", "m6", "M7"] },
+  { name: "mineurMelodiqueAsc", notes: ["root", "M2", "m3", "P4", "P5", "M6", "M7"] },
+  { name: "mineurMelodiqueDesc", notes: ["root", "m7", "m6", "P5", "P4", "m3", "M2"] },
+  { name: "majorPentatonic", notes: ["root", "M2", "M3", "P5", "M6"] },
+  { name: "minorPentatonic", notes: ["root", "m3", "P4", "P5", "m7"] },
+  { name: "chromatic", notes: ["root", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"] }
 ]
 
 const accordsManches = {
@@ -84,46 +94,67 @@ const accordsManches = {
   }
 }
 
-const cordes = ["E", "B", "G", "D", "A", "E"].map(x => notes.find(n => n.letter === x))
+const cordes = ["E", "B", "G", "D", "A", "E"].map(x => notes.find(n => n.root === x))
+const chromatic = ["A", "A♯", "B", "C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯"]
 
 const fifths = {
   major: ["F", "C", "G", "D", "A", "E", "B", "F♯", "D♭", "A♭", "E♭", "B♭", "F", "C"],
   minor: ["Dm", "Am", "Em", "Bm", "F♯m", "C♯m", "G♯m", "D♯m", "B♭m", "Fm", "Cm", "Gm", "Dm", "Am"],
   chords: [{ type: "major", add: 0, roman: "I" }, { type: "minor", add: -1, roman: "ii" }, { type: "minor", add: 1, roman: "iii" }, { type: "major", add: -1, roman: "IV" }, { type: "major", add: 1, roman: "V" }, { type: "minor", add: 0, roman: "vi" }]
 }
-function note(note) {
-  const corde = cordes[note.corde]
-  const noteIndex = notes.indexOf(corde)
-  return notes[(noteIndex + note.fret) % 12]
+
+function note(corde, fret) {
+  const root = cordes[corde].root
+  const noteIndex = chromatic.indexOf(root)
+  return chromatic[(noteIndex + fret) % 12]
 }
 
 function getGamme(noteIndex, gammeIndex) {
-  const gamme = { type: gammes[gammeIndex], notes: [], tonique: notes[noteIndex] }
+  const gamme = { type: gammes[gammeIndex], notes: [], tonique: notes[noteIndex].root }
   for (let i = 0; i < gamme.type.notes.length; i++) {
-    gamme.notes.push(notes[(noteIndex + gamme.type.notes[i]) % 12])
+    gamme.notes.push(notes[noteIndex][gamme.type.notes[i]])
   }
   return gamme
 }
 
 function getAccord(noteIndex, accordIndex) {
-  const accord = { type: accords[accordIndex], notes: [], tonique: notes[noteIndex] }
+  const accord = { type: accords[accordIndex], notes: [], tonique: notes[noteIndex].root }
   for (let i = 0; i < accord.type.notes.length; i++) {
-    accord.notes.push(notes[(noteIndex + accord.type.notes[i]) % 12])
+    accord.notes.push(notes[noteIndex][accord.type.notes[i]])
   }
   return accord
 }
 
-function notesString(notes, sep = " - ") {
-  let usedBase = []
-  let result = ""
-  for (let i = 0; i < notes.length; i++) {
-    const note = (usedBase.some(x => x === notes[i].base) ? notes[i].alt : notes[i]) || notes[i]
-    result += `${note[settings.notation]}${i === notes.length - 1 ? '' : sep}`
-    usedBase.push(notes[i].base)
+// note: C
+function printNote(note) {
+  if (settings.notation === "word") {
+    const regex = /^([A-G])([♯♭]*?)$/
+    const match = note.match(regex)
+
+    if (!match) {
+      return 'Unknown note'
+    }
+
+    const baseNote = match[1]
+    const alterations = match[2] || ''
+
+    const solfegeBase = wordLetter[baseNote]
+    return solfegeBase + alterations
   }
-  return result
+
+  return note
+
+}
+
+function join(arr, sep = " - ") {
+  return arr.join(sep)
 }
 
 function getDescriptionAccord(accordIndex) {
-  return accords[accordIndex].notes.map(i => t(intervalles[i])).join(" - ")
+  return join(accords[accordIndex].notes.map(i => t(i)))
 }
+
+function getDescriptionGamme(gammeIndex) {
+  return join(gammes[gammeIndex].notes.map(i => t(i)))
+}
+

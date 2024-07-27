@@ -5,7 +5,7 @@
 
 .guitar {
   border: 1px solid rgba(255, 255, 255, 0.3);
-  background-color: rgb(139, 125, 94);
+  background-color: rgb(85, 64, 19);
   width: 300px;
   height: 125px;
   border-left: 3px solid white;
@@ -19,7 +19,7 @@
   position: absolute;
 }
 
-.corde>span {
+.corde > span {
   position: absolute;
   transform: translateX(-35px) translateY(-10px);
   text-align: center;

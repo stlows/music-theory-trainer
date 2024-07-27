@@ -5,13 +5,28 @@ let settings = {
   repeats: 2,
   progressionChords: "D",
   plingAtFirstTempo: false,
-  accords: ["majeur", "mineur"],
+  accords: ["majeur", "mineur", "7"],
   gammes: ["majeur", "mineurNaturelle"],
-  lang: "en",
-  theme: "dark"
+  lang: "fr",
+  theme: "dark",
+  roots: ["C", "D", "G", "A"],
+  questions: ["intervalle", "gamme", "chord", "quelleNoteSurManche", "noteSurManche"],
+  timerInSeconds: 10,
+  autoSelectBadAfterTimer: 'true'
 }
 const possibleProgressionChords = ["A", "Am", "C", "D", "Dm", "E", "Em", "F", "G"]
-
+const possibleQuestions = [
+  { func: "intervalle", t: "intervalles" },
+  { func: "gamme", t: "gammes" },
+  { func: "chord", t: "chords" },
+  { func: "quelleNoteSurManche", t: "whatIsThisNote" },
+  { func: "noteSurManche", t: "findSome" },
+  { func: "chordsInKey", t: "chordsInTheKey" },
+  { func: "nthNoteInKey", t: "nthNoteInKey" },
+  { func: "chordsInProgression", t: "chordsInProgression" },
+  { func: "relativeKey", t: "relativeKey" },
+  { func: "strummingQuestion", t: "relativeKey" },
+]
 function toggleSettings() {
   document.getElementById("settings").classList.toggle("active")
 }
@@ -20,13 +35,17 @@ function toggleDocumentation() {
   document.getElementById("documentation").classList.toggle("active")
 }
 
+function toggleStats() {
+  document.getElementById("stats").classList.toggle("active")
+}
+
 function setDefaultOption(optionKey, isToggle = false) {
   setOption(optionKey, settings[optionKey], isToggle)
 }
 
 function setOption(optionKey, value, isToggle) {
   if (isToggle) {
-    if ((typeof value) === 'object') {
+    if (typeof value === "object") {
       for (let i = 0; i < value.length; i++) {
         const element = document.querySelector(`.settingBtn.${optionKey}[data-value='${value[i]}']`)
         element.classList.add("active")
@@ -56,32 +75,38 @@ function setOption(optionKey, value, isToggle) {
         elements[i].classList.add("active")
       }
     }
-    settings[optionKey] = value
+
+    settings[optionKey] = isNaN(value) ? value : Number(value)
     if (optionKey === "notation") {
       printAllGammes()
       printAllAccords()
-      //printAllIntervalles()
+      //printAllIntervalles();
     }
     if (optionKey === "lang") {
       trad()
     }
   }
   persistSettings()
-
 }
 
-function createOptionbutton(optionKey, value, isToggle = false, btnKey = "") {
+function createOptionbutton(optionKey, value, isToggle = false, btnKey = "", className = "", description = "") {
   const button = document.createElement("button")
   button.dataset.value = value
   button.classList.add("settingBtn")
   button.classList.add(optionKey)
+  if (className) {
+    button.classList.add(className)
+  }
+
   if (btnKey) {
     button.innerText = t(btnKey)
     button.dataset.t = btnKey
   } else {
     button.innerText = value
   }
-  button.addEventListener("click", (e) => { setOption(optionKey, e.target.dataset.value, isToggle) })
+  button.addEventListener("click", (e) => {
+    setOption(optionKey, e.target.dataset.value, isToggle)
+  })
   return button
 }
 function createTempoOptions() {
@@ -93,8 +118,27 @@ function createTempoOptions() {
   setDefaultOption("tempo")
 }
 
+function createTimerOptions() {
+  const timers = [5, 10, 20, 30, 60]
+  const button = createOptionbutton("timerInSeconds", 0, false, "aucun")
+  document.getElementById("timers").appendChild(button)
+  for (let i = 0; i < timers.length; i++) {
+    const button = createOptionbutton("timerInSeconds", timers[i])
+    document.getElementById("timers").appendChild(button)
+  }
+  setDefaultOption("timerInSeconds")
+}
+
+function createTimerAutoBadOptions() {
+  const buttonTrue = createOptionbutton("autoSelectBadAfterTimer", 'true', false, "oui")
+  document.getElementById("autoBad").appendChild(buttonTrue)
+  const buttonFalse = createOptionbutton("autoSelectBadAfterTimer", 'false', false, "non")
+  document.getElementById("autoBad").appendChild(buttonFalse)
+
+  setDefaultOption("autoSelectBadAfterTimer")
+}
 function createFretOptions() {
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < 8; i++) {
     const button = createOptionbutton("frets", i + 1)
     document.getElementById("frets").appendChild(button)
   }
@@ -123,6 +167,28 @@ function createScalesOptions() {
     document.getElementById("scalesSettings").appendChild(button)
   }
   setDefaultOption("gammes", true)
+}
+
+function createRootsOptions() {
+  for (let i = 0; i < notes.map((n) => n.root).length; i++) {
+    const button = createOptionbutton(
+      "roots",
+      notes[i].root,
+      true,
+      printNote(notes[i].root),
+      fifths.major.includes(notes[i].root) ? "highlight" : ""
+    )
+    document.getElementById("rootsSettings").appendChild(button)
+  }
+  setDefaultOption("roots", true)
+}
+
+function createQuestionsOptions() {
+  for (let i = 0; i < possibleQuestions.length; i++) {
+    const button = createOptionbutton("questions", possibleQuestions[i].func, true, possibleQuestions[i].func + "Description")
+    document.getElementById("questionsSettings").appendChild(button)
+  }
+  setDefaultOption("questions", true)
 }
 
 function createChordProgressionOptions() {
@@ -181,4 +247,8 @@ createNotationOptions()
 createAccordsOptions()
 createScalesOptions()
 createChordProgressionOptions()
+createRootsOptions()
+createQuestionsOptions()
 createLanguesOptions()
+createTimerOptions()
+createTimerAutoBadOptions()

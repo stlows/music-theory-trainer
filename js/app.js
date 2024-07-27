@@ -1,8 +1,15 @@
 const gameEl = document.getElementById("game")
 
-function getRandomNaturalNoteIndex() {
-  const tonic = chooseOne(naturalNotes)
-  return notes.findIndex(x => x.letter === tonic.letter)
+function question() {
+  const questionFunc = chooseOne(settings.questions)
+  if (window[questionFunc]) {
+    window[questionFunc]()
+  }
+}
+
+function getRandomRootIndex() {
+  const tonic = chooseOne(settings.roots)
+  return notes.findIndex(x => x.root === tonic)
 }
 
 function createGuitarQuestion({ questionText = "Test", notes = [], answerText = "", delayedNotes = false }) {
@@ -12,13 +19,23 @@ function createGuitarQuestion({ questionText = "Test", notes = [], answerText = 
 
   const guitar = createGuitar({ notes: delayedNotes ? [] : notes, fretCount: FRET_COUNT })
   questionWrapper.appendChild(guitar)
+
+  const timeoutId = addCorrectionAndTimer(questionWrapper, questionWrapper)
+
   questionWrapper.addEventListener("click", () => {
-    question.innerText = questionText + " " + answerText
-    if (delayedNotes) {
-      addNotesToGuitar(guitar, notes)
+    if (!questionWrapper.classList.contains("answered")) {
+      questionWrapper.classList.add("answered")
+      clearInterval(timeoutId)
+      question.innerText = questionText + " " + answerText
+      if (delayedNotes) {
+        addNotesToGuitar(guitar, notes)
+      }
     }
+
   })
+
   gameEl.prepend(questionWrapper)
+
 }
 
 function quelleNoteSurManche() {
@@ -26,114 +43,164 @@ function quelleNoteSurManche() {
   const fret = random(parseInt(settings.frets) + 1, 1)
   createGuitarQuestion({
     questionText: t("whatIsThisNote"),
-    answerText: note({ corde: corde - 1, fret })[settings.notation],
+    answerText: printNote(note(corde - 1, fret)),
     notes: [{ corde, fret }]
   })
 }
 
-function questionFretboard() {
-  if (Math.random() < 0.5) {
-    return quelleNoteSurManche()
-  }
-  return noteSurManche()
-}
-
 function noteSurManche() {
-  const noteIndex = random(12)
-  const noteATrouver = notes[noteIndex]
+  const noteATrouver = chooseOne(chromatic)
   const notesSurManche = []
   for (let corde = 0; corde < cordes.length; corde++) {
     for (let fret = 0; fret < FRET_COUNT; fret++) {
-      const laNote = note({ corde: corde, fret })
-      if (laNote.letter === noteATrouver.letter) {
+      const laNote = note(corde, fret)
+      if (laNote === noteATrouver) {
         notesSurManche.push({ corde: corde + 1, fret })
       }
     }
   }
   createGuitarQuestion({
-    questionText: `${t('findSome')} ${noteATrouver[settings.notation]}?`,
+    questionText: `${t('findSome')} ${printNote(noteATrouver)}?`,
     notes: notesSurManche,
     delayedNotes: true
   })
+}
+
+function correction() {
+  const correctionWrapper = div("correction")
+  const buttonGood = button("✅")
+  const buttonBad = button("❌")
+  correctionWrapper.appendChild(buttonGood)
+  correctionWrapper.appendChild(buttonBad)
+  buttonGood.addEventListener("click", () => {
+    addResult({ succes: true })
+    buttonGood.classList.add("selected")
+    buttonGood.disabled = true
+    buttonBad.disabled = true
+  })
+  buttonBad.addEventListener("click", () => {
+    addResult({ succes: false })
+    buttonBad.classList.add("selected")
+    buttonGood.disabled = true
+    buttonBad.disabled = true
+  })
+  return { correctionWrapper, buttonBad, buttonGood }
+}
+
+function addCorrectionAndTimer(questionWrapper, answer) {
+  const { correctionWrapper, buttonBad } = correction()
+  questionWrapper.appendChild(correctionWrapper)
+
+  if (settings.timerInSeconds > 0) {
+    questionWrapper.classList.add("timed")
+    questionWrapper.style.setProperty("--question-timer", settings.timerInSeconds + "s")
+    const timeoutId = setTimeout(() => {
+      answer.click()
+      if (settings.autoSelectBadAfterTimer === 'true') {
+        buttonBad.click()
+      }
+    }, settings.timerInSeconds * 1000)
+    return timeoutId
+  }
+
 }
 
 function createQuestion({ questionText, answerText }) {
   const questionWrapper = div("question")
   const question = h4(questionText)
   questionWrapper.appendChild(question)
+
   const answer = div("answer")
-  answer.addEventListener("click", (a) => {
-    a.target.innerText = answerText
-  })
   answer.innerText = t("clickForAnswer")
   questionWrapper.appendChild(answer)
+
+  const timeoutId = addCorrectionAndTimer(questionWrapper, answer)
+
+  answer.addEventListener("click", (a) => {
+    if (!questionWrapper.classList.contains("answered")) {
+      a.target.innerText = answerText
+      questionWrapper.classList.add("answered")
+      clearInterval(timeoutId)
+    }
+  })
+
+
+
   gameEl.prepend(questionWrapper)
 }
 
-function whichNote() {
-  const noteIndex = random(12)
-  const tonique = notes[noteIndex]
-  const intervalleIndex = random(12, 1)
-  const intervalle = intervalles[intervalleIndex]
+function intervalle() {
+  const rootIndex = getRandomRootIndex()
+  const intervalle = chooseOne(Object.keys(notes[0]))
   createQuestion({
-    questionText: `${t(intervalle)} (${intervalleIndex} ${t('halfTone')}${intervalleIndex > 1 ? 's' : ''}) ${t('of')} ${tonique[settings.notation]} ?`,
-    answerText: notes[(noteIndex + intervalleIndex) % 12][settings.notation]
+    questionText: `${t(intervalle)} ${t('of')} ${printNote(notes[rootIndex].root)} ?`,
+    answerText: printNote(notes[rootIndex][intervalle])
   })
 }
 
 function chord() {
-  const noteIndex = getRandomNaturalNoteIndex()
+  const noteIndex = getRandomRootIndex()
   const accordSettingsIndex = random(settings.accords.length)
   const accordIndex = accords.findIndex(x => x.name === settings.accords[accordSettingsIndex])
   const accord = getAccord(noteIndex, accordIndex)
   createQuestion({
-    questionText: t("chord")(accord.tonique[settings.notation], t(accord.type.name)) + " ?",
-    answerText: notesString(accord.notes)
+    questionText: t("chord")(printNote(accord.tonique), t(accord.type.name)) + " ?",
+    answerText: join(accord.notes)
   })
 }
 
 function gamme() {
-  const noteIndex = getRandomNaturalNoteIndex()
+  const noteIndex = getRandomRootIndex()
   const randomGammeName = chooseOne(settings.gammes)
   const gammeIndex = gammes.findIndex(x => x.name === randomGammeName)
   const gamme = getGamme(noteIndex, gammeIndex)
   createQuestion({
-    questionText: t("gamme")(gamme.tonique[settings.notation], t(gamme.type.name)) + " ?",
-    answerText: notesString(gamme.notes)
+    questionText: t("gamme")(printNote(gamme.tonique), t(gamme.type.name)) + " ?",
+    answerText: join(gamme.notes)
   })
 }
 
-function circleOrFifths() {
-  const rnd = Math.random()
-  const keyIndex = random(13, 1)
-  let questionText, answerText
-  const key = fifths.major[keyIndex]
-  if (rnd < 0.3) {
-    // Chords in the Key
-    questionText = t("chordsInTheKey")(key)
-    answerText = fifths.chords.map(x => `${fifths[x.type][keyIndex + x.add]}`).join(" - ")
-  } else if (rnd < 0.6) {
-    // nth in the key
-    const chordIndex = random(fifths.chords.length)
-    const chord = fifths.chords[chordIndex]
-    questionText = t("nthNoteInKey")(key, chord.roman)
-    answerText = fifths[chord.type][keyIndex + chord.add]
-  }
-  else if (rnd < 0.9) {
-    // chords in progression
-    const chords = [...fifths.chords].sort((a, b) => { return Math.random() - 0.5 }).slice(0, 4)
-    const progression = chords.map(x => x.roman).join(" - ")
-    questionText = t("chordsInProgression")(key, progression)
-    answerText = chords.map(x => fifths[x.type][keyIndex + x.add]).join(" - ")
-  } else {
-    // Relative key
-    questionText = t("relativeKey")(key)
-    answerText = fifths.minor[keyIndex]
-  }
+function getCircleOfFifthsKey() {
+  return chooseOne(settings.roots.filter(x => fifths.major.indexOf(x) > -1))
+}
 
+function chordsInKey() {
+  const key = getCircleOfFifthsKey()
+  const keyIndex = fifths.major.indexOf(key)
   createQuestion({
-    questionText,
-    answerText
+    questionText: t("chordsInTheKey")(key),
+    answerText: fifths.chords.map(x => `${fifths[x.type][keyIndex + x.add]}`).join(" - ")
+  })
+}
+
+function nthNoteInKey() {
+  const key = getCircleOfFifthsKey()
+  const keyIndex = fifths.major.indexOf(key)
+  const chordIndex = random(fifths.chords.length)
+  const chord = fifths.chords[chordIndex]
+  createQuestion({
+    questionText: t("nthNoteInKey")(key, chord.roman),
+    answerText: fifths[chord.type][keyIndex + chord.add]
+  })
+}
+
+function chordsInProgression() {
+  const key = getCircleOfFifthsKey()
+  const keyIndex = fifths.major.indexOf(key)
+  const chords = [...fifths.chords].sort((a, b) => { return Math.random() - 0.5 }).slice(0, 4)
+  const progression = chords.map(x => x.roman).join(" - ")
+  createQuestion({
+    questionText: t("chordsInProgression")(key, progression),
+    answerText: chords.map(x => fifths[x.type][keyIndex + x.add]).join(" - ")
+  })
+}
+
+function relativeKey() {
+  const key = getCircleOfFifthsKey()
+  const keyIndex = fifths.major.indexOf(key)
+  createQuestion({
+    questionText: t("relativeKey")(key),
+    answerText: fifths.minor[keyIndex]
   })
 }
 
@@ -141,16 +208,19 @@ function printAllGammes() {
   const gammesEl = document.getElementById("gammes")
   gammesEl.innerHTML = ""
   for (let gammeIndex = 0; gammeIndex < gammes.length; gammeIndex++) {
-    let gammeEl = div("mb")
+    let { detailsEl, summary } = details()
+    summary.innerText = t(gammes[gammeIndex].name)
+    detailsEl.appendChild(p(join(gammes[gammeIndex].notes), "mb-small"))
+    detailsEl.appendChild(p(getDescriptionGamme(gammeIndex), "mb-small"))
     for (let noteIndex = 0; noteIndex < notes.length; noteIndex++) {
       let wrapper = div("gamme")
       let gamme = getGamme(noteIndex, gammeIndex)
-      const gammeTitle = h5(t("gamme")(notes[noteIndex][settings.notation], t(gamme.type.name)))
+      const gammeTitle = h5(t("gamme")(printNote(notes[noteIndex].root), t(gamme.type.name)))
       wrapper.appendChild(gammeTitle)
-      wrapper.appendChild(p(notesString(gamme.notes)))
-      gammeEl.appendChild(wrapper)
+      wrapper.appendChild(p(join(gamme.notes.map(x => printNote(x)))))
+      detailsEl.appendChild(wrapper)
     }
-    gammesEl.appendChild(gammeEl)
+    gammesEl.appendChild(detailsEl)
   }
 }
 
@@ -158,16 +228,17 @@ function printAllAccords() {
   const accordsEl = document.getElementById("accords")
   accordsEl.innerHTML = ""
   for (let accordIndex = 0; accordIndex < accords.length; accordIndex++) {
-    let accordEl = div("mb")
-    accordEl.appendChild(h4(accords[accordIndex].title))
-    accordEl.appendChild(p(getDescriptionAccord(accordIndex), "mb-small"))
+    let { detailsEl, summary } = details()
+    summary.innerText = t(accords[accordIndex].title)
+    detailsEl.appendChild(p(join(accords[accordIndex].notes), "mb-small"))
+    detailsEl.appendChild(p(getDescriptionAccord(accordIndex), "mb-small"))
     for (let noteIndex = 0; noteIndex < notes.length; noteIndex++) {
       let wrapper = div("accord")
       let accord = getAccord(noteIndex, accordIndex)
-      const accordTitle = h5(t("chord")(notes[noteIndex][settings.notation], t(accord.type.name)))
+      const accordTitle = h5(t("chord")(printNote(notes[noteIndex].root), t(accord.type.name)))
       wrapper.appendChild(accordTitle)
-      wrapper.appendChild(p(notesString(accord.notes)))
-      accordEl.appendChild(wrapper)
+      wrapper.appendChild(p(join(accord.notes)))
+      detailsEl.appendChild(wrapper)
       const accordTypesGuitare = accordsManches[accord.type.name]
       if (accordTypesGuitare) {
         const accordNotesGuitare = accordTypesGuitare[notes[noteIndex].letter]
@@ -177,8 +248,7 @@ function printAllAccords() {
         }
       }
     }
-    accordsEl.appendChild(accordEl)
-    accordsEl.appendChild(hr())
+    accordsEl.appendChild(detailsEl)
   }
 }
 
