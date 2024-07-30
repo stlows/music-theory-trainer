@@ -25,7 +25,8 @@ const possibleQuestions = [
   { func: "nthNoteInKey", t: "nthNoteInKey" },
   { func: "chordsInProgression", t: "chordsInProgression" },
   { func: "relativeKey", t: "relativeKey" },
-  { func: "strummingQuestion", t: "relativeKey" },
+  { func: "strummingQuestion", t: "strummingQuestion" },
+  { func: "intervalByEar", t: "intervalByEar" }
 ]
 function toggleSettings() {
   document.getElementById("settings").classList.toggle("active")

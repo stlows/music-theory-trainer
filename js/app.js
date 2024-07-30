@@ -38,6 +38,35 @@ function createGuitarQuestion({ questionText = "Test", notes = [], answerText = 
 
 }
 
+function createEarQuestion({ questionText, answerText, playNotes }) {
+  const questionWrapper = div("question")
+  const question = h4(questionText)
+  const replay = button(t("replay"))
+  replay.classList.add("gameBtn")
+  replay.classList.add("small")
+  replay.classList.add("mb-small")
+  replay.addEventListener("click", playNotes)
+  questionWrapper.appendChild(question)
+  questionWrapper.appendChild(replay)
+
+  const answer = div("answer")
+  answer.innerText = t("clickForAnswer")
+  questionWrapper.appendChild(answer)
+
+  const timeoutId = addCorrectionAndTimer(questionWrapper, answer)
+
+  answer.addEventListener("click", (a) => {
+    if (!questionWrapper.classList.contains("answered")) {
+      a.target.innerText = answerText
+      questionWrapper.classList.add("answered")
+      clearInterval(timeoutId)
+    }
+  })
+  gameEl.prepend(questionWrapper)
+
+  playNotes()
+}
+
 function quelleNoteSurManche() {
   const corde = random(7, 1)
   const fret = random(parseInt(settings.frets) + 1, 1)
@@ -201,6 +230,29 @@ function relativeKey() {
   createQuestion({
     questionText: t("relativeKey")(key),
     answerText: fifths.minor[keyIndex]
+  })
+}
+
+function intervalByEar() {
+  const startIndex = 20
+  const endIndex = 40
+  const maxInterval = 12
+  const bassIndex = random(endIndex + 1, startIndex)
+  const interval = random(maxInterval + 1)
+  createEarQuestion({
+    questionText: t("whatIsThisInterval"),
+    answerText: `${t(Object.keys(notes[0])[interval])} - Basse: ${allNotes[bassIndex]} - High note: ${allNotes[bassIndex + interval]} `,
+    playNotes: () => playNotes(bassIndex, interval)
+  })
+}
+
+function playNotes(bassIndex, interval) {
+  const highNoteIndex = bassIndex + interval
+  const audio1 = new Audio(acoustic_guitar_nylon[allNotes[bassIndex]])
+  const audio2 = new Audio(acoustic_guitar_nylon[allNotes[highNoteIndex]])
+  audio1.play()
+  audio1.addEventListener("ended", () => {
+    audio2.play()
   })
 }
 

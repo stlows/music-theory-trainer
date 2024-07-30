@@ -111,7 +111,6 @@ button.gameBtn {
   padding: 1em;
   text-transform: uppercase;
   font-weight: bold;
-  margin: 5px;
   color: var(--button-text-color);
   border: none;
   box-shadow: 2px 2px 5px black;
@@ -120,6 +119,11 @@ button.gameBtn {
 
 button.gameBtn:hover {
   background-color: var(--button-color-hover);
+}
+
+button.gameBtn.small {
+  font-size: 0.7em;
+  padding: 1em 2em;
 }
 
 button.gameBtn > span {

@@ -155,6 +155,8 @@ const res = {
   aucun: { fr: "Aucun", en: "None" },
   oui: { fr: "Oui", en: "Yes" },
   non: { fr: "Non", en: "No" },
+  replay: { fr: "Rejouer", en: "Replay" },
+  whatIsThisInterval: { fr: "Quel est cet intervalle ?", en: "What is this interval ?" }
 }
 
 function t(key) {
