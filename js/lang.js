@@ -156,7 +156,8 @@ const res = {
   oui: { fr: "Oui", en: "Yes" },
   non: { fr: "Non", en: "No" },
   replay: { fr: "Rejouer", en: "Replay" },
-  whatIsThisInterval: { fr: "Quel est cet intervalle ?", en: "What is this interval ?" }
+  whatIsThisInterval: { fr: "Quel est cet intervalle ?", en: "What is this interval ?" },
+  intervalByEarDescription: { fr: "Pratiquez vos intervalles à l'oreille", en: "Interval ear training" }
 }
 
 function t(key) {
