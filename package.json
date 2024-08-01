@@ -1,0 +1,22 @@
+{
+  "name": "music-theory-trainer",
+  "version": "1.0.0",
+  "description": "https://vbeaulieu.com/music-trainer",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stlows/music-theory-trainer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stlows/music-theory-trainer/issues"
+  },
+  "homepage": "https://github.com/stlows/music-theory-trainer#readme",
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}
