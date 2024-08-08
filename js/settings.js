@@ -123,6 +123,9 @@ function clickOnElements(selector) {
 function selectAllSetting(event, settingKey) {
   event.preventDefault()
   clickOnElements(`.settingBtn.${settingKey}:not(.active)`)
+  if (settingKey === 'questions') {
+    clickOnElements(`.settingBtn.${settingKey}[data-value=strummingQuestion]`)
+  }
 }
 function unselectAllSetting(event, settingKey) {
   event.preventDefault()

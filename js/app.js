@@ -134,7 +134,7 @@ function addCorrectionAndTimer(questionWrapper, answer) {
 
 }
 
-function createQuestion({ questionText, answerText }) {
+function createQuestion({ questionText, answerText, extraInfos }) {
   const questionWrapper = div("question")
   const question = h4(questionText)
   questionWrapper.appendChild(question)
@@ -142,6 +142,12 @@ function createQuestion({ questionText, answerText }) {
   const answer = div("answer")
   answer.innerText = t("clickForAnswer")
   questionWrapper.appendChild(answer)
+
+  if (extraInfos) {
+    const extrInfosEl = div("extraInfos")
+    extrInfosEl.innerText = t(extraInfos)
+    questionWrapper.appendChild(extrInfosEl)
+  }
 
   const timeoutId = addCorrectionAndTimer(questionWrapper, answer)
 
@@ -161,9 +167,11 @@ function createQuestion({ questionText, answerText }) {
 function intervalle() {
   const rootIndex = getRandomRootIndex()
   const intervalle = chooseOne(Object.keys(notes[0]))
+  const notesDansIntervalle = gammeChromatic.slice(0, gammeChromatic.indexOf(intervalle) + 1)
   createQuestion({
     questionText: `${t(intervalle)} ${t('of')} ${printNote(notes[rootIndex].root)} ?`,
-    answerText: printNote(notes[rootIndex][intervalle])
+    answerText: printNote(notes[rootIndex][intervalle]),
+    extraInfos: join(notesDansIntervalle.map(x => printNote(notes[rootIndex][x])))
   })
 }
 
@@ -174,7 +182,8 @@ function chord() {
   const accord = getAccord(noteIndex, accordIndex)
   createQuestion({
     questionText: t("chord")(printNote(accord.tonique), t(accord.type.name)) + " ?",
-    answerText: join(accord.notes)
+    answerText: join(accord.notes),
+    extraInfos: join(accords[accordIndex].notes)
   })
 }
 
@@ -185,7 +194,8 @@ function gamme() {
   const gamme = getGamme(noteIndex, gammeIndex)
   createQuestion({
     questionText: t("gamme")(printNote(gamme.tonique), t(gamme.type.name)) + " ?",
-    answerText: join(gamme.notes)
+    answerText: join(gamme.notes),
+    extraInfos: join(gammes[gammeIndex].notes)
   })
 }
 
@@ -198,7 +208,7 @@ function chordsInKey() {
   const keyIndex = fifths.major.indexOf(key)
   createQuestion({
     questionText: t("chordsInTheKey")(key),
-    answerText: fifths.chords.map(x => `${fifths[x.type][keyIndex + x.add]}`).join(" - ")
+    answerText: join(fifths.chords.map(x => `${fifths[x.type][keyIndex + x.add]}`))
   })
 }
 
@@ -209,7 +219,8 @@ function nthNoteInKey() {
   const chord = fifths.chords[chordIndex]
   createQuestion({
     questionText: t("nthNoteInKey")(key, chord.roman),
-    answerText: fifths[chord.type][keyIndex + chord.add]
+    answerText: fifths[chord.type][keyIndex + chord.add],
+    extraInfos: join(fifths.chords.map(x => `${fifths[x.type][keyIndex + x.add]}`))
   })
 }
 
@@ -220,7 +231,8 @@ function chordsInProgression() {
   const progression = chords.map(x => x.roman).join(" - ")
   createQuestion({
     questionText: t("chordsInProgression")(key, progression),
-    answerText: chords.map(x => fifths[x.type][keyIndex + x.add]).join(" - ")
+    answerText: join(chords.map(x => fifths[x.type][keyIndex + x.add])),
+    extraInfos: join(fifths.chords.map(x => `${fifths[x.type][keyIndex + x.add]}`))
   })
 }
 

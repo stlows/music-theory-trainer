@@ -49,6 +49,8 @@ const gammes = [
   { name: "chromatic", notes: ["root", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"] }
 ]
 
+const gammeChromatic = gammes.find(x => x.name === 'chromatic').notes
+
 const accordsManches = {
   majeur: {
     C: [{ corde: 5, fret: 0 }, { corde: 4, fret: 3 }, { corde: 3, fret: 2 }, { corde: 2, fret: 0 }, { corde: 1, fret: 1 }],
@@ -158,5 +160,9 @@ function getDescriptionAccord(accordIndex) {
 
 function getDescriptionGamme(gammeIndex) {
   return join(gammes[gammeIndex].notes.map(i => t(i)))
+}
+
+function getNotes(rootIndex, from, to) {
+
 }
 

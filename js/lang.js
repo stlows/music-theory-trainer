@@ -158,7 +158,7 @@ const res = {
   replay: { fr: "Rejouer", en: "Replay" },
   whatIsThisInterval: { fr: "Quel est cet intervalle ?", en: "What is this interval ?" },
   intervalByEarDescription: { fr: "Pratiquez vos intervalles à l'oreille", en: "Interval ear training" },
-  instrument: { fr: "Instrument", en: "Instrument" },
+  instrument: { fr: "Instrument (Pratique à l'oreille)", en: "Instrument (Ear training)" },
   guitar: { fr: "Guitare acoustique", en: "Acoustic guitar" },
   piano: { fr: "Piano", en: "Grand piano" },
   selectAll: { fr: "Tout", en: "All" },
