@@ -11,9 +11,11 @@ let settings = {
   theme: "dark",
   roots: ["C", "D", "G", "A"],
   questions: ["intervalle", "gamme", "chord", "quelleNoteSurManche", "noteSurManche"],
-  timerInSeconds: 10,
-  autoSelectBadAfterTimer: 'true'
+  timerInSeconds: 0,
+  autoSelectBadAfterTimer: 'true',
+  instruments: "guitar"
 }
+
 const possibleProgressionChords = ["A", "Am", "C", "D", "Dm", "E", "Em", "F", "G"]
 const possibleQuestions = [
   { func: "intervalle", t: "intervalles" },
@@ -46,6 +48,7 @@ function setDefaultOption(optionKey, isToggle = false) {
 
 function setOption(optionKey, value, isToggle) {
   if (isToggle) {
+    // état initial
     if (typeof value === "object") {
       for (let i = 0; i < value.length; i++) {
         const element = document.querySelector(`.settingBtn.${optionKey}[data-value='${value[i]}']`)
@@ -110,6 +113,22 @@ function createOptionbutton(optionKey, value, isToggle = false, btnKey = "", cla
   })
   return button
 }
+
+function clickOnElements(selector) {
+  const elements = document.querySelectorAll(selector)
+  for (const element of elements) {
+    element.click()
+  }
+}
+function selectAllSetting(event, settingKey) {
+  event.preventDefault()
+  clickOnElements(`.settingBtn.${settingKey}:not(.active)`)
+}
+function unselectAllSetting(event, settingKey) {
+  event.preventDefault()
+  clickOnElements(`.settingBtn.${settingKey}.active`)
+}
+
 function createTempoOptions() {
   const tempos = [40, 60, 80, 100, 110, 120, 135, 150, 180]
   for (let i = 0; i < tempos.length; i++) {
@@ -212,6 +231,14 @@ function createNotationOptions() {
   setDefaultOption("notation")
 }
 
+function createInstrumentOptions() {
+  for (const instrumentKey in instruments) {
+    const button = createOptionbutton("instruments", instrumentKey, false, instrumentKey)
+    document.getElementById("instruments").appendChild(button)
+  }
+  setDefaultOption("instruments")
+}
+
 function createLanguesOptions() {
   const fr = createOptionbutton("lang", "fr", false, "fr")
   document.getElementById("lang").appendChild(fr)
@@ -253,3 +280,4 @@ createQuestionsOptions()
 createLanguesOptions()
 createTimerOptions()
 createTimerAutoBadOptions()
+createInstrumentOptions()

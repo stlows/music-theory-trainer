@@ -28,24 +28,44 @@
       </div>
       <div class="mb">
         <h4><span data-t="questionsAsked"></span>:</h4>
+        <div style="text-align: right;">
+          <a class="select" href="#" onclick="selectAllSetting(event, 'questions')" data-t="selectAll"></a> |
+          <a class="select" href="#" onclick="unselectAllSetting(event, 'questions')" data-t="unselectAll"></a>
+        </div>
         <div class="settingBtns fullWidth" id="questionsSettings"></div>
       </div>
       <div class="mb">
         <h4><span data-t="chordsAsked"></span>:</h4>
+        <div style="text-align: right;">
+          <a href="#" onclick="selectAllSetting(event, 'accords')" data-t="selectAll"></a> |
+          <a href="#" onclick="unselectAllSetting(event, 'accords')" data-t="unselectAll"></a>
+        </div>
         <div class="settingBtns" id="accordsSettings"></div>
       </div>
       <div class="mb">
         <h4><span data-t="scalesAsked"></span>:</h4>
+        <div style="text-align: right;">
+          <a href="#" onclick="selectAllSetting(event, 'gammes')" data-t="selectAll"></a> |
+          <a href="#" onclick="unselectAllSetting(event, 'gammes')" data-t="unselectAll"></a>
+        </div>
         <div class="settingBtns" id="scalesSettings"></div>
       </div>
       <div class="mb">
         <h4><span data-t="rootsAsked"></span>:</h4>
+        <div style="text-align: right;">
+          <a href="#" onclick="selectAllSetting(event, 'roots')" data-t="selectAll"></a> |
+          <a href="#" onclick="unselectAllSetting(event, 'roots')" data-t="unselectAll"></a>
+        </div>
         <p class="mb-small"><span data-t="rootsExplanation"></span></p>
         <div class="settingBtns" id="rootsSettings"></div>
       </div>
       <div class="mb">
         <h4><span data-t="maximalFret"></span>:</h4>
         <div class="settingBtns" id="frets"></div>
+      </div>
+      <div class="mb">
+        <h4><span data-t="instrument"></span>:</h4>
+        <div class="settingBtns" id="instruments"></div>
       </div>
       <details>
         <summary data-t="timedQuestionCategory"></summary>
@@ -149,6 +169,9 @@
 
   <script src="js/lang.js?v=1722091669139"></script>
   <script src="js/music.js?v=1722091669139"></script>
+  <script src="js/acoustic_guitar_sounds.js"></script>
+  <script src="js/grand_piano_sounds.js"></script>
+  <script src="js/instruments.js"></script>
   <script src="js/utils.js?v=1722091669139"></script>
   <script src="js/dom.js?v=1722091669139"></script>
   <script src="js/guitar.js?v=1722091669139"></script>
@@ -156,7 +179,7 @@
   <script src="js/settings.js?v=1722091669139"></script>
   <script src="js/stats.js?v=1722091669139"></script>
   <script src="js/strumming.js?v=1722091669139"></script>
-  <script src="js/acoustic_guitar_sounds.js"></script>
+
   <script>
     trad();
   </script>

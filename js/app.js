@@ -241,18 +241,20 @@ function intervalByEar() {
   const interval = random(maxInterval + 1)
   createEarQuestion({
     questionText: t("whatIsThisInterval"),
-    answerText: `${t(Object.keys(notes[0])[interval])} - Basse: ${allNotes[bassIndex]} - High note: ${allNotes[bassIndex + interval]} `,
+    answerText: `${t(Object.keys(notes[0])[interval])} - Basse: ${printNote(allNotes[bassIndex])} - High note: ${printNote(allNotes[bassIndex + interval])} `,
     playNotes: () => playNotes(bassIndex, interval)
   })
 }
 
 function playNotes(bassIndex, interval) {
   const highNoteIndex = bassIndex + interval
-  const audio1 = new Audio(acoustic_guitar_nylon[allNotes[bassIndex]])
-  const audio2 = new Audio(acoustic_guitar_nylon[allNotes[highNoteIndex]])
+  const audio1 = new Audio(instruments[settings.instruments][allNotes[bassIndex]])
+  const audio2 = new Audio(instruments[settings.instruments][allNotes[highNoteIndex]])
+  console.log("Played " + bassIndex + " on " + settings.instruments)
   audio1.play()
   audio1.addEventListener("ended", () => {
     audio2.play()
+    console.log("Played " + highNoteIndex + " on " + settings.instruments)
   })
 }
 

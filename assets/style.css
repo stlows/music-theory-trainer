@@ -57,6 +57,7 @@ body {
   padding: 2em;
   margin: 0;
 }
+
 body:has(.modal.active) {
   overflow: hidden;
 }
@@ -72,6 +73,7 @@ body:has(.modal.active) {
 .mb {
   margin-bottom: 2em;
 }
+
 .mt {
   margin-top: 1em;
 }
@@ -126,7 +128,7 @@ button.gameBtn.small {
   padding: 1em 2em;
 }
 
-button.gameBtn > span {
+button.gameBtn>span {
   font-size: 0.8em;
   font-weight: 100;
   text-transform: none;
@@ -153,6 +155,7 @@ button.gameBtn > span {
   grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
   gap: 5px;
 }
+
 .settingBtns.fullWidth {
   grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
 }
@@ -163,6 +166,7 @@ button.settingBtn {
   border: none;
   padding: 0.5em;
 }
+
 button.settingBtn.highlight {
   border: 1px solid var(--settingBtn-highlight-border-color);
 }
@@ -198,7 +202,7 @@ button.settingBtn.active {
   margin: 0;
 }
 
-#game > div {
+#game>div {
   border-left: 3px solid var(--question-border-left);
   padding-left: 1em;
 }
@@ -218,7 +222,7 @@ button.settingBtn.active {
   z-index: 100;
 }
 
-.modal.active{
+.modal.active {
   transform: translateX(0);
 }
 
@@ -251,9 +255,11 @@ details[open]>summary {
   border-bottom: 1px solid var(--details-border);
   margin-bottom: 0.5em;
 }
+
 details details {
   border: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0px;
@@ -325,6 +331,7 @@ table.strumming td.active {
 }
 
 @media screen and (max-width: 400px) {
+
   body,
   .modal {
     padding: 0.5em;
@@ -339,6 +346,7 @@ table.strumming td.active {
 .question .correction {
   display: none;
 }
+
 .question.answered .correction {
   display: flex;
 }
@@ -355,11 +363,13 @@ table.strumming td.active {
 .correction button.selected {
   background-color: var(--correction-button-selected-background);
 }
+
 footer {
   border-top: 1px solid var(--table-border);
-  padding:1em;
+  padding: 1em;
 }
-footer a {
+
+a {
   text-decoration: none;
   color: var(--button-color-hover);
 }
@@ -367,23 +377,27 @@ footer a {
 .question {
   position: relative;
 }
+
 .question.timed:before {
   content: '';
   position: absolute;
   width: 5px;
   background-color: var(--button-color-hover);
   left: 0;
-  bottom:0;
+  bottom: 0;
   animation: down var(--question-timer) linear;
 }
+
 .question.timed.answered:before {
-animation: none;
+  animation: none;
 }
+
 @keyframes down {
-  0%{
+  0% {
     height: 100%
   }
-  100%{
+
+  100% {
     height: 0%;
   }
 }

@@ -3,6 +3,12 @@ function div(className) {
   div.classList.add(className)
   return div
 }
+function a(dataT) {
+  const a = document.createElement("a")
+  a.href = "#"
+  a.dataset.t = dataT
+  return a
+}
 function span(text) {
   const span = document.createElement("span")
   span.innerText = text

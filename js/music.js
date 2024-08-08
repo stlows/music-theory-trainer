@@ -127,8 +127,9 @@ function getAccord(noteIndex, accordIndex) {
 
 // note: C
 function printNote(note) {
+  note = note.replace("b", "♭")
   if (settings.notation === "word") {
-    const regex = /^([A-G])([♯♭]*?)$/
+    const regex = /^([A-G])([♯♭]*?)([1-9]*)$/
     const match = note.match(regex)
 
     if (!match) {
@@ -137,9 +138,10 @@ function printNote(note) {
 
     const baseNote = match[1]
     const alterations = match[2] || ''
+    const octave = match[3] || ''
 
     const solfegeBase = wordLetter[baseNote]
-    return solfegeBase + alterations
+    return solfegeBase + alterations + octave
   }
 
   return note
