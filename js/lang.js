@@ -161,6 +161,8 @@ const res = {
   instrument: { fr: "Instrument", en: "Instrument" },
   guitar: { fr: "Guitare acoustique", en: "Acoustic guitar" },
   piano: { fr: "Piano", en: "Grand piano" },
+  selectAll: { fr: "Tout", en: "All" },
+  unselectAll: { fr: "Aucun", en: "None" },
 }
 
 function t(key) {
