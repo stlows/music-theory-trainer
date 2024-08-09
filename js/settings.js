@@ -30,16 +30,24 @@ const possibleQuestions = [
   { func: "strummingQuestion", t: "strummingQuestion" },
   { func: "intervalByEar", t: "intervalByEar" }
 ]
+
+function toggleActive(id) {
+  document.getElementById(id).classList.toggle("active")
+}
 function toggleSettings() {
-  document.getElementById("settings").classList.toggle("active")
+  toggleActive("settings")
 }
 
 function toggleDocumentation() {
-  document.getElementById("documentation").classList.toggle("active")
+  toggleActive("documentation")
 }
 
 function toggleStats() {
-  document.getElementById("stats").classList.toggle("active")
+  toggleActive("stats")
+}
+
+function toggleWelcome() {
+  toggleActive("welcome")
 }
 
 function setDefaultOption(optionKey, isToggle = false) {

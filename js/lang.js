@@ -142,8 +142,8 @@ const res = {
   },
   subtitle: { fr: "Bienvenue ! Utilisez ce site pour apprendre et tester vos connaissances en théorie musicale pour la guitare. Vous pouvez personnaliser les questions et leur niveau de difficulté dans vos paramètres. Vous pouvez ajouter l'application à votre téléphone pour usage hors-ligne.", en: "Welcome! Use this site to learn and test your knowledge of music theory for guitar. You can customize the questions and their difficulty level in your settings. You can add the app to your phone for offline usage." },
   footer: {
-    fr: "Créé par <a href='https://vbeaulieu.com'>Vincent Beaulieu</a>. N'hésitez pas à me contacter par email pour partager vos commentaires, expériences d'utilisation et idées !<br>Le code se retrouve sur <a href='https://github.com/stlows/music-theory-trainer'>github</a>. Commentaires peuvent être fait sur ce <a href='https://www.reddit.com/r/guitarlessons/comments/1edhugu/app_to_test_your_music_theory_skills/'>post reddit</a>.",
-    en: "Created by <a href='https://vbeaulieu.com'>Vincent Beaulieu</a>. Feel free to contact me via email to share your feedback, usage experiences, and ideas ! <br>Code is on <a href='https://github.com/stlows/music-theory-trainer'>github</a>. Feedback can be made on this <a href='https://www.reddit.com/r/guitarlessons/comments/1edhugu/app_to_test_your_music_theory_skills/'>reddit post</a>."
+    fr: "Créé par <a href='https://vbeaulieu.com'>Vincent Beaulieu</a>. N'hésitez pas à me contacter par email pour partager vos commentaires, expériences d'utilisation et idées !<br>Le code se retrouve sur <a href='https://github.com/stlows/music-theory-trainer'>github</a>. Commentaires peuvent être fait sur ce <a href='https://www.reddit.com/r/guitarlessons/comments/1edhugu/app_to_test_your_music_theory_skills/'>post reddit</a>.<br/><a href='#' onclick='event.preventDefault();toggleWelcome()'>Message de bienvenue</a>",
+    en: "Created by <a href='https://vbeaulieu.com'>Vincent Beaulieu</a>. Feel free to contact me via email to share your feedback, usage experiences, and ideas ! <br>Code is on <a href='https://github.com/stlows/music-theory-trainer'>github</a>. Feedback can be made on this <a href='https://www.reddit.com/r/guitarlessons/comments/1edhugu/app_to_test_your_music_theory_skills/'>reddit post</a>. <br><a href='#' onclick='event.preventDefault();toggleWelcome()'>Welcome message</a>"
   },
   stats: { fr: "Stats", en: "Stats" },
   clearStats: { fr: "Écraser les statistiques", en: "Clear stats" },
@@ -163,6 +163,7 @@ const res = {
   piano: { fr: "Piano", en: "Grand piano" },
   selectAll: { fr: "Tout", en: "All" },
   unselectAll: { fr: "Aucun", en: "None" },
+  diveIn: { fr: "Allez !", en: "Dive in !" }
 }
 
 function t(key) {
@@ -181,4 +182,5 @@ function trad() {
     }
   })
   printAllAccords()
+  window.scrollTo(0, 0)
 }
