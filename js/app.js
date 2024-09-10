@@ -38,6 +38,32 @@ function createGuitarQuestion({ questionText = "Test", notes = [], answerText = 
 
 }
 
+function createPartitionQuestion({ questionText = "Test", notes = [], answerText = "" }) {
+  const questionWrapper = div("question")
+  const question = h4(questionText)
+  questionWrapper.appendChild(question)
+
+  const partition = createPartition({ notes })
+  questionWrapper.appendChild(partition)
+
+  const timeoutId = addCorrectionAndTimer(questionWrapper, questionWrapper)
+
+  questionWrapper.addEventListener("click", () => {
+    if (!questionWrapper.classList.contains("answered")) {
+      questionWrapper.classList.add("answered")
+      clearInterval(timeoutId)
+      question.innerText = questionText + " " + answerText
+      if (delayedNotes) {
+        addNotesToPartition(partition, notes)
+      }
+    }
+
+  })
+
+  gameEl.prepend(questionWrapper)
+
+}
+
 function createEarQuestion({ questionText, answerText, playNotes }) {
   const questionWrapper = div("question")
   const question = h4(questionText)
@@ -74,6 +100,17 @@ function quelleNoteSurManche() {
     questionText: t("whatIsThisNote"),
     answerText: printNote(note(corde - 1, fret)),
     notes: [{ corde, fret }]
+  })
+}
+
+function quelleNoteSurPartition() {
+  const key = getCircleOfFifthsKey()
+  const keyIndex = fifths.major.indexOf(key)
+  console.log(key, keyIndex)
+  createPartitionQuestion({
+    questionText: t("whatIsThisNotePartition"),
+    answerText: "Sol",
+    notes: ""
   })
 }
 
@@ -168,10 +205,12 @@ function intervalle() {
   const rootIndex = getRandomRootIndex()
   const intervalle = chooseOne(Object.keys(notes[0]))
   const notesDansIntervalle = gammeChromatic.slice(0, gammeChromatic.indexOf(intervalle) + 1)
+  console.log(notes[rootIndex].root, notes[rootIndex][intervalle])
+  playNotes()
   createQuestion({
     questionText: `${t(intervalle)} ${t('of')} ${printNote(notes[rootIndex].root)} ?`,
     answerText: printNote(notes[rootIndex][intervalle]),
-    extraInfos: join(notesDansIntervalle.map(x => printNote(notes[rootIndex][x])))
+    extraInfos: join(notesDansIntervalle.map(x => printNote(notes[rootIndex][x]))),
   })
 }
 
@@ -247,27 +286,46 @@ function relativeKey() {
 
 function intervalByEar() {
   const startIndex = 20
-  const endIndex = 40
+  const endIndex = 30
   const maxInterval = 12
   const bassIndex = random(endIndex + 1, startIndex)
   const interval = random(maxInterval + 1)
+  const bassNote = allNotes[bassIndex]
+  const highNote = allNotes[bassIndex + interval]
   createEarQuestion({
     questionText: t("whatIsThisInterval"),
-    answerText: `${t(Object.keys(notes[0])[interval])} - Basse: ${printNote(allNotes[bassIndex])} - High note: ${printNote(allNotes[bassIndex + interval])} `,
-    playNotes: () => playNotes(bassIndex, interval)
+    answerText: `${t(Object.keys(notes[0])[interval])} - Basse: ${printNote(bassNote)} - High note: ${printNote(highNote)} `,
+    playNotes: () => playNotes([bassNote, highNote])
   })
 }
 
-function playNotes(bassIndex, interval) {
-  const highNoteIndex = bassIndex + interval
-  const audio1 = new Audio(instruments[settings.instruments][allNotes[bassIndex]])
-  const audio2 = new Audio(instruments[settings.instruments][allNotes[highNoteIndex]])
-  console.log("Played " + bassIndex + " on " + settings.instruments)
-  audio1.play()
-  audio1.addEventListener("ended", () => {
-    audio2.play()
-    console.log("Played " + highNoteIndex + " on " + settings.instruments)
-  })
+function playNotes(notes) {
+
+  if (notes.length === 0) return
+
+  const audios = notes.map(note => new Audio(instruments[settings.instruments][note]))
+  for (let i = 0; i < audios.length - 1; i++) {
+    audios[i].addEventListener("ended", () => {
+      audios[i + 1].play()
+      console.log("Played " + notes[i + 1] + " on " + settings.instruments)
+    })
+  }
+  audios[0].play()
+  console.log("Played " + notes[0] + " on " + settings.instruments)
+}
+
+function playNotesTogether(notes, timing = 250) {
+
+  if (notes.length === 0) return
+
+  const audios = notes.map(note => new Audio(instruments[settings.instruments][note]))
+
+  for (let i = 0; i < audios.length; i++) {
+    setTimeout(() => {
+      audios[i].play()
+      console.log("Played " + notes[i] + " on " + settings.instruments)
+    }, i * timing)
+  }
 }
 
 function printAllGammes() {

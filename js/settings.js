@@ -22,6 +22,7 @@ const possibleQuestions = [
   { func: "gamme", t: "gammes" },
   { func: "chord", t: "chords" },
   { func: "quelleNoteSurManche", t: "whatIsThisNote" },
+  { func: "quelleNoteSurPartition", t: "readMusic" },
   { func: "noteSurManche", t: "findSome" },
   { func: "chordsInKey", t: "chordsInTheKey" },
   { func: "nthNoteInKey", t: "nthNoteInKey" },
