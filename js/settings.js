@@ -15,7 +15,7 @@ let settings = {
   autoSelectBadAfterTimer: 'true',
   instruments: "guitar"
 }
-
+const octaveSound = 3
 const possibleProgressionChords = ["A", "Am", "C", "D", "Dm", "E", "Em", "F", "G"]
 const possibleQuestions = [
   { func: "intervalle", t: "intervalles" },
@@ -27,8 +27,8 @@ const possibleQuestions = [
   { func: "nthNoteInKey", t: "nthNoteInKey" },
   { func: "chordsInProgression", t: "chordsInProgression" },
   { func: "relativeKey", t: "relativeKey" },
+  { func: "intervalByEar", t: "intervalByEar" },
   { func: "strummingQuestion", t: "strummingQuestion" },
-  { func: "intervalByEar", t: "intervalByEar" }
 ]
 
 function toggleActive(id) {

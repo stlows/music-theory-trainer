@@ -134,7 +134,7 @@ function addCorrectionAndTimer(questionWrapper, answer) {
 
 }
 
-function createQuestion({ questionText, answerText, extraInfos }) {
+function createQuestion({ questionText, answerText, extraInfos, notesToPlay }) {
   const questionWrapper = div("question")
   const question = h4(questionText)
   questionWrapper.appendChild(question)
@@ -149,12 +149,16 @@ function createQuestion({ questionText, answerText, extraInfos }) {
     questionWrapper.appendChild(extrInfosEl)
   }
 
+
   const timeoutId = addCorrectionAndTimer(questionWrapper, answer)
 
   answer.addEventListener("click", (a) => {
     if (!questionWrapper.classList.contains("answered")) {
       a.target.innerText = answerText
       questionWrapper.classList.add("answered")
+      if (notesToPlay) {
+        playNotes(notesToPlay.bassIndex, notesToPlay.interval)
+      }
       clearInterval(timeoutId)
     }
   })
@@ -168,10 +172,12 @@ function intervalle() {
   const rootIndex = getRandomRootIndex()
   const intervalle = chooseOne(Object.keys(notes[0]))
   const notesDansIntervalle = gammeChromatic.slice(0, gammeChromatic.indexOf(intervalle) + 1)
+
   createQuestion({
     questionText: `${t(intervalle)} ${t('of')} ${printNote(notes[rootIndex].root)} ?`,
     answerText: printNote(notes[rootIndex][intervalle]),
-    extraInfos: join(notesDansIntervalle.map(x => printNote(notes[rootIndex][x])))
+    extraInfos: join(notesDansIntervalle.map(x => printNote(notes[rootIndex][x]))),
+    notesToPlay: { bassIndex: allNotes.indexOf(soundKeys[notes[rootIndex].root] + octaveSound), interval: gammeChromatic.indexOf(intervalle) }
   })
 }
 

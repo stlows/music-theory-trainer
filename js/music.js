@@ -46,7 +46,7 @@ const gammes = [
   { name: "mineurMelodiqueDesc", notes: ["root", "m7", "m6", "P5", "P4", "m3", "M2"] },
   { name: "majorPentatonic", notes: ["root", "M2", "M3", "P5", "M6"] },
   { name: "minorPentatonic", notes: ["root", "m3", "P4", "P5", "m7"] },
-  { name: "chromatic", notes: ["root", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"] }
+  { name: "chromatic", notes: ["root", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7", "P8"] }
 ]
 
 const gammeChromatic = gammes.find(x => x.name === 'chromatic').notes
@@ -164,5 +164,27 @@ function getDescriptionGamme(gammeIndex) {
 
 function getNotes(rootIndex, from, to) {
 
+}
+
+const soundKeys = {
+  "C": "C",
+  "D": "D",
+  "E": "E",
+  "F": "F",
+  "G": "G",
+  "A": "A",
+  "B": "B",
+  "C♯": "Db",
+  "D♯": "Eb",
+  "F♯": "Gb",
+  "G♯": "Ab",
+  "A♯": "Bb",
+  "C♭": "B",
+  "D♭": "Db",
+  "E♭": "Eb",
+  "F♭": "E",
+  "G♭": "Gb",
+  "A♭": "Ab",
+  "B♭": "Bb"
 }
 
