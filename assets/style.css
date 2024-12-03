@@ -26,6 +26,7 @@
 
   --modal-background-color: var(--background-color);
   --modal-color: var(--text-color);
+  --modal-popup-background-color: rgba(140, 140, 140, 0.3);
 
   --details-border: var(--table-border);
 
@@ -50,6 +51,10 @@ p {
   font-weight: 300;
 }
 
+.text-primary {
+  color: var(--accent-color)
+}
+
 body {
   background: var(--background-color);
   font-family: "Open Sans", sans-serif;
@@ -58,7 +63,8 @@ body {
   margin: 0;
 }
 
-body:has(.modal.active) {
+body:has(.modal.active),
+body:has(.popup.active) {
   overflow: hidden;
 }
 
@@ -82,12 +88,24 @@ body:has(.modal.active) {
   margin-bottom: 1em;
 }
 
+.mb-0 {
+  margin-bottom: 0;
+}
+
 .flex {
   display: flex;
 }
 
 .align-center {
   align-items: center;
+}
+
+.align-bottom {
+  align-items: bottom;
+}
+
+.justify-center {
+  justify-items: center;
 }
 
 .space-between {
@@ -237,6 +255,31 @@ button.settingBtn.active {
   transform: translateX(0);
 }
 
+.popup {
+  display: none;
+  background-color: var(--modal-popup-background-color);
+  color: var(--modal-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.popup.active {
+  display: block;
+}
+
+.popup>.content {
+  padding: 2em;
+  background-color: var(--modal-background-color);
+  border-radius: 5px;
+  max-width: 500px;
+  margin: 50px auto;
+}
+
 .container {
   max-width: 700px;
   margin-left: auto;
@@ -345,12 +388,17 @@ table.strumming td.active {
 
   body,
   .modal {
-    padding: 0.5em;
+    padding: 15px;
     padding-top: 2em;
   }
 
   .settingBtns {
     grid-template-columns: repeat(auto-fit, minmax(40%, 1fr));
+  }
+
+  .popup>.content {
+    margin: 20px 15px;
+    padding: 2em;
   }
 }
 

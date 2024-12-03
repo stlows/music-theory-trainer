@@ -1,2 +1,2 @@
 # Demo
-https://vbeaulieu.com/music-trainer
+https://vbeaulieu.com/music-theory-trainer
