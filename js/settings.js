@@ -13,7 +13,9 @@ let settings = {
   questions: ["intervalle", "gamme", "chord", "quelleNoteSurManche", "noteSurManche"],
   timerInSeconds: 0,
   autoSelectBadAfterTimer: 'true',
-  instruments: "guitar"
+  instruments: "guitar",
+  playSomething: ["chord", "scale", "interval"],
+  playSomethingShape: ["A", "E"]
 }
 
 const possibleProgressionChords = ["A", "Am", "C", "D", "Dm", "E", "Em", "F", "G"]
@@ -28,12 +30,18 @@ const possibleQuestions = [
   { func: "chordsInProgression", t: "chordsInProgression" },
   { func: "relativeKey", t: "relativeKey" },
   { func: "strummingQuestion", t: "strummingQuestion" },
-  { func: "intervalByEar", t: "intervalByEar" }
+  { func: "intervalByEar", t: "intervalByEar" },
+  { func: "playSomething", t: "playSomething" },
+
 ]
+
+const possiblePlaySomething = ["note", "chord", "scale", "interval"]
+const possibleChordShape = ["C", "A", "G", "E", "D"]
 
 function toggleActive(id) {
   document.getElementById(id).classList.toggle("active")
 }
+
 function toggleSettings() {
   toggleActive("settings")
 }
@@ -60,7 +68,11 @@ function setOption(optionKey, value, isToggle) {
     if (typeof value === "object") {
       for (let i = 0; i < value.length; i++) {
         const element = document.querySelector(`.settingBtn.${optionKey}[data-value='${value[i]}']`)
-        element.classList.add("active")
+        if (element) {
+          element.classList.add("active")
+        } else {
+          console.warn(`can't find option button for ${value[i]} of ${optionKey}`)
+        }
       }
       return
     }
@@ -222,6 +234,22 @@ function createQuestionsOptions() {
   setDefaultOption("questions", true)
 }
 
+function createPlaySomethingOptions() {
+  for (let i = 0; i < possiblePlaySomething.length; i++) {
+    const button = createOptionbutton("playSomething", possiblePlaySomething[i], true)
+    document.getElementById("playSomethingSettings").appendChild(button)
+  }
+  setDefaultOption("playSomething", true)
+}
+
+function createPlaySomethingShapeOptions() {
+  for (let i = 0; i < possibleChordShape.length; i++) {
+    const button = createOptionbutton("playSomethingShape", possibleChordShape[i], true)
+    document.getElementById("playSomethingShapeSettings").appendChild(button)
+  }
+  setDefaultOption("playSomethingShape", true)
+}
+
 function createChordProgressionOptions() {
   const button = createOptionbutton("progressionChords", "Pratique", false, "practice")
   document.getElementById("progressionChords").appendChild(button)
@@ -292,3 +320,5 @@ createLanguesOptions()
 createTimerOptions()
 createTimerAutoBadOptions()
 createInstrumentOptions()
+createPlaySomethingOptions()
+createPlaySomethingShapeOptions()

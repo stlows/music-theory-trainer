@@ -50,7 +50,7 @@ const gammes = [
 ]
 
 const gammeChromatic = gammes.find(x => x.name === 'chromatic').notes
-
+const intervals = gammeChromatic.concat(["P8"])
 const accordsManches = {
   majeur: {
     C: [{ corde: 5, fret: 0 }, { corde: 4, fret: 3 }, { corde: 3, fret: 2 }, { corde: 2, fret: 0 }, { corde: 1, fret: 1 }],
@@ -166,3 +166,54 @@ function getNotes(rootIndex, from, to) {
 
 }
 
+function getDistance(root, note) {
+  note = replaceFlatForSharp(note)
+  const rootIndex = chromatic.indexOf(root)
+  const noteIndex = chromatic.indexOf(note)
+  const result = noteIndex - rootIndex
+
+  return result < 0 ? result + 12 : result
+}
+
+function replaceFlatForSharp(note) {
+  switch (note) {
+    case "A♭":
+      return "G♯"
+    case "B♭":
+      return "A♯"
+    case "C♭":
+      return "B"
+    case "D♭":
+      return "C♯"
+    case "E♭":
+      return "D♯"
+    case "F♭":
+      return "E"
+    case "G♭":
+      return "F♯"
+    default:
+      return note
+  }
+}
+
+
+const intervalManche = {
+  'root': { deltaCorde: 0, deltaFret: 0 },
+  'm2': { deltaCorde: 1, deltaFret: -4 },
+  'M2': { deltaCorde: 1, deltaFret: -3 },
+  'm3': { deltaCorde: 1, deltaFret: -2 },
+  'M3': { deltaCorde: 1, deltaFret: -1 },
+  'P4': { deltaCorde: 1, deltaFret: 0 },
+  'd5': { deltaCorde: 1, deltaFret: 1 },
+  'P5': { deltaCorde: 1, deltaFret: 2 },
+  'm6': { deltaCorde: 1, deltaFret: 3 },
+  'M6': { deltaCorde: 2, deltaFret: -1 },
+  'm7': { deltaCorde: 2, deltaFret: 0 },
+  'M7': { deltaCorde: 2, deltaFret: 1 },
+  "P8": { deltaCorde: 2, deltaFret: 2 }
+}
+function getIntervalleSurManche(intervalle, string, fret) {
+  console.log(intervalle, string, fret)
+  const guitar = emptyGuitarSvg(fret, [{ isRoot: true }])
+  return { svg: guitar, details }
+}
