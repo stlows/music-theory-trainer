@@ -163,6 +163,26 @@ const res = {
   piano: { fr: "Piano", en: "Grand piano" },
   selectAll: { fr: "Tout", en: "All" },
   unselectAll: { fr: "Aucun", en: "None" },
+  playSomethingDescription: { fr: "Jouez quelque chose !", en: "Play something !" },
+  hopeYouGotIt: { fr: "J'espère que tu l'as eu !", en: " Hope you got it" },
+  playThisTitle: { fr: "Joue ceci:", en: "Play this:" },
+  noteOnString: {
+    fr: (note, string) => `Un ${note} sur la corde ${string}`,
+    en: (note, string) => `A ${note} on the ${string} string`,
+  },
+  shape: { fr: "Forme", en: "Shape" },
+  playChord: {
+    fr: (root, chordType, shape) => `Un ${root}${chordType} en utilsant la "${shape} shape"`,
+    en: (root, chordType, shape) => `A ${root}${chordType} using the ${shape} shape `,
+  },
+  playinterval: {
+    fr: (root, interval, string) => `${interval} de ${root} en partant de la corde ${string}`,
+    en: (root, interval, string) => `${interval} from ${root} starting on the ${string} string `,
+  },
+  playScale: {
+    fr: (root, gamme) => `Une gamme ${gamme} de ${root}`,
+    en: (root, gamme) => `A ${gamme} scale of ${root}`,
+  }
 }
 
 function t(key) {

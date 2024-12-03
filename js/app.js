@@ -134,13 +134,14 @@ function addCorrectionAndTimer(questionWrapper, answer) {
 
 }
 
-function createQuestion({ questionText, answerText, extraInfos }) {
+function createQuestion({ questionText, answerText, extraInfos, image }) {
   const questionWrapper = div("question")
   const question = h4(questionText)
   questionWrapper.appendChild(question)
 
   const answer = div("answer")
   answer.innerText = t("clickForAnswer")
+
   questionWrapper.appendChild(answer)
 
   if (extraInfos) {
@@ -153,7 +154,13 @@ function createQuestion({ questionText, answerText, extraInfos }) {
 
   answer.addEventListener("click", (a) => {
     if (!questionWrapper.classList.contains("answered")) {
-      a.target.innerText = answerText
+      if (image) {
+        a.target.innerText = ""
+        a.target.appendChild(p(answerText))
+        a.target.appendChild(image)
+      } else {
+        a.target.innerText = answerText
+      }
       questionWrapper.classList.add("answered")
       clearInterval(timeoutId)
     }
@@ -255,6 +262,43 @@ function intervalByEar() {
     questionText: t("whatIsThisInterval"),
     answerText: `${t(Object.keys(notes[0])[interval])} - Basse: ${printNote(allNotes[bassIndex])} - High note: ${printNote(allNotes[bassIndex + interval])} `,
     playNotes: () => playNotes(bassIndex, interval)
+  })
+}
+
+function playSomething() {
+
+  const type = chooseOne(settings.playSomething)
+  const root = chooseOne(settings.roots)
+  let text = ""
+  let answer = ""
+  let image = undefined
+  if (type === "note") {
+    const string = chooseOne(cordes.map(x => x.root))
+    text = t("noteOnString")(printNote(root), printNote(string))
+    answer = "Fret " + getDistance(string, root)
+  }
+  if (type === "chord") {
+    const chord = chooseOne(settings.accords)
+    const shape = chooseOne(settings.playSomethingShape)
+    text = t("playChord")(root, chord, shape)
+  }
+  if (type === "interval") {
+    const interval = chooseOne(intervals)
+    const string = chooseOne(cordes.map(x => x.root))
+    text = t("playinterval")(t(root), t(interval), t(string))
+    //const intervalleSurManche = getIntervalleSurManche(interval, string, getDistance(string, root))
+    //image = intervalleSurManche.svg
+    answer = `Fret ${getDistance(string, root)}`
+  }
+  if (type === "scale") {
+    const gamme = chooseOne(settings.gammes)
+    //const shape = chooseOne(settings.playSomethingShape)
+    text = t("playScale")(t(root), t(gamme))
+  }
+  createQuestion({
+    questionText: text,
+    answerText: answer,
+    image: image
   })
 }
 
