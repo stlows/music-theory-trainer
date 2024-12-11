@@ -14,8 +14,7 @@ let settings = {
   timerInSeconds: 0,
   autoSelectBadAfterTimer: 'true',
   instruments: "guitar",
-  playSomething: ["chord", "scale", "interval"],
-  playSomethingShape: ["A", "E"]
+  showNotesOnGuitar: true,
 }
 
 const possibleProgressionChords = ["A", "Am", "C", "D", "Dm", "E", "Em", "F", "G"]
@@ -31,12 +30,7 @@ const possibleQuestions = [
   { func: "relativeKey", t: "relativeKey" },
   { func: "strummingQuestion", t: "strummingQuestion" },
   { func: "intervalByEar", t: "intervalByEar" },
-  { func: "playSomething", t: "playSomething" },
-
 ]
-
-const possiblePlaySomething = ["note", "chord", "scale", "interval"]
-const possibleChordShape = ["C", "A", "G", "E", "D"]
 
 function toggleActive(id) {
   document.getElementById(id).classList.toggle("active")
@@ -181,7 +175,7 @@ function createTimerAutoBadOptions() {
   setDefaultOption("autoSelectBadAfterTimer")
 }
 function createFretOptions() {
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 12; i++) {
     const button = createOptionbutton("frets", i + 1)
     document.getElementById("frets").appendChild(button)
   }
@@ -234,22 +228,6 @@ function createQuestionsOptions() {
   setDefaultOption("questions", true)
 }
 
-function createPlaySomethingOptions() {
-  for (let i = 0; i < possiblePlaySomething.length; i++) {
-    const button = createOptionbutton("playSomething", possiblePlaySomething[i], true)
-    document.getElementById("playSomethingSettings").appendChild(button)
-  }
-  setDefaultOption("playSomething", true)
-}
-
-function createPlaySomethingShapeOptions() {
-  for (let i = 0; i < possibleChordShape.length; i++) {
-    const button = createOptionbutton("playSomethingShape", possibleChordShape[i], true)
-    document.getElementById("playSomethingShapeSettings").appendChild(button)
-  }
-  setDefaultOption("playSomethingShape", true)
-}
-
 function createChordProgressionOptions() {
   const button = createOptionbutton("progressionChords", "Pratique", false, "practice")
   document.getElementById("progressionChords").appendChild(button)
@@ -268,6 +246,16 @@ function createNotationOptions() {
   const buttonLetter = createOptionbutton("notation", "letter", false, "lettre")
   document.getElementById("notations").appendChild(buttonLetter)
   setDefaultOption("notation")
+}
+
+function createShowNotesOnGuitarOptions() {
+  let button = createOptionbutton("showNotesOnGuitar", "1", false, "oui")
+  document.getElementById("showNotesOnGuitar").appendChild(button)
+
+  let button2 = createOptionbutton("showNotesOnGuitar", "0", false, "non")
+  document.getElementById("showNotesOnGuitar").appendChild(button2)
+
+  setDefaultOption("showNotesOnGuitar")
 }
 
 function createInstrumentOptions() {
@@ -320,5 +308,4 @@ createLanguesOptions()
 createTimerOptions()
 createTimerAutoBadOptions()
 createInstrumentOptions()
-createPlaySomethingOptions()
-createPlaySomethingShapeOptions()
+createShowNotesOnGuitarOptions()

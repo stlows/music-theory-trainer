@@ -111,6 +111,10 @@ function note(corde, fret) {
   return chromatic[(noteIndex + fret) % 12]
 }
 
+function notesEqual(note1, note2) {
+  return noteId(note1) === noteId(note2)
+}
+
 function getGamme(noteIndex, gammeIndex) {
   const gamme = { type: gammes[gammeIndex], notes: [], tonique: notes[noteIndex].root }
   for (let i = 0; i < gamme.type.notes.length; i++) {
@@ -175,22 +179,49 @@ function getDistance(root, note) {
   return result < 0 ? result + 12 : result
 }
 
+function noteId(note) {
+  let base = "A.BC.D.EF.G.".indexOf(note[0])
+  note.split("").forEach(n => {
+    if (n === "♭") {
+      base--
+    }
+    if (n === "♯") {
+      base++
+    }
+  })
+  return (base + 12) % 12
+}
+
 function replaceFlatForSharp(note) {
   switch (note) {
     case "A♭":
       return "G♯"
+    case "A♭♭":
+      return "G"
     case "B♭":
       return "A♯"
+    case "B♭♭":
+      return "A"
     case "C♭":
       return "B"
+    case "C♭♭":
+      return "A♯"
     case "D♭":
       return "C♯"
+    case "D♭♭":
+      return "C"
     case "E♭":
       return "D♯"
+    case "E♭♭":
+      return "D"
     case "F♭":
       return "E"
+    case "F♭♭":
+      return "D♯"
     case "G♭":
       return "F♯"
+    case "G♭♭":
+      return "F"
     default:
       return note
   }

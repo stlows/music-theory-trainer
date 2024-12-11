@@ -134,7 +134,7 @@ function addCorrectionAndTimer(questionWrapper, answer) {
 
 }
 
-function createQuestion({ questionText, answerText, extraInfos, image }) {
+function createQuestion({ questionText, answerText, extraInfos, answerNode }) {
   const questionWrapper = div("question")
   const question = h4(questionText)
   questionWrapper.appendChild(question)
@@ -154,10 +154,9 @@ function createQuestion({ questionText, answerText, extraInfos, image }) {
 
   answer.addEventListener("click", (a) => {
     if (!questionWrapper.classList.contains("answered")) {
-      if (image) {
-        a.target.innerText = ""
-        a.target.appendChild(p(answerText))
-        a.target.appendChild(image)
+      if (answerNode) {
+        a.target.innerHTML = ""
+        a.target.appendChild(answerNode)
       } else {
         a.target.innerText = answerText
       }
@@ -165,9 +164,6 @@ function createQuestion({ questionText, answerText, extraInfos, image }) {
       clearInterval(timeoutId)
     }
   })
-
-
-
   gameEl.prepend(questionWrapper)
 }
 
@@ -175,9 +171,16 @@ function intervalle() {
   const rootIndex = getRandomRootIndex()
   const intervalle = chooseOne(Object.keys(notes[0]))
   const notesDansIntervalle = gammeChromatic.slice(0, gammeChromatic.indexOf(intervalle) + 1)
+  answerNode = div()
+  answerNode.appendChild(p(printNote(notes[rootIndex][intervalle])))
+  if (settings.showNotesOnGuitar) {
+    let guitarWrapper = createGuitar({ notes: [], fretCount: 13 })
+    answerNode.appendChild(guitarWrapper)
+    highlightNotes(guitarWrapper, [notes[rootIndex].root, notes[rootIndex][intervalle]])
+  }
   createQuestion({
     questionText: `${t(intervalle)} ${t('of')} ${printNote(notes[rootIndex].root)} ?`,
-    answerText: printNote(notes[rootIndex][intervalle]),
+    answerNode,
     extraInfos: join(notesDansIntervalle.map(x => printNote(notes[rootIndex][x])))
   })
 }
@@ -187,9 +190,16 @@ function chord() {
   const accordSettingsIndex = random(settings.accords.length)
   const accordIndex = accords.findIndex(x => x.name === settings.accords[accordSettingsIndex])
   const accord = getAccord(noteIndex, accordIndex)
+  answerNode = div()
+  answerNode.appendChild(p(join(accord.notes)))
+  if (settings.showNotesOnGuitar) {
+    let guitarWrapper = createGuitar({ notes: [], fretCount: 13 })
+    answerNode.appendChild(guitarWrapper)
+    highlightNotes(guitarWrapper, accord.notes)
+  }
   createQuestion({
     questionText: t("chord")(printNote(accord.tonique), t(accord.type.name)) + " ?",
-    answerText: join(accord.notes),
+    answerNode: answerNode,
     extraInfos: join(accords[accordIndex].notes)
   })
 }
@@ -199,9 +209,16 @@ function gamme() {
   const randomGammeName = chooseOne(settings.gammes)
   const gammeIndex = gammes.findIndex(x => x.name === randomGammeName)
   const gamme = getGamme(noteIndex, gammeIndex)
+  answerNode = div()
+  answerNode.appendChild(p(join(gamme.notes)))
+  if (settings.showNotesOnGuitar) {
+    let guitarWrapper = createGuitar({ notes: [], fretCount: 13 })
+    answerNode.appendChild(guitarWrapper)
+    highlightNotes(guitarWrapper, gamme.notes)
+  }
   createQuestion({
     questionText: t("gamme")(printNote(gamme.tonique), t(gamme.type.name)) + " ?",
-    answerText: join(gamme.notes),
+    answerNode: answerNode,
     extraInfos: join(gammes[gammeIndex].notes)
   })
 }
@@ -262,43 +279,6 @@ function intervalByEar() {
     questionText: t("whatIsThisInterval"),
     answerText: `${t(Object.keys(notes[0])[interval])} - Basse: ${printNote(allNotes[bassIndex])} - High note: ${printNote(allNotes[bassIndex + interval])} `,
     playNotes: () => playNotes(bassIndex, interval)
-  })
-}
-
-function playSomething() {
-
-  const type = chooseOne(settings.playSomething)
-  const root = chooseOne(settings.roots)
-  let text = ""
-  let answer = ""
-  let image = undefined
-  if (type === "note") {
-    const string = chooseOne(cordes.map(x => x.root))
-    text = t("noteOnString")(printNote(root), printNote(string))
-    answer = "Fret " + getDistance(string, root)
-  }
-  if (type === "chord") {
-    const chord = chooseOne(settings.accords)
-    const shape = chooseOne(settings.playSomethingShape)
-    text = t("playChord")(root, chord, shape)
-  }
-  if (type === "interval") {
-    const interval = chooseOne(intervals)
-    const string = chooseOne(cordes.map(x => x.root))
-    text = t("playinterval")(t(root), t(interval), t(string))
-    //const intervalleSurManche = getIntervalleSurManche(interval, string, getDistance(string, root))
-    //image = intervalleSurManche.svg
-    answer = `Fret ${getDistance(string, root)}`
-  }
-  if (type === "scale") {
-    const gamme = chooseOne(settings.gammes)
-    //const shape = chooseOne(settings.playSomethingShape)
-    text = t("playScale")(t(root), t(gamme))
-  }
-  createQuestion({
-    questionText: text,
-    answerText: answer,
-    image: image
   })
 }
 

@@ -1,12 +1,13 @@
 .guitarWrapper {
   padding-left: 30px;
   overflow: hidden;
+  overflow-x: auto;
 }
 
 .guitar {
   border: 1px solid rgba(255, 255, 255, 0.3);
-  background-color: rgb(85, 64, 19);
-  width: 300px;
+  background-color: transparent;
+  width: 400px;
   height: 125px;
   border-left: 3px solid white;
   position: relative;
@@ -19,7 +20,7 @@
   position: absolute;
 }
 
-.corde > span {
+.corde>span {
   position: absolute;
   transform: translateX(-35px) translateY(-10px);
   text-align: center;
@@ -32,9 +33,18 @@
   height: 20px;
   background-color: white;
   position: absolute;
+  text-align: center;
+  line-height: 20px;
+  font-size: 15px;
+  opacity: 0.7;
   /* Vide: transform: translateX(-12px) translateY(40px); */
   /* Général: transform: translateX(5px * fret) translateY(20px * (corde - 1); */
   /* transform: translateX(65px) translateY(100px); */
+}
+
+.note.highlight {
+  outline: 3px solid rgb(255, 255, 255);
+  opacity: 1;
 }
 
 .indicator {
@@ -117,4 +127,16 @@
 
 .fret:nth-child(9) {
   transform: translateX(270px);
+}
+
+.fret:nth-child(10) {
+  transform: translateX(300px);
+}
+
+.fret:nth-child(11) {
+  transform: translateX(330px);
+}
+
+.fret:nth-child(12) {
+  transform: translateX(360px);
 }
