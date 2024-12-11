@@ -152,7 +152,12 @@
       <h1 data-t="title" class="mb-small"></h1>
       <p class="mb-small" data-t="subtitle"></p>
       <div class="center">
+
         <button class="gameBtn" onclick="toggleWelcome()" data-t="diveIn"></button>
+        <div class="mt">
+          <input type="checkbox" id="dontShowWelcome" onchange="toggleDontShowWelcome(this)" />
+          <label for="dontShowWelcome">Ne plus afficher</label>
+        </div>
       </div>
     </div>
   </div>

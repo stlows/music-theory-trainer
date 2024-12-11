@@ -51,6 +51,16 @@ function toggleStats() {
 function toggleWelcome() {
   toggleActive("welcome")
 }
+function toggleDontShowWelcome(e) {
+  localStorage.setItem("dontShowWelcomeMessage", e.checked)
+}
+function checkDontShowWelcome() {
+  if (localStorage.getItem("dontShowWelcomeMessage") === "true") {
+    toggleWelcome()
+    document.getElementById("dontShowWelcome").checked = true
+  }
+}
+checkDontShowWelcome()
 
 function setDefaultOption(optionKey, isToggle = false) {
   setOption(optionKey, settings[optionKey], isToggle)
@@ -292,6 +302,10 @@ function persistSettings() {
 }
 function readSettings() {
   settings = JSON.parse(localStorage.getItem("settings"))
+}
+
+function resetSettings() {
+
 }
 
 loadSettings()
