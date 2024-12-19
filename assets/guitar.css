@@ -1,142 +1,15 @@
-.guitarWrapper {
-  padding-left: 30px;
-  overflow: hidden;
-  overflow-x: auto;
+svg text {
+  pointer-events: none;
 }
 
-.guitar {
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background-color: transparent;
-  width: 400px;
-  height: 125px;
-  border-left: 3px solid white;
-  position: relative;
+svg rect {
+  opacity: 0.4;
 }
 
-.corde {
-  height: 1px;
-  width: 100%;
-  background-color: white;
-  position: absolute;
+svg rect:hover{
+  cursor: pointer;
 }
 
-.corde>span {
-  position: absolute;
-  transform: translateX(-35px) translateY(-10px);
-  text-align: center;
-  width: 20px;
-}
-
-.note {
-  border-radius: 10px;
-  width: 20px;
-  height: 20px;
-  background-color: white;
-  position: absolute;
-  text-align: center;
-  line-height: 20px;
-  font-size: 15px;
-  opacity: 0.7;
-  /* Vide: transform: translateX(-12px) translateY(40px); */
-  /* Général: transform: translateX(5px * fret) translateY(20px * (corde - 1); */
-  /* transform: translateX(65px) translateY(100px); */
-}
-
-.note.highlight {
-  outline: 3px solid rgb(255, 255, 255);
+svg rect.highlight {
   opacity: 1;
-}
-
-.indicator {
-  border-radius: 50%;
-  width: 10px;
-  height: 10px;
-  background-color: rgba(255, 255, 255, 0.5);
-  position: absolute;
-}
-
-.corde:nth-child(6) {
-  transform: translateY(110px);
-  height: 3px;
-}
-
-.corde:nth-child(5) {
-  transform: translateY(90px);
-  height: 3px;
-}
-
-.corde:nth-child(4) {
-  transform: translateY(70px);
-  height: 2px;
-}
-
-.corde:nth-child(3) {
-  transform: translateY(50px);
-  height: 1px;
-}
-
-.corde:nth-child(2) {
-  transform: translateY(30px);
-  height: 1px;
-}
-
-.corde:nth-child(1) {
-  transform: translateY(10px);
-  height: 1px;
-}
-
-.fret {
-  height: 100%;
-  position: absolute;
-  width: 1px;
-  background-color: white;
-  transform: translateX(30px);
-}
-
-.fret:nth-child(1) {
-  transform: translateX(30px);
-}
-
-.fret:nth-child(2) {
-  transform: translateX(60px);
-}
-
-.fret:nth-child(3) {
-  transform: translateX(90px);
-}
-
-.fret:nth-child(4) {
-  transform: translateX(120px);
-}
-
-.fret:nth-child(5) {
-  transform: translateX(150px);
-}
-
-.fret:nth-child(6) {
-  transform: translateX(180px);
-}
-
-.fret:nth-child(7) {
-  transform: translateX(210px);
-}
-
-.fret:nth-child(8) {
-  transform: translateX(240px);
-}
-
-.fret:nth-child(9) {
-  transform: translateX(270px);
-}
-
-.fret:nth-child(10) {
-  transform: translateX(300px);
-}
-
-.fret:nth-child(11) {
-  transform: translateX(330px);
-}
-
-.fret:nth-child(12) {
-  transform: translateX(360px);
 }

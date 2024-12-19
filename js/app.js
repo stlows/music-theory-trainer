@@ -195,7 +195,7 @@ function chord() {
   if (settings.showNotesOnGuitar) {
     let guitarWrapper = createGuitar({ notes: [], fretCount: 13 })
     answerNode.appendChild(guitarWrapper)
-    highlightNotes(guitarWrapper, accord.notes)
+    highlightNotes(guitarWrapper, accord.notes, accord.tonique)
   }
   createQuestion({
     questionText: t("chord")(printNote(accord.tonique), t(accord.type.name)) + " ?",
@@ -214,7 +214,7 @@ function gamme() {
   if (settings.showNotesOnGuitar) {
     let guitarWrapper = createGuitar({ notes: [], fretCount: 13 })
     answerNode.appendChild(guitarWrapper)
-    highlightNotes(guitarWrapper, gamme.notes)
+    highlightNotes(guitarWrapper, gamme.notes, gamme.tonique)
   }
   createQuestion({
     questionText: t("gamme")(printNote(gamme.tonique), t(gamme.type.name)) + " ?",

@@ -103,6 +103,29 @@ function circle(r, cx, cy, color) {
   return line
 }
 
+function rect(r, x, y, color) {
+  const line = document.createElementNS('http://www.w3.org/2000/svg', "rect")
+  line.setAttribute("width", r)
+  line.setAttribute("height", r)
+  line.setAttribute("x", x)
+  line.setAttribute("y", y)
+  line.setAttribute("fill", color)
+  line.setAttribute("rx", 4)
+  line.setAttribute("ry", 4)
+  return line
+}
+
+function text(x, y, text, color) {
+  const textEl = document.createElementNS('http://www.w3.org/2000/svg', "text")
+  textEl.setAttribute("x", x)
+  textEl.setAttribute("y", y)
+  textEl.setAttribute("fill", color)
+  textEl.setAttribute("text-anchor", "middle")
+  textEl.setAttribute("alignment-baseline", "central")
+  textEl.textContent = text
+  return textEl
+}
+
 function emptyGuitarSvg(referenceFret, notes) {
   const distanceBetweenString = 15
   const distanceTop = 0
