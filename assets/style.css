@@ -52,7 +52,7 @@ p {
 }
 
 .text-primary {
-  color: var(--accent-color)
+  color: var(--accent-color);
 }
 
 body {
@@ -90,6 +90,10 @@ body:has(.popup.active) {
 
 .mb-0 {
   margin-bottom: 0;
+}
+.mw-100 {
+  max-width: 100%;
+  overflow: auto;
 }
 
 .flex {
@@ -146,7 +150,7 @@ button.gameBtn.small {
   padding: 1em 2em;
 }
 
-button.gameBtn>span {
+button.gameBtn > span {
   font-size: 0.8em;
   font-weight: 100;
   text-transform: none;
@@ -224,14 +228,14 @@ button.settingBtn.active {
   display: none;
   text-align: right;
   font-style: italic;
-  color: var(--table-border)
+  color: var(--table-border);
 }
 
 .question.answered .extraInfos {
   display: block;
 }
 
-#game>div {
+#game > div {
   border-left: 3px solid var(--question-border-left);
   padding-left: 1em;
 }
@@ -272,7 +276,7 @@ button.settingBtn.active {
   display: block;
 }
 
-.popup>.content {
+.popup > .content {
   padding: 2em;
   background-color: var(--modal-background-color);
   border-radius: 5px;
@@ -305,7 +309,7 @@ details[open] {
   padding: 0.5em;
 }
 
-details[open]>summary {
+details[open] > summary {
   border-bottom: 1px solid var(--details-border);
   margin-bottom: 0.5em;
 }
@@ -385,7 +389,6 @@ table.strumming td.active {
 }
 
 @media screen and (max-width: 400px) {
-
   body,
   .modal {
     padding: 15px;
@@ -396,7 +399,7 @@ table.strumming td.active {
     grid-template-columns: repeat(auto-fit, minmax(40%, 1fr));
   }
 
-  .popup>.content {
+  .popup > .content {
     margin: 20px 15px;
     padding: 2em;
   }
@@ -438,7 +441,7 @@ a {
 }
 
 .question.timed:before {
-  content: '';
+  content: "";
   position: absolute;
   width: 5px;
   background-color: var(--button-color-hover);
@@ -453,7 +456,7 @@ a {
 
 @keyframes down {
   0% {
-    height: 100%
+    height: 100%;
   }
 
   100% {
