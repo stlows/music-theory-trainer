@@ -73,7 +73,7 @@ function quelleNoteSurManche() {
   createGuitarQuestion({
     questionText: t("whatIsThisNote"),
     answerText: printNote(note(corde - 1, fret)),
-    notes: [{ corde, fret }]
+    notes: [{ corde, fret, color: "#1E90FF", selected: true }]
   })
 }
 
@@ -84,7 +84,7 @@ function noteSurManche() {
     for (let fret = 0; fret < FRET_COUNT; fret++) {
       const laNote = note(corde, fret)
       if (laNote === noteATrouver) {
-        notesSurManche.push({ corde: corde + 1, fret })
+        notesSurManche.push({ corde: corde + 1, fret, color: "#1E90FF", selected: true })
       }
     }
   }
