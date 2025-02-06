@@ -1,0 +1,1 @@
+const naturals = notes.filter(n => n.root.length == 1)

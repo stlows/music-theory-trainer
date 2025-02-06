@@ -3,10 +3,10 @@ const path = require('path')
 
 const version = new Date().valueOf() // Version to append
 
+const versionThis = (fileName) => {
 // Path to the index.html file
-const filePath = path.join(__dirname, 'index.html')
+const filePath = path.join(__dirname, fileName)
 
-// Read the index.html file
 fs.readFile(filePath, 'utf8', (err, data) => {
   if (err) {
     return console.error(`Error reading file: ${err.message}`)
@@ -27,6 +27,11 @@ fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
       return console.error(`Error writing file: ${err.message}`)
     }
-    console.log('index.html has been updated with versioning.')
+    console.log(`${fileName} has been updated with versioning.`)
   })
 })
+}
+
+versionThis("index.html")
+versionThis("fretboard-visualizer.html")
+
