@@ -11,6 +11,8 @@
   </head>
 
   <body class="dark">
+    <button onclick="toggleEnharmonic()" class="gameBtn">♭ / ♯</button>
+
     <figure id="fretboard-diagram-creator" class="half-full">
       <svg xmlns="http://www.w3.org/2000/svg" id="fretboard" width="900" height="280"></svg>
     </figure>
@@ -24,9 +26,9 @@
             <button title="delete" id="delete-note">X</button>
         </div> -->
       <div id="global-actions">
-        <button onclick="selectRandomOptions()" class="gameBtn mb-small mt">Randomize (space)</button>
+        <button onclick="selectRandomOptions()" class="gameBtn mb-small mt">Randomize (N)</button>
 
-        <div class="flex justify-center">
+        <div class="flex justify-center mb">
           <div class="flex flex-column justify-center mr">
             <label for="key" class="mb-xsmall">Key</label>
             <select name="key" id="key">
@@ -62,21 +64,23 @@
         </div>
 
         <div>
-          <label for="shape" class="text-large">Shape</label>
-          <select name="shape" id="shape">
+          <label for="shape" class="mr">Shape</label>
+          <select name="shape" id="shape" class="mr">
             <option value="C">C</option>
             <option value="A">A</option>
             <option value="G">G</option>
             <option value="E">E</option>
             <option value="D">D</option>
           </select>
-          <button onclick="drawShape()" class="gameBtn">Show me (v)</button>
+          <button onclick="drawShape()" class="gameBtn mr">Show me (v)</button>
+          <span class="hint" id="fretHint"></span>
         </div>
 
         <div>
-          <label for="nearFret" class="text-large">Near fret...</label>
-          <input type="number" id="nearFret" name="nearFret" value="5" />
-          <button onclick="drawNearestShape()" class="gameBtn">Show me (b)</button>
+          <label for="nearFret" class="mr">Fret</label>
+          <input type="number" id="nearFret" name="nearFret" value="5" class="mr" />
+          <button onclick="drawNearestShape()" class="gameBtn mr">Show me (b)</button>
+          <span class="hint" id="shapeHint"></span>
         </div>
       </div>
     </div>

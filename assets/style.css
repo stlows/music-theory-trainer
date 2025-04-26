@@ -38,10 +38,6 @@
   --correction-button-selected-background: rgba(255, 255, 255, 0.2);
 }
 
-h1 {
-  margin-bottom: 1em;
-}
-
 h4 {
   margin-bottom: 0.7em;
 }
@@ -241,6 +237,11 @@ button.settingBtn.active {
 .question .extraInfos {
   display: none;
   text-align: right;
+  font-style: italic;
+  color: var(--table-border);
+}
+
+.hint {
   font-style: italic;
   color: var(--table-border);
 }

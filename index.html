@@ -1,207 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-t="title"></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title data-t="title"></title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css?v=1733879467769" />
+    <link rel="stylesheet" href="assets/guitar.css?v=1733879467769" />
+    <link rel="stylesheet" href="assets/stats.css?v=1733879467769" />
+    <link rel="manifest" href="manifest.json" />
+  </head>
 
-  <link rel="stylesheet" href="assets/style.css?v=1733879467769" />
-  <link rel="stylesheet" href="assets/guitar.css?v=1733879467769" />
-  <link rel="stylesheet" href="assets/stats.css?v=1733879467769" />
-  <link rel="manifest" href="manifest.json" />
-</head>
+  <body>
+    <div id="settings" class="modal">
+      <div class="container">
+        <div class="flex align-center space-between mb">
+          <div class="settingToggle pointer" onclick="toggleSettings()">← <span data-t="retour"></span></div>
+        </div>
 
-<body>
-  <div id="settings" class="modal">
+        <div class="mb">
+          <h4><span data-t="notation"></span>:</h4>
+          <div class="settingBtns" id="notations"></div>
+        </div>
+        <div class="mb">
+          <h4><span data-t="questionsAsked"></span>:</h4>
+          <div style="text-align: right">
+            <a class="select" href="#" onclick="selectAllSetting(event, 'questions')" data-t="selectAll"></a> |
+            <a class="select" href="#" onclick="unselectAllSetting(event, 'questions')" data-t="unselectAll"></a>
+          </div>
+          <div class="settingBtns fullWidth" id="questionsSettings"></div>
+        </div>
+        <div class="mb">
+          <h4><span data-t="chordsAsked"></span>:</h4>
+          <div style="text-align: right">
+            <a href="#" onclick="selectAllSetting(event, 'accords')" data-t="selectAll"></a> |
+            <a href="#" onclick="unselectAllSetting(event, 'accords')" data-t="unselectAll"></a>
+          </div>
+          <div class="settingBtns" id="accordsSettings"></div>
+        </div>
+        <div class="mb">
+          <h4><span data-t="scalesAsked"></span>:</h4>
+          <div style="text-align: right">
+            <a href="#" onclick="selectAllSetting(event, 'gammes')" data-t="selectAll"></a> |
+            <a href="#" onclick="unselectAllSetting(event, 'gammes')" data-t="unselectAll"></a>
+          </div>
+          <div class="settingBtns" id="scalesSettings"></div>
+        </div>
+        <div class="mb">
+          <h4><span data-t="rootsAsked"></span>:</h4>
+          <div style="text-align: right">
+            <a href="#" onclick="selectAllSetting(event, 'roots')" data-t="selectAll"></a> |
+            <a href="#" onclick="unselectAllSetting(event, 'roots')" data-t="unselectAll"></a>
+          </div>
+          <p class="mb-small"><span data-t="rootsExplanation"></span></p>
+          <div class="settingBtns" id="rootsSettings"></div>
+        </div>
+        <div class="mb">
+          <h4><span data-t="maximalFret"></span>:</h4>
+          <div class="settingBtns" id="frets"></div>
+        </div>
+        <div class="mb">
+          <h4><span data-t="showNotesOnGuitar"></span>:</h4>
+          <div class="settingBtns" id="showNotesOnGuitar"></div>
+        </div>
+        <div class="mb">
+          <h4><span data-t="instrument"></span>:</h4>
+          <div class="settingBtns" id="instruments"></div>
+        </div>
+        <details>
+          <summary data-t="timedQuestionCategory"></summary>
+          <div class="mb">
+            <h4><span>Timer</span>:</h4>
+            <div class="settingBtns" id="timers"></div>
+          </div>
+          <div class="mb">
+            <h4><span data-t="autoBad"></span>:</h4>
+            <div class="settingBtns" id="autoBad"></div>
+          </div>
+        </details>
+        <details>
+          <summary data-t="rythmCategory"></summary>
+          <div class="mb">
+            <h4><span>Tempo</span>:</h4>
+            <div class="settingBtns" id="tempos"></div>
+          </div>
+          <div class="mb">
+            <h4><span data-t="repetition"></span>:</h4>
+            <div class="settingBtns" id="repeats"></div>
+          </div>
+
+          <div class="mb">
+            <h4><span data-t="chordProgression"></span>:</h4>
+            <div class="settingBtns" id="progressionChords"></div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div id="documentation" class="modal">
+      <div class="container">
+        <div class="mb">
+          <div class="settingToggle pointer" onclick="toggleDocumentation()">← <span data-t="retour"></span></div>
+        </div>
+
+        <h2 class="mb-small"><span data-t="documentation"></span></h2>
+        <details>
+          <summary data-t="intervalles"></summary>
+          <img src="./images/notes_circle.png" alt="" width="250px" />
+          <div id="intervalles"></div>
+        </details>
+        <details>
+          <summary data-t="gammes"></summary>
+          <div id="gammes"></div>
+        </details>
+        <details>
+          <summary data-t="fifths"></summary>
+          <img src="./images/circle_of_fifths.png" alt="" width="100%" />
+        </details>
+        <details>
+          <summary data-t="chords"></summary>
+          <div id="accords"></div>
+        </details>
+        <details>
+          <summary data-t="patterns"></summary>
+          <div id="patterns"></div>
+        </details>
+      </div>
+    </div>
+
+    <div id="stats" class="modal">
+      <div class="container">
+        <div class="mb">
+          <div class="settingToggle pointer" onclick="toggleStats()">← <span data-t="retour"></span></div>
+        </div>
+
+        <h2 class="mb-small"><span data-t="stats"></span></h2>
+        <div id="statsContainer"></div>
+        <hr class="mt" />
+        <button class="settingBtn" onclick="clearStats()"><span data-t="clearStats"></span></button>
+      </div>
+    </div>
+
+    <div id="welcome" class="popup active" onclick="if(event.target.id === 'welcome')toggleWelcome()">
+      <div class="content">
+        <h1 data-t="title" class="mb-small"></h1>
+        <p class="mb-small" data-t="subtitle"></p>
+        <div class="center">
+          <button class="gameBtn" onclick="toggleWelcome()" data-t="diveIn"></button>
+          <div class="mt">
+            <input type="checkbox" id="dontShowWelcome" onchange="toggleDontShowWelcome(this)" />
+            <label for="dontShowWelcome">Ne plus afficher</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container">
-      <div class="flex align-center space-between mb">
-        <div class="settingToggle pointer" onclick="toggleSettings()">← <span data-t="retour"></span></div>
+      <div class="settingBtns" id="lang"></div>
+      <h1 data-t="title" class="mt"></h1>
+      <a href="/fretboard-test/fretboard.html" data-t="fretboardKnowledge"></a>
+      <div class="flex align-center space-between mb-small">
+        <div class="settingToggle pointer" onclick="toggleSettings()">⚙ <span data-t="settings"></span></div>
+
+        <div class="settingToggle pointer" onclick="toggleStats()">📊 <span data-t="stats"></span></div>
+
+        <div class="settingToggle pointer" onclick="toggleDocumentation()">🎹 <span data-t="documentation"></span></div>
       </div>
 
-      <div class="mb">
-        <h4><span data-t="notation"></span>:</h4>
-        <div class="settingBtns" id="notations"></div>
+      <div class="center mb">
+        <div class="gameBtns">
+          <button class="gameBtn" onclick="question()">
+            <div data-t="question"></div>
+          </button>
+        </div>
+        <p onclick="gameEl.innerHTML = ''" style="cursor: pointer; padding: 0.5em" data-t="clear"></p>
       </div>
-      <div class="mb">
-        <h4><span data-t="questionsAsked"></span>:</h4>
-        <div style="text-align: right;">
-          <a class="select" href="#" onclick="selectAllSetting(event, 'questions')" data-t="selectAll"></a> |
-          <a class="select" href="#" onclick="unselectAllSetting(event, 'questions')" data-t="unselectAll"></a>
-        </div>
-        <div class="settingBtns fullWidth" id="questionsSettings"></div>
-      </div>
-      <div class="mb">
-        <h4><span data-t="chordsAsked"></span>:</h4>
-        <div style="text-align: right;">
-          <a href="#" onclick="selectAllSetting(event, 'accords')" data-t="selectAll"></a> |
-          <a href="#" onclick="unselectAllSetting(event, 'accords')" data-t="unselectAll"></a>
-        </div>
-        <div class="settingBtns" id="accordsSettings"></div>
-      </div>
-      <div class="mb">
-        <h4><span data-t="scalesAsked"></span>:</h4>
-        <div style="text-align: right;">
-          <a href="#" onclick="selectAllSetting(event, 'gammes')" data-t="selectAll"></a> |
-          <a href="#" onclick="unselectAllSetting(event, 'gammes')" data-t="unselectAll"></a>
-        </div>
-        <div class="settingBtns" id="scalesSettings"></div>
-      </div>
-      <div class="mb">
-        <h4><span data-t="rootsAsked"></span>:</h4>
-        <div style="text-align: right;">
-          <a href="#" onclick="selectAllSetting(event, 'roots')" data-t="selectAll"></a> |
-          <a href="#" onclick="unselectAllSetting(event, 'roots')" data-t="unselectAll"></a>
-        </div>
-        <p class="mb-small"><span data-t="rootsExplanation"></span></p>
-        <div class="settingBtns" id="rootsSettings"></div>
-      </div>
-      <div class="mb">
-        <h4><span data-t="maximalFret"></span>:</h4>
-        <div class="settingBtns" id="frets"></div>
-      </div>
-      <div class="mb">
-        <h4><span data-t="showNotesOnGuitar"></span>:</h4>
-        <div class="settingBtns" id="showNotesOnGuitar"></div>
-      </div>
-      <div class="mb">
-        <h4><span data-t="instrument"></span>:</h4>
-        <div class="settingBtns" id="instruments"></div>
-      </div>
-      <details>
-        <summary data-t="timedQuestionCategory"></summary>
-        <div class="mb">
-          <h4><span>Timer</span>:</h4>
-          <div class="settingBtns" id="timers"></div>
-        </div>
-        <div class="mb">
-          <h4><span data-t="autoBad"></span>:</h4>
-          <div class="settingBtns" id="autoBad"></div>
-        </div>
-      </details>
-      <details>
-        <summary data-t="rythmCategory"></summary>
-        <div class="mb">
-          <h4><span>Tempo</span>:</h4>
-          <div class="settingBtns" id="tempos"></div>
-        </div>
-        <div class="mb">
-          <h4><span data-t="repetition"></span>:</h4>
-          <div class="settingBtns" id="repeats"></div>
-        </div>
-
-        <div class="mb">
-          <h4><span data-t="chordProgression"></span>:</h4>
-          <div class="settingBtns" id="progressionChords"></div>
-        </div>
-      </details>
-
+      <div id="game"></div>
     </div>
-  </div>
+    <footer data-t="footer" data-html="true"></footer>
 
-  <div id="documentation" class="modal">
-    <div class="container">
-      <div class="mb">
-        <div class="settingToggle pointer" onclick="toggleDocumentation()">← <span data-t="retour"></span></div>
-      </div>
+    <script src="js/lang.js?v=1733879467769"></script>
+    <script src="js/music.js?v=1733879467769"></script>
+    <script src="js/acoustic_guitar_sounds.js?v=1733879467769"></script>
+    <script src="js/grand_piano_sounds.js?v=1733879467769"></script>
+    <script src="js/instruments.js?v=1733879467769"></script>
+    <script src="js/utils.js?v=1733879467769"></script>
+    <script src="js/dom.js?v=1733879467769"></script>
+    <script src="js/guitar.js?v=1733879467769"></script>
+    <script src="js/app.js?v=1733879467769"></script>
+    <script src="js/settings.js?v=1733879467769"></script>
+    <script src="js/stats.js?v=1733879467769"></script>
+    <script src="js/strumming.js?v=1733879467769"></script>
 
-      <h2 class="mb-small"><span data-t="documentation"></span></h2>
-      <details>
-        <summary data-t="intervalles"></summary>
-        <img src="./images/notes_circle.png" alt="" width="250px" />
-        <div id="intervalles"></div>
-      </details>
-      <details>
-        <summary data-t="gammes"></summary>
-        <div id="gammes"></div>
-      </details>
-      <details>
-        <summary data-t="fifths"></summary>
-        <img src="./images/circle_of_fifths.png" alt="" width="100%" />
-      </details>
-      <details>
-        <summary data-t="chords"></summary>
-        <div id="accords"></div>
-      </details>
-      <details>
-        <summary data-t="patterns"></summary>
-        <div id="patterns"></div>
-      </details>
-    </div>
-  </div>
-
-  <div id="stats" class="modal">
-    <div class="container">
-      <div class="mb">
-        <div class="settingToggle pointer" onclick="toggleStats()">← <span data-t="retour"></span></div>
-      </div>
-
-      <h2 class="mb-small"><span data-t="stats"></span></h2>
-      <div id="statsContainer"></div>
-      <hr class="mt">
-      <button class="settingBtn" onclick="clearStats()"><span data-t="clearStats"></span></button>
-
-    </div>
-  </div>
-
-  <div id="welcome" class="popup active" onclick="if(event.target.id === 'welcome')toggleWelcome()">
-    <div class="content">
-      <h1 data-t="title" class="mb-small"></h1>
-      <p class="mb-small" data-t="subtitle"></p>
-      <div class="center">
-
-        <button class="gameBtn" onclick="toggleWelcome()" data-t="diveIn"></button>
-        <div class="mt">
-          <input type="checkbox" id="dontShowWelcome" onchange="toggleDontShowWelcome(this)" />
-          <label for="dontShowWelcome">Ne plus afficher</label>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="settingBtns" id="lang"></div>
-    <h1 data-t="title" class="mt"></h1>
-
-    <div class="flex align-center space-between mb-small">
-      <div class="settingToggle pointer" onclick="toggleSettings()">⚙ <span data-t="settings"></span></div>
-
-      <div class="settingToggle pointer" onclick="toggleStats()">📊 <span data-t="stats"></span></div>
-
-      <div class="settingToggle pointer" onclick="toggleDocumentation()">🎹 <span data-t="documentation"></span></div>
-    </div>
-
-    <div class="center mb">
-      <div class="gameBtns">
-        <button class="gameBtn" onclick="question()">
-          <div data-t="question"></div>
-        </button>
-      </div>
-      <p onclick="gameEl.innerHTML = ''" style="cursor: pointer; padding: 0.5em" data-t="clear"></p>
-    </div>
-    <div id="game"></div>
-  </div>
-  <footer data-t="footer" data-html="true"></footer>
-
-  <script src="js/lang.js?v=1733879467769"></script>
-  <script src="js/music.js?v=1733879467769"></script>
-  <script src="js/acoustic_guitar_sounds.js?v=1733879467769"></script>
-  <script src="js/grand_piano_sounds.js?v=1733879467769"></script>
-  <script src="js/instruments.js?v=1733879467769"></script>
-  <script src="js/utils.js?v=1733879467769"></script>
-  <script src="js/dom.js?v=1733879467769"></script>
-  <script src="js/guitar.js?v=1733879467769"></script>
-  <script src="js/app.js?v=1733879467769"></script>
-  <script src="js/settings.js?v=1733879467769"></script>
-  <script src="js/stats.js?v=1733879467769"></script>
-  <script src="js/strumming.js?v=1733879467769"></script>
-
-  <script>
-    trad();
-  </script>
-</body>
-
+    <script>
+      trad();
+    </script>
+  </body>
 </html>

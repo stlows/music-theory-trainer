@@ -30,16 +30,12 @@ function getTransposition(shape, note) {
   let transposition = notes.findIndex((group) => group.includes(note));
   let fretGap = getFretGap(shape.notes, transposition);
 
-  return fixTransposition(transposition, fretGap);
-}
-
-function fixTransposition(tranposition, fretGap) {
-  let MAX_FRET_SCALE = 16;
-  let MAX_FRET_CHORD = 12;
-  if (fretGap.end > MAX_FRET_SCALE || fretGap.start >= MAX_FRET_CHORD) {
-    return tranposition - 12;
+  if (fretGap.end > 16 || fretGap.start >= 12) {
+    transposition -= 12;
+    fretGap.start -= 12;
+    fretGap.end -= 12;
   }
-  return tranposition;
+  return { transposition, fretGap };
 }
 
 function getFretGap(notes, tranposition) {
@@ -68,6 +64,7 @@ function drawNotes(notes, tranposition, fretboard) {
 
 function selectRandomOptions() {
   fretboard.reset();
+  resetHints();
   const selects = ["shape", "key", "scale"];
 
   selects.forEach((id) => {
@@ -78,37 +75,35 @@ function selectRandomOptions() {
   });
 
   const nearFret = document.getElementById("nearFret");
-  nearFret.value = Math.floor(Math.random() * 14);
+  nearFret.value = Math.floor(Math.random() * 12);
 }
 
 function drawShape() {
   let scale = document.getElementById("scale").value;
   let shape = document.getElementById("shape").value;
-  draw(scale, shape);
+  let fretGap = draw(scale, shape);
+  setFretHint(fretGap);
 }
 
 function draw(scaleKey, shapeKey) {
   fretboard.reset();
-
+  resetHints();
   let key = document.getElementById("key").value;
 
   let scale = getScale(scaleKey);
   let shape = getShape(scale, shapeKey, key);
 
-  if (key.includes("b")) {
-    fretboard.state.enharmonic = 1;
-  } else {
-    fretboard.state.enharmonic = 0;
-  }
-  let transposition = getTransposition(shape, key);
-  fretboard.setFretWindow({ start: 0, end: 16 });
+  let { transposition, fretGap } = getTransposition(shape, key);
   drawNotes(shape.notes, transposition, fretboard);
+
+  return fretGap;
 }
 
 function nearestShape(fret, key, scaleKey) {
   let scale = getScale(scaleKey);
+  console.log(scale);
   for (shape of scale.shapes) {
-    let fretGap = getFretGap(shape.notes, getTransposition(shape, key));
+    let { fretGap } = getTransposition(shape, key);
     if (fret >= fretGap.start && fret <= fretGap.end) {
       return shape.shape;
     }
@@ -120,6 +115,25 @@ function nearestShape(fret, key, scaleKey) {
 function drawNearestShape() {
   let scale = document.getElementById("scale").value;
   let fret = document.getElementById("nearFret").value;
+  let key = document.getElementById("key").value;
   let shape = nearestShape(fret, key, scale);
   draw(scale, shape);
+  setShapeHint(shape);
+}
+
+function toggleEnharmonic() {
+  fretboard.toggleEnharmonic();
+}
+
+function resetHints() {
+  document.getElementById("shapeHint").innerHTML = "";
+  document.getElementById("fretHint").innerHTML = "";
+}
+
+function setFretHint(fretGap) {
+  document.getElementById("fretHint").innerHTML = `Between fret ${fretGap.start} and ${fretGap.end}`;
+}
+
+function setShapeHint(shape) {
+  document.getElementById("shapeHint").innerHTML = `Shape ${shape}`;
 }

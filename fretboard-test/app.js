@@ -1,8 +1,10 @@
+fretboard.setFretWindow({ start: 0, end: 16 });
+
 selectRandomOptions();
 
 document.addEventListener("keyup", (key) => {
   switch (key.code) {
-    case "Space":
+    case "KeyN":
       selectRandomOptions();
       break;
     case "KeyV":
