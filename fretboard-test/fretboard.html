@@ -1,23 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
 
     <title>Fretboard Diagram Creator</title>
-    <link rel="stylesheet" href="fretboard.css">
-    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="fretboard.css" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="/assets/style.css" />
+  </head>
 
-</head>
-
-<body>
+  <body class="dark">
     <figure id="fretboard-diagram-creator" class="half-full">
-        <svg xmlns="http://www.w3.org/2000/svg" id="fretboard" width=900 height=280 style="background-color: white;">
-        </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" id="fretboard" width="900" height="280"></svg>
     </figure>
-    <div class="menu">
-        <!-- <div id="color-selector">
+    <div class="center">
+      <!-- <div id="color-selector">
             <button title="blue" class="color blue"></button>
             <button title="green" class="color green"></button>
             <button title="red" class="color red"></button>
@@ -25,67 +23,66 @@
             <button title="black" class="color black"></button>
             <button title="delete" id="delete-note">X</button>
         </div> -->
-        <div id="global-actions">
-            <div>
-                <label for="shape">Shape</label>
-                <select name="shape" id="shape">
-                    <option value="C">C</option>
-                    <option value="A">A</option>
-                    <option value="G">G</option>
-                    <option value="E">E</option>
-                    <option value="D">D</option>
-                </select>
-            </div>
-            
-            <div>
-                <label for="key">Key</label>
-                <select name="key" id="key">
-                    <option value="E">E</option>
-                    <option value="F">F</option>
-                    <option value="F#">F#</option>
-                    <option value="Gb">Gb</option>
-                    <option value="G">G</option>
-                    <option value="G#">G#</option>
-                    <option value="Ab">Ab</option>
-                    <option value="A">A</option>
-                    <option value="A#">A#</option>
-                    <option value="Bb">Bb</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="C#">C#</option>
-                    <option value="Db">Db</option>
-                    <option value="D">D</option>
-                    <option value="D#">D#</option>
-                    <option value="Eb">Eb</option>
-                </select>
-            </div>
+      <div id="global-actions">
+        <button onclick="selectRandomOptions()" class="gameBtn mb-small mt">Randomize (space)</button>
 
-            <div>
-                <label for="scale">Scale</label>
-                <select name="scale" id="scale">
-                    <option value="Major pentatonic">Major pentatonic</option>
-                    <option value="Minor pentatonic">Minor pentatonic</option>
-                    <option value="Major chord">Major chord</option>
-                    <option value="Major triad">Major triad</option>
-                </select>
-            </div>
-           
+        <div class="flex justify-center">
+          <div class="flex flex-column justify-center mr">
+            <label for="key" class="mb-xsmall">Key</label>
+            <select name="key" id="key">
+              <option value="E">E</option>
+              <option value="F">F</option>
+              <option value="F#">F#</option>
+              <option value="Gb">Gb</option>
+              <option value="G">G</option>
+              <option value="G#">G#</option>
+              <option value="Ab">Ab</option>
+              <option value="A">A</option>
+              <option value="A#">A#</option>
+              <option value="Bb">Bb</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="C#">C#</option>
+              <option value="Db">Db</option>
+              <option value="D">D</option>
+              <option value="D#">D#</option>
+              <option value="Eb">Eb</option>
+            </select>
+          </div>
 
-            <button onclick="draw()">Show me !</button>
-            <button onclick="selectRandomOptions()">Random shape</button>
-
-            <div>
-                <label for="nearFret">Near fret...</label>
-                <input type="number" id="nearFret" name="nearFret" value="5" />
-                <button onclick="selectRandomNearFret()">Randomize</button>
+          <div class="flex flex-column justify-center">
+            <label for="scale" class="mb-xsmall">Scale</label>
+            <select name="scale" id="scale">
+              <option value="Major pentatonic">Major pentatonic</option>
+              <option value="Minor pentatonic">Minor pentatonic</option>
+              <option value="Major chord">Major chord</option>
+              <option value="Major triad">Major triad</option>
+            </select>
+          </div>
         </div>
-            <button onclick="nearestShape()">Nearest shape</button>
+
+        <div>
+          <label for="shape" class="text-large">Shape</label>
+          <select name="shape" id="shape">
+            <option value="C">C</option>
+            <option value="A">A</option>
+            <option value="G">G</option>
+            <option value="E">E</option>
+            <option value="D">D</option>
+          </select>
+          <button onclick="drawShape()" class="gameBtn">Show me (v)</button>
         </div>
+
+        <div>
+          <label for="nearFret" class="text-large">Near fret...</label>
+          <input type="number" id="nearFret" name="nearFret" value="5" />
+          <button onclick="drawNearestShape()" class="gameBtn">Show me (b)</button>
+        </div>
+      </div>
     </div>
     <script src="fretboard.js"></script>
     <script src="scales.js"></script>
     <script src="utils.js"></script>
     <script src="app.js"></script>
-</body>
-
+  </body>
 </html>

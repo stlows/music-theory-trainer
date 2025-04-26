@@ -1,189 +1,188 @@
 /* Diagram */
 
 g.note.transparent:hover {
-    opacity: 1;
+  opacity: 1;
 }
 
 g.note {
-    fill: white;
-    stroke-width: 1px;
-    stroke: black;
+  fill: white;
+  stroke-width: 1px;
+  stroke: black;
 }
 
-g.note.selected>circle {
-    opacity: 1;
-    stroke-dasharray: 4, 4;
-    stroke-width: 3px;
-    stroke: black;
+g.note.selected > circle {
+  opacity: 1;
+  stroke-dasharray: 4, 4;
+  stroke-width: 3px;
+  stroke: black;
 }
 
 g.note.hidden {
-    opacity: 0;
+  opacity: 0;
 }
 
 g.note.transparent {
-    opacity: 0.3;
+  opacity: 0.3;
 }
 
 g.note.visible {
-    opacity: 1;
-    fill: white;
+  opacity: 1;
+  fill: white;
 }
 
 g.note.blue {
-    fill: steelblue;
+  fill: steelblue;
 }
 
-g.note.blue>text {
-    stroke: white;
-    fill: white;
+g.note.blue > text {
+  stroke: white;
+  fill: white;
 }
 
 g.note.black {
-    fill: black;
+  fill: black;
 }
 
-g.note.black>text {
-    stroke: white;
-    fill: white;
+g.note.black > text {
+  stroke: white;
+  fill: white;
 }
 
 g.note.red {
-    fill: indianred;
+  fill: indianred;
 }
 
-g.note.red>text {
-    stroke: white;
-    fill: white;
+g.note.red > text {
+  stroke: white;
+  fill: white;
 }
 
 g.note.green {
-    fill: teal;
+  fill: teal;
 }
 
-g.note.green>text {
-    stroke: white;
-    fill: white;
+g.note.green > text {
+  stroke: white;
+  fill: white;
 }
 
 path.string {
-    stroke: black;
-    fill: none;
+  stroke: black;
+  fill: none;
 }
 
 path.frets {
-    stroke: black;
-    stroke-width: 1px;
-    fill: none;
+  stroke: black;
+  stroke-width: 1px;
+  fill: none;
 }
 
-g.note>text {
-    stroke: black;
-    stroke-width: 0px;
-    fill: black;
-    text-anchor: middle;
-    dominant-baseline: middle;
-    font-size: 18px;
+g.note > text {
+  stroke: black;
+  stroke-width: 0px;
+  fill: black;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  font-size: 18px;
 }
 
 #editable-div {
-    text-align: center;
-    font-size: 18px;
+  text-align: center;
+  font-size: 18px;
 }
 
 #fretboard-diagram-creator {
-    padding-top: 10px;
-    /* border: 1px solid; */
-}
-
-div.menu {
-    text-align: center;
-    /* text-align: center; */
+  padding-top: 10px;
+  /* border: 1px solid; */
 }
 
 text.marker {
-    text-anchor: middle;
-    font-size: 16px;
-    fill: black;
+  text-anchor: middle;
+  font-size: 16px;
+  fill: black;
 }
 
+.dark path.frets {
+  stroke: var(--details-border);
+}
+.dark path.string {
+  stroke: var(--details-border);
+}
+.dark .note {
+  stroke-width: 0px;
+  stroke: none;
+  fill: #333;
+}
+.dark .note > text {
+  fill: var(--text-color);
+}
+.dark text.marker {
+  fill: var(--text-color);
+}
 
 /* Controls */
 
 /* Actions on nodes */
 
 #color-selector {
-    /* background-color: lightgray; */
-    margin: auto;
-    padding-bottom: 10px;
-    width: 280px;
-    display: flex;
-    justify-content: space-between;
-}
-
-button.color {
-    width: 44px;
-}
-
-button {
-    height: 25px;
-}
-
-button.color:hover {
-    transform: scale(1.1);
+  /* background-color: lightgray; */
+  margin: auto;
+  padding-bottom: 10px;
+  width: 280px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .color.blue {
-    background-color: steelblue;
+  background-color: steelblue;
 }
 
 .color.black {
-    background-color: black;
+  background-color: black;
 }
 
 .color.green {
-    background-color: teal;
+  background-color: teal;
 }
 
 .color.red {
-    background-color: indianred;
+  background-color: indianred;
 }
 
 .color.white {
-    background-color: white;
+  background-color: white;
 }
 
-
 @supports (width: 100vw) {
+  figure.half-full {
+    max-width: 100vw;
+    width: 1200px;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -600px;
+    margin-right: -600px;
+  }
+  @media only screen and (max-width: 1200px) {
     figure.half-full {
-        max-width: 100vw;
-        width: 1200px;
-        position: relative;
-        left: 50%;
-        right: 50%;
-        margin-left: -600px;
-        margin-right: -600px;
+      max-width: 100vw;
+      width: 1000px;
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -500px;
+      margin-right: -500px;
+      overflow-y: auto;
     }
-    @media only screen and (max-width: 1200px) {
-        figure.half-full {
-            max-width: 100vw;
-            width: 1000px;
-            position: relative;
-            left: 50%;
-            right: 50%;
-            margin-left: -500px;
-            margin-right: -500px;
-            overflow-y: auto;
-        }
+  }
+  @media only screen and (max-width: 1000px) {
+    figure.half-full {
+      max-width: 100vw;
+      width: 100%;
+      left: 0;
+      right: 0;
+      margin: 0;
+      overflow-y: auto;
     }
-    @media only screen and (max-width: 1000px) {
-        figure.half-full {
-            max-width: 100vw;
-            width: 100%;
-            left: 0;
-            right: 0;
-            margin: 0;
-            overflow-y: auto;
-        }
-    }
+  }
 }
