@@ -2,14 +2,14 @@ svg text {
   pointer-events: none;
 }
 
-svg rect {
+svg rect.note {
   opacity: 0.4;
 }
 
-svg rect:hover{
+svg rect.note:hover {
   cursor: pointer;
 }
 
-svg rect.highlight {
+svg rect.note.highlight {
   opacity: 1;
 }

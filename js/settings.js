@@ -14,7 +14,7 @@ let settings = {
   timerInSeconds: 0,
   autoSelectBadAfterTimer: 'true',
   instruments: "guitar",
-  showNotesOnGuitar: true,
+  showNotes: "guitar",
 }
 
 const possibleProgressionChords = ["A", "Am", "C", "D", "Dm", "E", "Em", "F", "G"]
@@ -258,14 +258,17 @@ function createNotationOptions() {
   setDefaultOption("notation")
 }
 
-function createShowNotesOnGuitarOptions() {
-  let button = createOptionbutton("showNotesOnGuitar", "1", false, "oui")
-  document.getElementById("showNotesOnGuitar").appendChild(button)
+function createShowNotesOptions() {
+  let button = createOptionbutton("showNotes", "guitar", false, "guitar")
+  document.getElementById("showNotes").appendChild(button)
 
-  let button2 = createOptionbutton("showNotesOnGuitar", "0", false, "non")
-  document.getElementById("showNotesOnGuitar").appendChild(button2)
+  let button2 = createOptionbutton("showNotes", "piano", false, "piano")
+  document.getElementById("showNotes").appendChild(button2)
 
-  setDefaultOption("showNotesOnGuitar")
+  let button3 = createOptionbutton("showNotes", "none", false, "none")
+  document.getElementById("showNotes").appendChild(button3)
+
+  setDefaultOption("showNotes")
 }
 
 function createInstrumentOptions() {
@@ -322,4 +325,4 @@ createLanguesOptions()
 createTimerOptions()
 createTimerAutoBadOptions()
 createInstrumentOptions()
-createShowNotesOnGuitarOptions()
+createShowNotesOptions()

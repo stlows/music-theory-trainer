@@ -162,30 +162,31 @@ const res = {
   whatIsThisInterval: { fr: "Quel est cet intervalle ?", en: "What is this interval ?" },
   intervalByEarDescription: { fr: "Pratiquez vos intervalles à l'oreille", en: "Interval ear training" },
   instrument: { fr: "Instrument (Pratique à l'oreille)", en: "Instrument (Ear training)" },
-  guitar: { fr: "Guitare acoustique", en: "Acoustic guitar" },
-  piano: { fr: "Piano", en: "Grand piano" },
+  guitar: { fr: "Guitare", en: "Guitar" },
+  piano: { fr: "Piano", en: "Piano" },
+  none: { fr: "Aucun", en: "None" },
   selectAll: { fr: "Tout", en: "All" },
   unselectAll: { fr: "Aucun", en: "None" },
-  showNotesOnGuitar: { fr: "Montrez les notes", en: "Show notes on guitar" },
+  showNotes: { fr: "Montrez les notes", en: "Show notes" },
   diveIn: { fr: "Allez !", en: "Dive in !" },
   fretboardKnowledge: { fr: "Teste tes connaissances du manche", en: "Test your fretboard knowledge" },
-};
+}
 
 function t(key) {
   if (!res[key] || !res[key][settings.lang]) {
-    return `${key}`;
+    return `${key}`
   }
-  return res[key][settings.lang];
+  return res[key][settings.lang]
 }
 
 function trad() {
   document.querySelectorAll("[data-t]").forEach((x) => {
     if (x.dataset.html === "true") {
-      x.innerHTML = t(x.dataset.t);
+      x.innerHTML = t(x.dataset.t)
     } else {
-      x.innerText = t(x.dataset.t);
+      x.innerText = t(x.dataset.t)
     }
-  });
-  printAllAccords();
-  window.scrollTo(0, 0);
+  })
+  printAllAccords()
+  window.scrollTo(0, 0)
 }
