@@ -1,8 +1,8 @@
 const res = {
   settings: { fr: "Param", en: "Settings" },
   title: {
-    fr: "Théorie musique et pratique (Guitare)",
-    en: "Music theory and training (Guitar)",
+    fr: "Théorie musique et pratique",
+    en: "Music theory and training",
   },
   retour: { fr: "Retour", en: "Back" },
   notation: { fr: "Notation", en: "Notation" },
