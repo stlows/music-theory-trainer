@@ -238,38 +238,30 @@ function getCircleOfFifthsKey() {
 
 function chordsInKey() {
   const key = getCircleOfFifthsKey()
-  const keyIndex = fifths.major.indexOf(key)
   createQuestion({
     questionText: t("chordsInTheKey")(key),
-    answerText: join(fifths.chords.map((x) => `${fifths[x.type][keyIndex + x.add]}`)),
+    answerText: join(getChordDegrees(key)),
   })
 }
 
 function nthNoteInKey() {
   const key = getCircleOfFifthsKey()
-  const keyIndex = fifths.major.indexOf(key)
-  const chordIndex = random(fifths.chords.length)
-  const chord = fifths.chords[chordIndex]
+  const degree = random(6, 1)
   createQuestion({
-    questionText: t("nthNoteInKey")(key, chord.roman),
-    answerText: fifths[chord.type][keyIndex + chord.add],
-    extraInfos: join(fifths.chords.map((x) => `${fifths[x.type][keyIndex + x.add]}`)),
+    questionText: t("nthNoteInKey")(key, getRoman(degree)),
+    answerText: getChordDegree(key, degree),
+    extraInfos: join(getChordDegrees(key)),
   })
 }
 
 function chordsInProgression() {
   const key = getCircleOfFifthsKey()
-  const keyIndex = fifths.major.indexOf(key)
-  const chords = [...fifths.chords]
-    .sort((a, b) => {
-      return Math.random() - 0.5
-    })
-    .slice(0, 4)
-  const progression = chords.map((x) => x.roman).join(" - ")
+  const chords = [1, 2, 3, 4, 5, 6].sort((a, b) => { return Math.random() - 0.5 }).slice(0, 4)
+  const progression = join(chords.map(getRoman))
   createQuestion({
     questionText: t("chordsInProgression")(key, progression),
-    answerText: join(chords.map((x) => fifths[x.type][keyIndex + x.add])),
-    extraInfos: join(fifths.chords.map((x) => `${fifths[x.type][keyIndex + x.add]}`)),
+    answerText: join(chords.map((x) => getChordDegree(key, x))),
+    extraInfos: join(getChordDegrees(key)),
   })
 }
 
