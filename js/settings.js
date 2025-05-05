@@ -28,6 +28,7 @@ const possibleQuestions = [
   { func: "nthNoteInKey", t: "nthNoteInKey" },
   { func: "chordsInProgression", t: "chordsInProgression" },
   { func: "relativeKey", t: "relativeKey" },
+  { func: "chordSimilarities", t: "chordSimilarities" },
   { func: "strummingQuestion", t: "strummingQuestion" },
   { func: "intervalByEar", t: "intervalByEar" },
 ]

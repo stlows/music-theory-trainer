@@ -289,6 +289,56 @@ function intervalByEar() {
   })
 }
 
+
+function chordSimilarities() {
+  const accord1 = getRandomChord()
+  const accord2 = getRandomChord()
+  const notes1 = [...accord1.notes]
+  const notes2 = [...accord2.notes]
+
+  let answerDiv = div()
+  for (let i = 0; i < notes1.length; i++) {
+    const rotated = rotateArray(notes1, i)
+    answerDiv.appendChild(p(join(rotated) + " | " + join(alignNotes(notes2, rotated)), "mb-small"))
+  }
+
+  createQuestion({
+    questionText: t("chord")(printNote(accord1.tonique), t(accord1.type.name)) + " - " + t("chord")(printNote(accord2.tonique), t(accord2.type.name)),
+    answerNode: answerDiv
+  })
+}
+
+function alignNotes(arr1, arr2) {
+  let bestScore = Infinity
+  let bestAlignment = arr1
+
+  for (let i = 0; i < arr1.length; i++) {
+    const rotated = rotateArray(arr1, i)
+    let score = 0
+
+    for (let j = 0; j < Math.min(rotated.length, arr2.length); j++) {
+      let currentScore = getDistance(rotated[j], arr2[j])
+      currentScore = currentScore > 6 ? Math.abs(currentScore - 12) : currentScore
+      score += currentScore
+    }
+
+    if (score < bestScore) {
+      bestScore = score
+      bestAlignment = rotated
+    }
+  }
+
+  return bestAlignment
+}
+
+function getRandomChord() {
+  const noteIndex = getRandomRootIndex()
+  const accordSettingsIndex = random(settings.accords.length)
+  const accordIndex = accords.findIndex((x) => x.name === settings.accords[accordSettingsIndex])
+  const accord = getAccord(noteIndex, accordIndex)
+  return accord
+}
+
 function playNotes(bassIndex, interval) {
   const highNoteIndex = bassIndex + interval
   const audio1 = new Audio(instruments[settings.instruments][allNotes[bassIndex]])

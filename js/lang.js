@@ -170,7 +170,8 @@ const res = {
   showNotes: { fr: "Montrez les notes", en: "Show notes" },
   diveIn: { fr: "Allez !", en: "Dive in !" },
   fretboardKnowledge: { fr: "Teste tes connaissances du manche", en: "Test your fretboard knowledge" },
-  dontShow: { fr: "Ne plus afficher", en: "Do not show again" }
+  dontShow: { fr: "Ne plus afficher", en: "Do not show again" },
+  chordSimilaritiesDescription: { fr: "Similarités d'accord", en: "Chord similarities" }
 }
 
 function t(key) {

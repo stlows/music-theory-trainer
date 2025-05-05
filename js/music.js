@@ -196,6 +196,7 @@ function getNotes(rootIndex, from, to) {
 
 function getDistance(root, note) {
   note = replaceFlatForSharp(note)
+  root = replaceFlatForSharp(root)
   const rootIndex = chromatic.indexOf(root)
   const noteIndex = chromatic.indexOf(note)
   const result = noteIndex - rootIndex
