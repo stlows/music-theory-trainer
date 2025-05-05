@@ -171,7 +171,7 @@ const res = {
   diveIn: { fr: "Allez !", en: "Dive in !" },
   fretboardKnowledge: { fr: "Teste tes connaissances du manche", en: "Test your fretboard knowledge" },
   dontShow: { fr: "Ne plus afficher", en: "Do not show again" },
-  chordSimilaritiesDescription: { fr: "Similarités d'accord", en: "Chord similarities" }
+  chordSimilaritiesDescription: { fr: "Similarités d'accord (inversions)", en: "Chord similarities (inversions)" }
 }
 
 function t(key) {
