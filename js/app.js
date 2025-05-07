@@ -8,6 +8,11 @@ function question() {
   }
 }
 
+function clearGame(){
+  gameEl.innerHTML = ""
+  resetLectureQuestion()
+}
+
 function getRandomRootIndex() {
   const tonic = chooseOne(settings.roots)
   return notes.findIndex((x) => x.root === tonic)

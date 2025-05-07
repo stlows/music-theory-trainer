@@ -1,7 +1,6 @@
 function staff(key, notes, clef = "treble", countPerMeasure = 4) {
     const el = div()
     let notesString = ""
-    console.log(notes)
     for(let group = 0; group < notes.length / countPerMeasure; group++){
         for (let i = 0; i < countPerMeasure; i++) {
             notesString += getAbcNote(notes[group * countPerMeasure + i])
