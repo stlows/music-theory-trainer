@@ -1,4 +1,4 @@
-let settings = {
+let defaultSettings = {
   notation: "letter",
   frets: 6,
   tempo: 100,
@@ -15,7 +15,12 @@ let settings = {
   autoSelectBadAfterTimer: 'true',
   instruments: "guitar",
   showNotes: "guitar",
+  continuousReading: "sameClef",
+  clefs: ["treble", "bass"],
+  octaves: ["0"]
 }
+
+let settings = { ...defaultSettings }
 
 const possibleProgressionChords = ["A", "Am", "C", "D", "Dm", "E", "Em", "F", "G"]
 const possibleQuestions = [
@@ -31,6 +36,7 @@ const possibleQuestions = [
   { func: "chordSimilarities", t: "chordSimilarities" },
   { func: "strummingQuestion", t: "strummingQuestion" },
   { func: "intervalByEar", t: "intervalByEar" },
+  { func: "pratiquezLecturePiano", t: "pratiquezLecturePiano" }
 ]
 
 function toggleActive(id) {
@@ -272,6 +278,30 @@ function createShowNotesOptions() {
   setDefaultOption("showNotes")
 }
 
+function createContinuousReadingOptions() {
+  for (let continuousReading of ["non", "sameClef", "differentClef"]) {
+    const button = createOptionbutton("continuousReading", continuousReading, false, continuousReading)
+    document.getElementById("continuousReading").appendChild(button)
+  }
+  setDefaultOption("continuousReading")
+}
+
+function createOctavesOptions() {
+  for (let octave of [0, -1, 1]) {
+    const button = createOptionbutton("octaves", octave, true, octave)
+    document.getElementById("octaves").appendChild(button)
+  }
+  setDefaultOption("octaves", true)
+}
+
+function createClefsOptions() {
+  for (let clef of ["treble", "bass"]) {
+    const button = createOptionbutton("clefs", clef, true, clef)
+    document.getElementById("clefs").appendChild(button)
+  }
+  setDefaultOption("clefs", true)
+}
+
 function createInstrumentOptions() {
   for (const instrumentKey in instruments) {
     const button = createOptionbutton("instruments", instrumentKey, false, instrumentKey)
@@ -301,6 +331,11 @@ function loadSettings() {
   readSettings()
 }
 
+function resetDefaultSettings() {
+  localStorage.setItem("settings", JSON.stringify(defaultSettings))
+  location.reload()
+}
+
 function persistSettings() {
   localStorage.setItem("settings", JSON.stringify(settings))
 }
@@ -327,3 +362,6 @@ createTimerOptions()
 createTimerAutoBadOptions()
 createInstrumentOptions()
 createShowNotesOptions()
+createContinuousReadingOptions()
+createOctavesOptions()
+createClefsOptions()

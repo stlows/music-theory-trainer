@@ -50,6 +50,7 @@ const gammes = [
 ]
 
 const gammeChromatic = gammes.find(x => x.name === 'chromatic').notes
+const naturals = ["A", "B", "C", "D", "E", "F", "G"]
 const intervals = gammeChromatic.concat(["P8"])
 const accordsManches = {
   majeur: {
@@ -273,3 +274,22 @@ function getIntervalleSurManche(intervalle, string, fret) {
   const guitar = emptyGuitarSvg(fret, [{ isRoot: true }])
   return { svg: guitar, details }
 }
+
+
+const keySignatureMap = {
+  "C": [],
+  "G": ["F"],
+  "D": ["F", "C"],
+  "A": ["F", "C", "G"],
+  "E": ["F", "C", "G", "D"],
+  "B": ["F", "C", "G", "D", "A"],
+  "F♯": ["F", "C", "G", "D", "A", "E"],
+  "C♯": ["F", "C", "G", "D", "A", "E", "B"],
+  "F": ["B♭"],
+  "B♭": ["B♭", "E♭"],
+  "E♭": ["B♭", "E♭", "A♭"],
+  "A♭": ["B♭", "E♭", "A♭", "D♭"],
+  "D♭": ["B♭", "E♭", "A♭", "D♭", "G♭"],
+  "G♭": ["B♭", "E♭", "A♭", "D♭", "G♭", "C♭"],
+  "C♭": ["B♭", "E♭", "A♭", "D♭", "G♭", "C♭", "F♭"]
+};

@@ -489,3 +489,11 @@ input {
   font-family: "Open Sans", sans-serif;
   margin-bottom: 10px;
 }
+
+.piano-note.clickable {
+  cursor: pointer;
+}
+
+.piano-note.clickable:hover {
+  fill: var(--button-color-hover);
+}

@@ -83,6 +83,21 @@
         </div>
       </details>
       <details>
+        <summary data-t="readingQuestionsCategory"></summary>
+        <div class="mb">
+          <h4><span data-t="continuousReading"></span>:</h4>
+          <div class="settingBtns" id="continuousReading"></div>
+        </div>
+        <div class="mb">
+          <h4><span data-t="octaves"></span>:</h4>
+          <div class="settingBtns" id="octaves"></div>
+        </div>
+        <div class="mb">
+          <h4><span data-t="clefs"></span>:</h4>
+          <div class="settingBtns" id="clefs"></div>
+        </div>
+      </details>
+      <details>
         <summary data-t="rythmCategory"></summary>
         <div class="mb">
           <h4><span>Tempo</span>:</h4>
@@ -98,6 +113,7 @@
           <div class="settingBtns" id="progressionChords"></div>
         </div>
       </details>
+      <a href="#" onclick="resetDefaultSettings()"><span data-t="resetDefaultSettings"></span></a>
     </div>
   </div>
 
@@ -179,10 +195,12 @@
       </div>
       <p onclick="gameEl.innerHTML = ''" style="cursor: pointer; padding: 0.5em" data-t="clear"></p>
     </div>
+    <div id="pianoSimulation"></div>
     <div id="game"></div>
   </div>
   <footer data-t="footer" data-html="true"></footer>
 
+  <script src="vendor/abc.js"></script>
   <script src="js/lang.js?v=1746452902069"></script>
   <script src="js/music.js?v=1746452902069"></script>
   <script src="js/acoustic_guitar_sounds.js?v=1746452902069"></script>
@@ -196,6 +214,7 @@
   <script src="js/settings.js?v=1746452902069"></script>
   <script src="js/stats.js?v=1746452902069"></script>
   <script src="js/strumming.js?v=1746452902069"></script>
+  <script src="js/staff.js"></script>
 
   <script>
     trad();

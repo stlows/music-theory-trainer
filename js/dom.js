@@ -1,6 +1,8 @@
 function div(className) {
   const div = document.createElement("div")
-  div.classList.add(className)
+  if(className){
+    div.classList.add(className)
+  }
   return div
 }
 function a(dataT) {

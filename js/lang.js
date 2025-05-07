@@ -171,7 +171,20 @@ const res = {
   diveIn: { fr: "Allez !", en: "Dive in !" },
   fretboardKnowledge: { fr: "Teste tes connaissances du manche", en: "Test your fretboard knowledge" },
   dontShow: { fr: "Ne plus afficher", en: "Do not show again" },
-  chordSimilaritiesDescription: { fr: "Similarités d'accord (inversions)", en: "Chord similarities (inversions)" }
+  chordSimilaritiesDescription: { fr: "Similarités d'accord (inversions)", en: "Chord similarities (inversions)" },
+  pratiquezLecturePianoDescription: {fr: "Pratiquez la lecture à vue au piano", en: "Practice staff sight-reading"},
+  pratiquezLecturePiano: {fr: (key) => `Jouez ces notes en ${key}`, en: (key) => `Play these notes in ${key}`},
+  readingQuestionsCategory: { fr: "Lecture à vue", en: "Sight-Reading"},
+  continuousReading: { fr: "Lecture à vue en continue", en: "Continuous sight-reading"},
+  octaves: { fr: "Octaves", en: "Octaves"},
+  clefs: { fr: "Clés", en: "Clefs"},
+  sameClef: { fr: "Même clé", en: "Same key"},
+  differentClef: { fr: "Changer la clé", en: "Change the key"},
+  treble: { fr: "Clé de sol", en: "Treble"},
+  bass: { fr: "Clé de fa", en: "Bass"},
+  resetDefaultSettings: { fr: "Restaurez les paramètres par défaut", en: "Reset to default settings"},
+  hidePiano: {fr: "Cacher le piano", en: "Hide piano"}
+
 }
 
 function t(key) {

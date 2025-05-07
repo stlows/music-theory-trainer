@@ -1,6 +1,7 @@
 const gameEl = document.getElementById("game")
 
 function question() {
+  resetLectureQuestion()
   const questionFunc = chooseOne(settings.questions)
   if (window[questionFunc]) {
     window[questionFunc]()
@@ -162,6 +163,7 @@ function createQuestion({ questionText, answerText, extraInfos, answerNode }) {
     }
   })
   gameEl.prepend(questionWrapper)
+  return questionWrapper
 }
 
 function intervalle() {
@@ -173,7 +175,7 @@ function intervalle() {
   if (settings.showNotes === 'guitar') {
     let guitarWrapper = createGuitar({ notes: [], fretCount: 13 })
     answerNode.appendChild(guitarWrapper)
-    highlightNotes(guitarWrapper, [notes[rootIndex].root, notes[rootIndex][intervalle]])
+    highlightNotes(guitarWrapper, [notes[rootIndex].root, notes[rootIndex][intervalle]], notes[rootIndex].root)
   }
   if (settings.showNotes === "piano") {
     let pianoWrapper = createPiano({ notes: [notes[rootIndex].root, notes[rootIndex][intervalle]] })
@@ -417,3 +419,172 @@ function printAllIntervalles() {
     intervalles.appendChild(tableEl)
   }
 }
+
+let currentNoteIndexToBePlayed = -1
+let currentLectureQuestionEl = undefined
+let notesToBePlayed = []
+let currentClef = ""
+
+function resetLectureQuestion() {
+  currentNoteIndexToBePlayed = -1
+  currentLectureQuestionEl = undefined
+  notesToBePlayed = []
+  currentClef = ""
+}
+
+function pratiquezLecturePiano(key) {
+  resetLectureQuestion()
+  if(!key){
+    currentClef = getCircleOfFifthsKey()
+  }else{
+    currentClef = key
+  }
+  let clef = chooseOne(settings.clefs)
+  let notes = []
+  let numberOfNotes = 8
+  let countPerMeasure = 4
+
+  for (let i = 0; i < numberOfNotes; i++) {
+    let octave = parseInt(chooseOne(settings.octaves))
+    if (clef === "bass") {
+      octave -= 1
+    }
+    let note = chooseOne(naturals)
+    notes.push({ note, octave, midi: noteToMidiNumber(note, octave, currentClef) })
+  }
+
+  let el = div()
+  let staffDiv = staff(currentClef, notes, clef, countPerMeasure)
+
+  el.appendChild(staffDiv)
+
+  spawnPiano()
+
+  currentNoteIndexToBePlayed = 0
+  notesToBePlayed = [...notes]
+
+  currentLectureQuestionEl = createQuestion({
+    questionText: t("pratiquezLecturePiano")(printNote(currentClef)),
+    answerNode: el,
+  })
+
+  currentLectureQuestionEl.querySelector(".answer").click()
+
+  let goodButton = currentLectureQuestionEl.querySelector(".correction button:nth-child(1)")
+  goodButton.innerText = 0
+  goodButton.dataset.count = 0
+  goodButton.style.color = "var(--barColor1)"
+  goodButton.style.cursor = "default"
+  goodButton.disabled = true
+
+  let badButton = currentLectureQuestionEl.querySelector(".correction button:nth-child(2)")
+  badButton.innerText = 0
+  badButton.dataset.count = 0
+  badButton.style.color = "var(--barColor2)"
+  badButton.style.cursor = "default"
+  badButton.disabled = true
+}
+
+function spawnPiano() {
+  let keyboard = createPiano({ onKeyClicked: simulateNote })
+
+  const pianoSimulationEl =document.getElementById("pianoSimulation")
+  pianoSimulationEl.innerHTML = ""
+  pianoSimulationEl.appendChild(keyboard)
+
+  const divHide = div("mb-small")
+  const hide = a("hidePiano")
+  divHide.appendChild(hide)
+  divHide.classList.add("right")
+  hide.innerText = t("hidePiano")
+  hide.addEventListener("click", () => {
+    pianoSimulationEl.innerHTML = ""
+  })
+
+  pianoSimulationEl.appendChild(divHide)
+
+}
+
+function simulateNote(noteNumber) {
+  const fakeMessage = {
+    data: [144, noteNumber, 127] // 144 = Note On, velocity 127
+  };
+  handleMIDIMessage(fakeMessage);
+}
+
+function noteToMidiNumber(note, octave, key = "C") {
+  const sharpMap = { "C": 0, "C♯": 1, "D": 2, "D♯": 3, "E": 4, "F": 5, "F♯": 6, "G": 7, "G♯": 8, "A": 9, "A♯": 10, "B": 11 };
+  const flatMap = { "C": 0, "D♭": 1, "D": 2, "E♭": 3, "E": 4, "F": 5, "G♭": 6, "G": 7, "A♭": 8, "A": 9, "B♭": 10, "B": 11 };
+
+  // Determine if this key uses flats or sharps
+  const useSharps = !key.includes("b") && !key.includes("♭");
+  const signature = keySignatureMap[key] || [];
+
+  let actualNote = note;
+
+  // Apply key signature
+  if (useSharps && signature.includes(note)) {
+    actualNote = note + "♯";
+  } else if (!useSharps && signature.includes(note + "♭")) {
+    actualNote = note + "♭";
+  }
+
+  // Look up in correct map
+  const semitone = useSharps ? sharpMap[actualNote] : flatMap[actualNote];
+
+  if (semitone == null) {
+    throw new Error(`Invalid or unhandled note: ${note} in key ${key}`);
+  }
+
+  return (octave + 5) * 12 + semitone;
+}
+
+function handleMIDIMessage({ data }) {
+  if(!currentLectureQuestionEl){
+    return
+  }
+
+  const [status, noteNumber, velocity] = data;
+
+  // Only respond to Note On with velocity > 0
+  if (status === 144 && velocity > 0) {
+    checkNote(noteNumber);
+  }
+}
+
+function checkNote(playedMidiNote) {
+  const isCorrect = playedMidiNote === notesToBePlayed[currentNoteIndexToBePlayed].midi;
+  if (isCorrect) {
+    addGoodNote()
+    let noteEl = currentLectureQuestionEl.querySelectorAll(".abcjs-note")[currentNoteIndexToBePlayed]
+    noteEl.style.fill = "var(--barColor1)"
+    currentNoteIndexToBePlayed++;
+    if(currentNoteIndexToBePlayed >= notesToBePlayed.length){
+      if(settings.continuousReading === "sameClef"){
+        pratiquezLecturePiano(currentClef)
+        return
+      }
+      if(settings.continuousReading === "differentClef"){
+        pratiquezLecturePiano()
+        return
+      }
+      resetLectureQuestion()
+
+    }
+  } else {
+    addBadNote()
+  }
+}
+
+function addGoodNote() {
+  let goodButton = currentLectureQuestionEl.querySelector(".correction button:nth-child(1)")
+  goodButton.innerText = ++goodButton.dataset.count
+}
+
+function addBadNote() {
+  let badButton = currentLectureQuestionEl.querySelector(".correction button:nth-child(2)")
+  badButton.innerText = ++badButton.dataset.count
+}
+
+
+

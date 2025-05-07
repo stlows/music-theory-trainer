@@ -129,6 +129,11 @@ class Keyboard {
         { x, y: 1, width: 14, height: 90, rx: 2, ry: 2, stroke: keyStroke, 'stroke-width': 2, fill: blackKeyFill }
 
       const key = createSvgElement('rect', attrs)
+      if(options.onKeyClicked){
+        key.classList.add("clickable")
+        key.classList.add("piano-note")
+        key.addEventListener("click", () => options.onKeyClicked(note))
+      }
       keys[note] = key
       if (whiteKey) whiteKeys.push(key); else blackKeys.push(key)
     }
@@ -169,12 +174,12 @@ class Keyboard {
   }
 }
 
-function createPiano({ notes = [], min = "B3", max = "C6" }, repeatFirstNote = false) {
-  console.log(notes)
+function createPiano({ notes = [], min = "B3", max = "C6",  onKeyClicked = null }, repeatFirstNote = false) {
   let order = "CDEFGAB"
   const keyboard = new Keyboard({
     lowest: min,
     highest: max,
+    onKeyClicked
   })
   let number = 4
   for (let i = 0; i < notes.length; i++) {
