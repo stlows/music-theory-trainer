@@ -39,15 +39,10 @@ ${bassNotes}
         return 'z' + match.length;
     });
 
-    console.log(abcString);
-    console.log(notesToBePlayed)
-
     let staffwidth = Math.min(screen.width * 0.65, 600)
     let x = ABCJS.renderAbc(el, abcString, { scale: 1.4, selectTypes: [], add_classes: true, staffwidth })
     let trebles = x[0].lines[0].staff[0].voices[0].filter(x => x.el_type === "note" && x.pitches)
     let bass = x[0].lines[0].staff[1].voices[0].filter(x => x.el_type === "note" && x.pitches)
-    console.log(trebles)
-    console.log(bass)
     let trebleIndex = 0
     let bassIndex = 0
     for (let i = 0; i < notesToBePlayed.length; i++) {

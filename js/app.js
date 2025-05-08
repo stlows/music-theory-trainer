@@ -528,7 +528,6 @@ function getPianoRange(notesArray) {
     if (note.midi > max) max = note.midi;
   }
 
-  console.log(min, max)
   let minPiano = "A2"
   if (min >= 36) minPiano = "C3"
   if (min >= 48) minPiano = "C4"
@@ -536,8 +535,6 @@ function getPianoRange(notesArray) {
   let maxPiano = "G7"
   if (max <= "83") maxPiano = "B6"
   if (max <= "71") maxPiano = "B5"
-
-  console.log(minPiano, maxPiano)
 
   return { minPiano, maxPiano };
 }
