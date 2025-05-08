@@ -173,7 +173,7 @@ const res = {
   dontShow: { fr: "Ne plus afficher", en: "Do not show again" },
   chordSimilaritiesDescription: { fr: "Similarités d'accord (inversions)", en: "Chord similarities (inversions)" },
   pratiquezLecturePianoDescription: {fr: "Pratiquez la lecture à vue au piano", en: "Practice staff sight-reading"},
-  pratiquezLecturePiano: {fr: (key) => `Jouez ces notes en ${key}`, en: (key) => `Play these notes in ${key}`},
+  pratiquezLecturePiano: {fr: (notesCount, key) => `Jouez ces ${notesCount} notes en ${key}`, en: (notesCount, key) => `Play these ${notesCount} notes in ${key}`},
   readingQuestionsCategory: { fr: "Lecture à vue", en: "Sight-Reading"},
   continuousReading: { fr: "Lecture à vue en continue", en: "Continuous sight-reading"},
   octaves: { fr: "Octaves", en: "Octaves"},

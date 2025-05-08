@@ -9,7 +9,8 @@ function staff(key, notes, clef = "treble", countPerMeasure = 4) {
     }
     key = key.replace("♯", "#").replace("♭", "b")
     let abcString = `X:1\nM:${countPerMeasure}/4\nL:1/4\nK:${key} clef=${clef}\n${notesString}\n`;
-    ABCJS.renderAbc(el, abcString, {scale: 1.4, selectTypes: [], add_classes: true, staffwidth: 600})
+    let staffwidth = Math.min(screen.width * 0.65, 600)
+    ABCJS.renderAbc(el, abcString, {scale: 1.4, selectTypes: [], add_classes: true, staffwidth })
     return el
 }
 

@@ -446,7 +446,7 @@ function pratiquezLecturePiano(key) {
   }
   let clef = chooseOne(settings.clefs)
   let notes = []
-  let numberOfNotes = 8
+  let numberOfNotes = screen.width < 700 ? 4 : 8
   let countPerMeasure = 4
 
   for (let i = 0; i < numberOfNotes; i++) {
@@ -469,7 +469,7 @@ function pratiquezLecturePiano(key) {
   notesToBePlayed = [...notes]
 
   currentLectureQuestionEl = createQuestion({
-    questionText: t("pratiquezLecturePiano")(printNote(currentClef)),
+    questionText: t("pratiquezLecturePiano")(numberOfNotes, printNote(currentClef)),
     answerNode: el,
   })
 

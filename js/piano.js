@@ -117,22 +117,33 @@ class Keyboard {
     const keys = []
     const whiteKeys = []
     const blackKeys = []
+    let c4ElementText = null
 
     const offset = 168 * getOctave(lowest) + KEY_POSITIONS[getPitchClass(lowest)] - 1
-
+    const WHITE_KEY_WIDTH = 24
+    const WHITE_KEY_HEIGHT = 140
+    const BLACK_KEY_HEIGHT = 90
+    const BLACK_KEY_WIDTH = 14
+    
     for (let note = lowest; note <= highest; note++) {
       const x = 168 * getOctave(note) + KEY_POSITIONS[getPitchClass(note)] - offset
 
       const whiteKey = isWhiteKey(note)
       const attrs = whiteKey ?
-        { x, y: 1, width: 24, height: 140, rx: 2, ry: 2, stroke: keyStroke, 'stroke-width': 2, fill: whiteKeyFill } :
-        { x, y: 1, width: 14, height: 90, rx: 2, ry: 2, stroke: keyStroke, 'stroke-width': 2, fill: blackKeyFill }
+        { x, y: 1, width: WHITE_KEY_WIDTH, height: WHITE_KEY_HEIGHT, rx: 2, ry: 2, stroke: keyStroke, 'stroke-width': 2, fill: whiteKeyFill } :
+        { x, y: 1, width: BLACK_KEY_WIDTH, height: BLACK_KEY_HEIGHT, rx: 2, ry: 2, stroke: keyStroke, 'stroke-width': 2, fill: blackKeyFill }
 
       const key = createSvgElement('rect', attrs)
       if(options.onKeyClicked){
         key.classList.add("clickable")
         key.classList.add("piano-note")
         key.addEventListener("click", () => options.onKeyClicked(note))
+      }
+      if(note === 60){
+        let fontSize = 12
+        c4ElementText = createSvgElement("text", { x: x + WHITE_KEY_WIDTH / 2 - fontSize / 2, y: WHITE_KEY_HEIGHT - fontSize / 2, fill: "black"})
+        c4ElementText.textContent = "C4"
+        c4ElementText.style.fontSize = "10px"
       }
       keys[note] = key
       if (whiteKey) whiteKeys.push(key); else blackKeys.push(key)
@@ -147,6 +158,9 @@ class Keyboard {
     // First add white keys and then black keys, so that the black keys are drawn on top
     for (const whiteKey of whiteKeys) svg.appendChild(whiteKey)
     for (const blackKey of blackKeys) svg.appendChild(blackKey)
+    if(c4ElementText){
+      svg.appendChild(c4ElementText)
+    }
 
     this._svg = svg
   }
