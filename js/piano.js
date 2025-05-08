@@ -140,10 +140,10 @@ class Keyboard {
         key.addEventListener("click", () => options.onKeyClicked(note))
       }
       if(note === 60){
-        let fontSize = 12
-        c4ElementText = createSvgElement("text", { x: x + WHITE_KEY_WIDTH / 2 - fontSize / 2, y: WHITE_KEY_HEIGHT - fontSize / 2, fill: "black"})
+        let fontSize = 10
+        c4ElementText = createSvgElement("text", { x: x + WHITE_KEY_WIDTH / 2 - (fontSize + 2) / 2, y: WHITE_KEY_HEIGHT - fontSize / 2, fill: "var(--background-color)"})
         c4ElementText.textContent = "C4"
-        c4ElementText.style.fontSize = "10px"
+        c4ElementText.style.fontSize = fontSize + "px"
       }
       keys[note] = key
       if (whiteKey) whiteKeys.push(key); else blackKeys.push(key)

@@ -50,7 +50,7 @@ const gammes = [
 ]
 
 const gammeChromatic = gammes.find(x => x.name === 'chromatic').notes
-const naturals = ["A", "B", "C", "D", "E", "F", "G"]
+const naturals = ["C", "D", "E", "F", "G", "A", "B"]
 const intervals = gammeChromatic.concat(["P8"])
 const accordsManches = {
   majeur: {

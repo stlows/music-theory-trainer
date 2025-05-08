@@ -225,6 +225,13 @@ button.settingBtn.active {
   padding-top: 5px;
   padding-bottom: 5px;
   overflow-x: hidden;
+  border-left: 3px solid var(--question-border-left);
+  padding-left: 1em;
+}
+.question.light {
+  background-color: white;
+  color: var(--background-color);
+  border: none;
 }
 
 .answer {
@@ -234,11 +241,19 @@ button.settingBtn.active {
   margin: 0;
 }
 
+.question.light .correction button {
+  border-color: var(--settingBtns-background-color);
+}
+
 .question .extraInfos {
   display: none;
   text-align: right;
   font-style: italic;
   color: var(--table-border);
+}
+
+.question.light  .extraInfos {
+  color: var(--background-color)
 }
 
 .hint {
@@ -250,9 +265,8 @@ button.settingBtn.active {
   display: block;
 }
 
-#game > div {
-  border-left: 3px solid var(--question-border-left);
-  padding-left: 1em;
+.question {
+
 }
 
 .modal {

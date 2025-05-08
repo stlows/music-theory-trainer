@@ -8,7 +8,7 @@ function question() {
   }
 }
 
-function clearGame(){
+function clearGame() {
   gameEl.innerHTML = ""
   resetLectureQuestion()
 }
@@ -137,8 +137,11 @@ function addCorrectionAndTimer(questionWrapper, answer) {
   }
 }
 
-function createQuestion({ questionText, answerText, extraInfos, answerNode }) {
+function createQuestion({ questionText, answerText, extraInfos, answerNode, light }) {
   const questionWrapper = div("question")
+  if (light) {
+    questionWrapper.classList.add("light")
+  }
   const question = h4(questionText)
   questionWrapper.appendChild(question)
 
@@ -358,6 +361,16 @@ function playNotes(bassIndex, interval) {
   })
 }
 
+function playPianoNote(note) {
+  const noteFormat = allNotes[note - 21]
+  if (noteFormat) {
+    console.log(noteFormat)
+    const audio = new Audio(instruments.piano[noteFormat])
+    audio.play()
+  }
+
+}
+
 function printAllGammes() {
   const gammesEl = document.getElementById("gammes")
   gammesEl.innerHTML = ""
@@ -428,48 +441,61 @@ function printAllIntervalles() {
 let currentNoteIndexToBePlayed = -1
 let currentLectureQuestionEl = undefined
 let notesToBePlayed = []
-let currentClef = ""
+let currentKey = ""
 
 function resetLectureQuestion() {
   currentNoteIndexToBePlayed = -1
   currentLectureQuestionEl = undefined
   notesToBePlayed = []
-  currentClef = ""
+  currentKey = ""
 }
 
 function pratiquezLecturePiano(key) {
   resetLectureQuestion()
-  if(!key){
-    currentClef = getCircleOfFifthsKey()
-  }else{
-    currentClef = key
+  if (!key) {
+    currentKey = getCircleOfFifthsKey()
+  } else {
+    currentKey = key
   }
-  let clef = chooseOne(settings.clefs)
   let notes = []
   let numberOfNotes = screen.width < 700 ? 4 : 8
   let countPerMeasure = 4
 
   for (let i = 0; i < numberOfNotes; i++) {
     let octave = parseInt(chooseOne(settings.octaves))
-    if (clef === "bass") {
-      octave -= 1
-    }
+    let clef = chooseOne(settings.clefs)
     let note = chooseOne(naturals)
-    notes.push({ note, octave, midi: noteToMidiNumber(note, octave, currentClef) })
+
+    // clef = "bass"
+    // note = "A"
+    // octave = -1
+    if (clef === "treble" && naturals.indexOf(note) < naturals.indexOf("A")) {
+      octave++
+    }
+    if (clef === "bass") {
+      octave--
+    }
+    if (clef === "bass" && naturals.indexOf(note) >= naturals.indexOf("A")) {
+      octave--
+    }
+
+    notes.push({ note, clef, octave, midi: noteToMidiNumber(note, octave, currentKey) })
   }
 
+  notesToBePlayed = [...notes]
+
   let el = div()
-  let staffDiv = staff(currentClef, notes, clef, countPerMeasure)
+  let staffDiv = staff(currentKey, notes, countPerMeasure)
 
   el.appendChild(staffDiv)
 
   spawnPiano()
 
   currentNoteIndexToBePlayed = 0
-  notesToBePlayed = [...notes]
 
   currentLectureQuestionEl = createQuestion({
-    questionText: t("pratiquezLecturePiano")(numberOfNotes, printNote(currentClef)),
+    light: true,
+    questionText: t("pratiquezLecturePiano")(numberOfNotes, printNote(currentKey)),
     answerNode: el,
   })
 
@@ -490,10 +516,37 @@ function pratiquezLecturePiano(key) {
   badButton.disabled = true
 }
 
-function spawnPiano() {
-  let keyboard = createPiano({ onKeyClicked: simulateNote })
 
-  const pianoSimulationEl =document.getElementById("pianoSimulation")
+function getPianoRange(notesArray) {
+  if (!notesArray.length) return null;
+
+  let min = notesArray[0].midi;
+  let max = notesArray[0].midi;
+
+  for (let note of notesArray) {
+    if (note.midi < min) min = note.midi;
+    if (note.midi > max) max = note.midi;
+  }
+
+  console.log(min, max)
+  let minPiano = "A2"
+  if (min >= 36) minPiano = "C3"
+  if (min >= 48) minPiano = "C4"
+
+  let maxPiano = "G7"
+  if (max <= "83") maxPiano = "B6"
+  if (max <= "71") maxPiano = "B5"
+
+  console.log(minPiano, maxPiano)
+
+  return { minPiano, maxPiano };
+}
+
+function spawnPiano() {
+  let { minPiano, maxPiano } = getPianoRange(notesToBePlayed)
+  let keyboard = createPiano({ min: minPiano, max: maxPiano, onKeyClicked: (note) => { simulateNote(note); } })
+
+  const pianoSimulationEl = document.getElementById("pianoSimulation")
   pianoSimulationEl.innerHTML = ""
   pianoSimulationEl.appendChild(keyboard)
 
@@ -514,6 +567,7 @@ function simulateNote(noteNumber) {
   const fakeMessage = {
     data: [144, noteNumber, 127] // 144 = Note On, velocity 127
   };
+  console.log(noteNumber)
   handleMIDIMessage(fakeMessage);
 }
 
@@ -545,7 +599,7 @@ function noteToMidiNumber(note, octave, key = "C") {
 }
 
 function handleMIDIMessage({ data }) {
-  if(!currentLectureQuestionEl){
+  if (!currentLectureQuestionEl) {
     return
   }
 
@@ -561,15 +615,15 @@ function checkNote(playedMidiNote) {
   const isCorrect = playedMidiNote === notesToBePlayed[currentNoteIndexToBePlayed].midi;
   if (isCorrect) {
     addGoodNote()
-    let noteEl = currentLectureQuestionEl.querySelectorAll(".abcjs-note")[currentNoteIndexToBePlayed]
+    let noteEl = notesToBePlayed[currentNoteIndexToBePlayed].element
     noteEl.style.fill = "var(--barColor1)"
     currentNoteIndexToBePlayed++;
-    if(currentNoteIndexToBePlayed >= notesToBePlayed.length){
-      if(settings.continuousReading === "sameClef"){
-        pratiquezLecturePiano(currentClef)
+    if (currentNoteIndexToBePlayed >= notesToBePlayed.length) {
+      if (settings.continuousReading === "sameClef") {
+        pratiquezLecturePiano(currentKey)
         return
       }
-      if(settings.continuousReading === "differentClef"){
+      if (settings.continuousReading === "differentClef") {
         pratiquezLecturePiano()
         return
       }

@@ -1,16 +1,64 @@
-function staff(key, notes, clef = "treble", countPerMeasure = 4) {
+function staff(key, notes, countPerMeasure = 4) {
     const el = div()
-    let notesString = ""
-    for(let group = 0; group < notes.length / countPerMeasure; group++){
+    let trebleNotes = "";
+    let bassNotes = "";
+
+    for (let group = 0; group < notes.length / countPerMeasure; group++) {
         for (let i = 0; i < countPerMeasure; i++) {
-            notesString += getAbcNote(notes[group * countPerMeasure + i])
+            const note = notes[group * countPerMeasure + i];
+            const abcNote = getAbcNote(note);
+            if (note.clef === "treble") {
+                trebleNotes += abcNote;
+                bassNotes += "z";
+            } else if (note.clef === "bass") {
+                bassNotes += abcNote;
+                trebleNotes += "z"
+            }
         }
-        notesString += "|"
+        trebleNotes += "|";
+        bassNotes += "|";
     }
-    key = key.replace("♯", "#").replace("♭", "b")
-    let abcString = `X:1\nM:${countPerMeasure}/4\nL:1/4\nK:${key} clef=${clef}\n${notesString}\n`;
+
+    key = key.replace("♯", "#").replace("♭", "b");
+
+    let abcString = `
+X:1
+M:${countPerMeasure}/4
+L:1/4
+K:${key}
+%%%score (T B)
+V: T clef=treble
+V: B clef=bass
+V: T
+${trebleNotes}
+V: B
+${bassNotes}
+    `;
+
+    abcString = abcString.replace(/z{2,}/g, match => {
+        return 'z' + match.length;
+    });
+
+    console.log(abcString);
+    console.log(notesToBePlayed)
+
     let staffwidth = Math.min(screen.width * 0.65, 600)
-    ABCJS.renderAbc(el, abcString, {scale: 1.4, selectTypes: [], add_classes: true, staffwidth })
+    let x = ABCJS.renderAbc(el, abcString, { scale: 1.4, selectTypes: [], add_classes: true, staffwidth })
+    let trebles = x[0].lines[0].staff[0].voices[0].filter(x => x.el_type === "note" && x.pitches)
+    let bass = x[0].lines[0].staff[1].voices[0].filter(x => x.el_type === "note" && x.pitches)
+    console.log(trebles)
+    console.log(bass)
+    let trebleIndex = 0
+    let bassIndex = 0
+    for (let i = 0; i < notesToBePlayed.length; i++) {
+        if(notesToBePlayed[i].clef === "treble"){
+            notesToBePlayed[i].element = trebles[trebleIndex++].abselem.elemset[0]
+        }
+        if(notesToBePlayed[i].clef === "bass"){
+            notesToBePlayed[i].element = bass[bassIndex++].abselem.elemset[0]
+        }
+    }
+
     return el
 }
 
@@ -19,14 +67,14 @@ function getAbcNote(note) {
     if (note.note.includes("♭")) prefix = "_";
     else if (note.note.includes("♯")) prefix = "^";
 
-    let baseNote = note.note.replace(/[^A-G]/g, "");
-    let abcNote = baseNote;
+    // Strip accidental symbol to get base note (A-G)
+    let baseNote = note.note.replace(/[^A-G]/g, "").toUpperCase();
 
     if (note.octave > 0) {
-        abcNote = baseNote.toLowerCase() + "'".repeat(note.octave);
+        baseNote = baseNote + "'".repeat(note.octave);
     } else if (note.octave < 0) {
-        abcNote = baseNote + ",".repeat(-note.octave);
+        baseNote = baseNote + ",".repeat(-note.octave);
     }
 
-    return prefix + abcNote;
+    return prefix + baseNote;
 }
