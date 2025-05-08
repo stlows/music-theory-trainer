@@ -461,13 +461,15 @@ function pratiquezLecturePiano(key) {
   let numberOfNotes = screen.width < 700 ? 4 : 8
   let countPerMeasure = 4
 
+  // currentKey = "F♯"
+
   for (let i = 0; i < numberOfNotes; i++) {
     let octave = parseInt(chooseOne(settings.octaves))
     let clef = chooseOne(settings.clefs)
     let note = chooseOne(naturals)
 
     // clef = "bass"
-    // note = "A"
+    // note = "E"
     // octave = -1
     if (clef === "treble" && naturals.indexOf(note) < naturals.indexOf("A")) {
       octave++
@@ -569,8 +571,8 @@ function simulateNote(noteNumber) {
 }
 
 function noteToMidiNumber(note, octave, key = "C") {
-  const sharpMap = { "C": 0, "C♯": 1, "D": 2, "D♯": 3, "E": 4, "F": 5, "F♯": 6, "G": 7, "G♯": 8, "A": 9, "A♯": 10, "B": 11 };
-  const flatMap = { "C": 0, "D♭": 1, "D": 2, "E♭": 3, "E": 4, "F": 5, "G♭": 6, "G": 7, "A♭": 8, "A": 9, "B♭": 10, "B": 11 };
+  const sharpMap = { "C": 0, "C♯": 1, "D": 2, "D♯": 3, "E": 4, "E♯": 5, "F": 5, "F♯": 6, "G": 7, "G♯": 8, "A": 9, "A♯": 10, "B": 11, "B♯": 12 };
+  const flatMap = { "C♭": -1, "C": 0, "D♭": 1, "D": 2, "E♭": 3, "E": 4, "F♭": 4, "F": 5, "G♭": 6, "G": 7, "A♭": 8, "A": 9, "B♭": 10, "B": 11 };
 
   // Determine if this key uses flats or sharps
   const useSharps = !key.includes("b") && !key.includes("♭");
