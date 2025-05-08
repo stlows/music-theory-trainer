@@ -265,10 +265,6 @@ button.settingBtn.active {
   display: block;
 }
 
-.question {
-
-}
-
 .modal {
   background-color: var(--modal-background-color);
   color: var(--modal-color);
