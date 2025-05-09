@@ -38,16 +38,49 @@ const accords = [
   { name: "dim", notes: ["root", "m3", "d5"], title: "Diminué" },
 ]
 
+// Major (Ionian) – the most common “happy” sounding scale.
+// Formula: W W H W W W H
+
+// Natural Minor (Aeolian) – often sounds sad or dark.
+// Formula: W H W W H W W
+
+// Dorian – minor mode with a major 6th.
+// Formula: W H W W W H W
+
+// Phrygian – minor with a flat 2, exotic/flamenco feel.
+// Formula: H W W W H W W
+
+// Lydian – major with a raised 4th, dreamy.
+// Formula: W W W H W W H
+
+// Mixolydian – major with a flat 7, bluesy/rocky.
+// Formula: W W H W W H W
+
+// Locrian – diminished scale, unstable sound.
+// Formula: H W W H W W W
 const gammes = [
-  { name: "majeur", notes: ["root", "M2", "M3", "P4", "P5", "M6", "M7"] },
-  { name: "mineurNaturelle", notes: ["root", "M2", "m3", "P4", "P5", "m6", "m7"] },
-  { name: "mineurHarmonique", notes: ["root", "M2", "m3", "P4", "P5", "m6", "M7"] },
-  { name: "mineurMelodiqueAsc", notes: ["root", "M2", "m3", "P4", "P5", "M6", "M7"] },
-  { name: "mineurMelodiqueDesc", notes: ["root", "m7", "m6", "P5", "P4", "m3", "M2"] },
+  // Diatonic Modes (7 modes)
+  { name: "ionian", notes: ["root", "M2", "M3", "P4", "P5", "M6", "M7"] },             // Major
+  { name: "dorian", notes: ["root", "M2", "m3", "P4", "P5", "M6", "m7"] },
+  { name: "phrygian", notes: ["root", "m2", "m3", "P4", "P5", "m6", "m7"] },
+  { name: "lydian", notes: ["root", "M2", "M3", "d5", "P5", "M6", "M7"] },
+  { name: "mixolydian", notes: ["root", "M2", "M3", "P4", "P5", "M6", "m7"] },
+  { name: "aeolian", notes: ["root", "M2", "m3", "P4", "P5", "m6", "m7"] },            // Natural Minor
+  { name: "locrian", notes: ["root", "m2", "m3", "P4", "d5", "m6", "m7"] },
+
+  // Harmonic & Melodic Minor
+  { name: "harmonicMinor", notes: ["root", "M2", "m3", "P4", "P5", "m6", "M7"] },
+  { name: "melodicMinorAsc", notes: ["root", "M2", "m3", "P4", "P5", "M6", "M7"] },
+  { name: "melodicMinorDesc", notes: ["root", "m7", "m6", "P5", "P4", "m3", "M2"] },
+
+  // Pentatonic & Blues
   { name: "majorPentatonic", notes: ["root", "M2", "M3", "P5", "M6"] },
   { name: "minorPentatonic", notes: ["root", "m3", "P4", "P5", "m7"] },
+  { name: "blues", notes: ["root", "m3", "P4", "d5", "P5", "m7"] },
+
+  // Chromatic
   { name: "chromatic", notes: ["root", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"] }
-]
+];
 
 const gammeChromatic = gammes.find(x => x.name === 'chromatic').notes
 const naturals = ["C", "D", "E", "F", "G", "A", "B"]

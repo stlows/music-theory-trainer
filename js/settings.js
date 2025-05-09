@@ -6,7 +6,7 @@ let defaultSettings = {
   progressionChords: "D",
   plingAtFirstTempo: false,
   accords: ["majeur", "mineur", "7"],
-  gammes: ["majeur", "mineurNaturelle"],
+  gammes: ["ionian", "minorPentatonic"],
   lang: "fr",
   theme: "dark",
   roots: ["C", "D", "G", "A"],

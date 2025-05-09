@@ -67,18 +67,22 @@ const res = {
   practice: { fr: "Pratique", en: "Practice" },
   majeur: { fr: "Majeur", en: "Major" },
   mineur: { fr: "Mineur", en: "Minor" },
-  mineurNaturelle: { fr: "Mineure naturelle", en: "Natural minor" },
-  mineurHarmonique: { fr: "Mineure harmonique", en: "Harmonic minor" },
-  mineurMelodiqueAsc: {
-    fr: "Mineure mélodique ascendante",
-    en: "Ascending melodic minor",
-  },
-  mineurMelodiqueDesc: {
-    fr: "Mineure mélodique déscendante",
-    en: "Descending melodic minor",
-  },
-  majorPentatonic: { fr: "Pentatonique majeure", en: "Major pentatonic" },
-  minorPentatonic: { fr: "Pentatonique mineure", en: "Minor pentatonic" },
+  ionian: { fr: "Majeur (Ionien)", en: "Major (Ionian)" },
+  dorian: { fr: "Dorien", en: "Dorian" },
+  phrygian: { fr: "Phrygien", en: "Phrygian" },
+  lydian: { fr: "Lydien", en: "Lydian" },
+  mixolydian: { fr: "Mixolydien", en: "Mixolydian" },
+  aeolian: { fr: "Mineur Naturel (Éolien)", en: "Natural Minor (Aeolian)" },
+  locrian: { fr: "Locrien", en: "Locrian" },
+
+  harmonicMinor: { fr: "Mineur Harmonique", en: "Harmonic Minor" },
+  melodicMinorAsc: { fr: "Mineur Mélodique (Ascendant)", en: "Melodic Minor (Ascending)" },
+  melodicMinorDesc: { fr: "Mineur Mélodique (Descendant)", en: "Melodic Minor (Descending)" },
+
+  majorPentatonic: { fr: "Pentatonique Majeure", en: "Major Pentatonic" },
+  minorPentatonic: { fr: "Pentatonique Mineure", en: "Minor Pentatonic" },
+  blues: { fr: "Blues", en: "Blues" },
+
   chromatic: { fr: "Chromatique", en: "Chromatic" },
   gamme: {
     fr: (tonique, name) => `Gamme ${name} de ${tonique}`,
