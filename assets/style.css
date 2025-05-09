@@ -509,15 +509,10 @@ input {
 }
 
 
-.preset {
-  border: 2px solid var(--correction-button-border);
-  border-radius: 5px;
-  padding: 1em 2em;
-  display: inline-block;
-}
 .presets {
   display: grid;
   row-gap: 1em;
   column-gap: 1em;
   grid-template-columns: 1fr 1fr 1fr;
+  padding: 1em;
 }

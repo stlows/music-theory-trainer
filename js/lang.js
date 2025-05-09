@@ -187,7 +187,7 @@ const res = {
   beginner: { fr: "Débutant", en: "Beginner" },
   intermediate: { fr: "Intermédiaire", en: "Intermediate" },
   advanced: { fr: "Avancé", en: "Advanced" },
-  presets: { fr: "Préréglages", en: "Presets" },
+  presets: { fr: "Sélectionner un préréglages pour votre niveau", en: "Select a preset settings for your level" },
 
 }
 
