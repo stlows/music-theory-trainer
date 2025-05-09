@@ -7,7 +7,8 @@
   <title data-t="title"></title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+    rel="stylesheet" />
 
   <link rel="stylesheet" href="assets/style.css?v=1746737837598" />
   <link rel="stylesheet" href="assets/guitar.css?v=1746737837598" />
@@ -113,6 +114,18 @@
           <div class="settingBtns" id="progressionChords"></div>
         </div>
       </details>
+      <details>
+        <summary data-t="presets"></summary>
+        <div class="presets">
+          <a href="#" class="preset" onclick="presetSetting(settingsPresets.piano.beginner)"><div><span data-t="piano"></span> <span data-t="beginner"></span></div></a>
+          <a href="#" class="preset" onclick="presetSetting(settingsPresets.piano.intermediate)"><div><span data-t="piano"></span> <span data-t="intermediate"></span></div></a>
+          <a href="#" class="preset" onclick="presetSetting(settingsPresets.piano.advanced)"><div><span data-t="piano"></span> <span data-t="advanced"></span></div></a>
+          <a href="#" class="preset" onclick="presetSetting(settingsPresets.guitar.beginner)"><div><span data-t="guitar"></span> <span data-t="beginner"></span></div></a>
+          <a href="#" class="preset" onclick="presetSetting(settingsPresets.guitar.intermediate)"><div><span data-t="guitar"></span> <span data-t="intermediate"></span></div></a>
+          <a href="#" class="preset" onclick="presetSetting(settingsPresets.guitar.advanced)"><div><span data-t="guitar"></span> <span data-t="advanced"></span></div></a>
+        </div>
+        
+      </details>
       <a href="#" onclick="resetDefaultSettings()"><span data-t="resetDefaultSettings"></span></a>
     </div>
   </div>
@@ -211,6 +224,7 @@
   <script src="js/guitar.js?v=1746737837598"></script>
   <script src="js/piano.js?v=1746737837598"></script>
   <script src="js/app.js?v=1746737837598"></script>
+  <script src="js/settings_presets.js?v=1746737837598"></script>
   <script src="js/settings.js?v=1746737837598"></script>
   <script src="js/stats.js?v=1746737837598"></script>
   <script src="js/strumming.js?v=1746737837598"></script>

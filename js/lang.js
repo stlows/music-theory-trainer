@@ -183,7 +183,11 @@ const res = {
   treble: { fr: "Clé de sol", en: "Treble"},
   bass: { fr: "Clé de fa", en: "Bass"},
   resetDefaultSettings: { fr: "Restaurez les paramètres par défaut", en: "Reset to default settings"},
-  hidePiano: {fr: "Cacher le piano", en: "Hide piano"}
+  hidePiano: {fr: "Cacher le piano", en: "Hide piano"},
+  beginner: { fr: "Débutant", en: "Beginner" },
+  intermediate: { fr: "Intermédiaire", en: "Intermediate" },
+  advanced: { fr: "Avancé", en: "Advanced" },
+  presets: { fr: "Préréglages", en: "Presets" },
 
 }
 

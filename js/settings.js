@@ -332,7 +332,12 @@ function loadSettings() {
 }
 
 function resetDefaultSettings() {
-  localStorage.setItem("settings", JSON.stringify(defaultSettings))
+  presetSetting(defaultSettings)
+}
+
+function presetSetting(newSettings){
+  let lang = settings.lang
+  localStorage.setItem("settings", JSON.stringify({...newSettings, lang}))
   location.reload()
 }
 

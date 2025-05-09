@@ -1,4 +1,4 @@
-const FRET_COUNT = 9
+const FRET_COUNT = 12
 
 const wordLetter = { C: "Do", D: "Ré", E: "Mi", F: "Fa", G: "Sol", A: "La", B: "Si" }
 
