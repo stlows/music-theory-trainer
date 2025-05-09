@@ -121,6 +121,9 @@ function correction() {
 }
 
 function addCorrectionAndTimer(questionWrapper, answer) {
+  if(currentLectureQuestionEl === undefined && settings.afficherCorrection === "false") {
+    return 0
+  }
   const { correctionWrapper, buttonBad } = correction()
   questionWrapper.appendChild(correctionWrapper)
 

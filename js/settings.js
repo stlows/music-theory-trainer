@@ -17,7 +17,8 @@ let defaultSettings = {
   showNotes: "guitar",
   continuousReading: "sameClef",
   clefs: ["treble", "bass"],
-  octaves: ["0"]
+  octaves: ["0"],
+  afficherCorrection: "false"
 }
 
 let settings = { ...defaultSettings }
@@ -191,6 +192,16 @@ function createTimerAutoBadOptions() {
 
   setDefaultOption("autoSelectBadAfterTimer")
 }
+
+function createAfficherCorrectionOptions() {
+  const buttonTrue = createOptionbutton("afficherCorrection", 'true', false, "oui")
+  document.getElementById("afficherCorrection").appendChild(buttonTrue)
+  const buttonFalse = createOptionbutton("afficherCorrection", 'false', false, "non")
+  document.getElementById("afficherCorrection").appendChild(buttonFalse)
+
+  setDefaultOption("afficherCorrection")
+}
+
 function createFretOptions() {
   for (let i = 0; i < 12; i++) {
     const button = createOptionbutton("frets", i + 1)
@@ -370,3 +381,4 @@ createShowNotesOptions()
 createContinuousReadingOptions()
 createOctavesOptions()
 createClefsOptions()
+createAfficherCorrectionOptions()

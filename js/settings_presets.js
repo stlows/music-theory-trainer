@@ -18,7 +18,8 @@ const settingsPresets = {
             showNotes: "piano",
             continuousReading: "non",
             clefs: ["treble","bass"],
-            octaves: ["0"]
+            octaves: ["0"],
+            afficherCorrection: "false"
         },
         intermediate: {
             notation: "letter",
@@ -38,7 +39,8 @@ const settingsPresets = {
             showNotes: "piano",
             continuousReading: "non",
             clefs: ["treble", "bass"],
-            octaves: ["0", "-1"]
+            octaves: ["0", "-1"],
+            afficherCorrection: "false"
         },
         advanced: {
             notation: "letter",
@@ -58,7 +60,8 @@ const settingsPresets = {
             showNotes: "piano",
             continuousReading: "non",
             clefs: ["treble", "bass"],
-            octaves: ["0", "-1", "1"]
+            octaves: ["0", "-1", "1"],
+            afficherCorrection: "false"
         }
     },
     guitar: {
@@ -81,7 +84,8 @@ const settingsPresets = {
             showNotes: "guitar",
             continuousReading: "non",
             clefs: ["treble","bass"],
-            octaves: ["0"]
+            octaves: ["0"],
+            afficherCorrection: "false"
         },
         intermediate: {
             notation: "letter",
@@ -102,7 +106,8 @@ const settingsPresets = {
             showNotes: "guitar",
             continuousReading: "non",
             clefs: ["treble", "bass"],
-            octaves: ["0", "-1"]
+            octaves: ["0", "-1"],
+            afficherCorrection: "false"
         },
         advanced: {
             notation: "letter",
@@ -123,7 +128,8 @@ const settingsPresets = {
             showNotes: "guitar",
             continuousReading: "non",
             clefs: ["treble", "bass"],
-            octaves: ["0", "-1", "1"]
+            octaves: ["0", "-1", "1"],
+            afficherCorrection: "false"
         }
     },
 };

@@ -192,6 +192,7 @@ const res = {
   intermediate: { fr: "Intermédiaire", en: "Intermediate" },
   advanced: { fr: "Avancé", en: "Advanced" },
   presets: { fr: "Sélectionner un préréglages pour votre niveau", en: "Select a preset settings for your level" },
+  afficherCorrection: { fr: "Afficher les boutons d'auto-correction (stats)", en: "Show auto-correct buttons (for stats)" },
 
 }
 
