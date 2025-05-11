@@ -7,12 +7,12 @@
   <title data-t="title"></title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="assets/style.css?v=1746820950498" />
   <link rel="stylesheet" href="assets/guitar.css?v=1746820950498" />
   <link rel="stylesheet" href="assets/stats.css?v=1746820950498" />
+  <link rel="stylesheet" href="assets/notifications.css?v=1746820950498" />
   <link rel="manifest" href="manifest.json" />
 </head>
 
@@ -26,14 +26,26 @@
       <details>
         <summary data-t="presets"></summary>
         <div class="presets">
-          <button class="gameBtn" onclick="presetSetting(settingsPresets.piano.beginner)"><div><span data-t="piano"></span> <span data-t="beginner"></span></div></button>
-          <button class="gameBtn" onclick="presetSetting(settingsPresets.piano.intermediate)"><div><span data-t="piano"></span> <span data-t="intermediate"></span></div></button>
-          <button class="gameBtn" onclick="presetSetting(settingsPresets.piano.advanced)"><div><span data-t="piano"></span> <span data-t="advanced"></span></div></button>
-          <button class="gameBtn" onclick="presetSetting(settingsPresets.guitar.beginner)"><div><span data-t="guitar"></span> <span data-t="beginner"></span></div></button>
-          <button class="gameBtn" onclick="presetSetting(settingsPresets.guitar.intermediate)"><div><span data-t="guitar"></span> <span data-t="intermediate"></span></div></button>
-          <button class="gameBtn" onclick="presetSetting(settingsPresets.guitar.advanced)"><div><span data-t="guitar"></span> <span data-t="advanced"></span></div></button>
+          <button class="gameBtn" onclick="presetSetting(settingsPresets.piano.beginner)">
+            <div><span data-t="piano"></span> <span data-t="beginner"></span></div>
+          </button>
+          <button class="gameBtn" onclick="presetSetting(settingsPresets.piano.intermediate)">
+            <div><span data-t="piano"></span> <span data-t="intermediate"></span></div>
+          </button>
+          <button class="gameBtn" onclick="presetSetting(settingsPresets.piano.advanced)">
+            <div><span data-t="piano"></span> <span data-t="advanced"></span></div>
+          </button>
+          <button class="gameBtn" onclick="presetSetting(settingsPresets.guitar.beginner)">
+            <div><span data-t="guitar"></span> <span data-t="beginner"></span></div>
+          </button>
+          <button class="gameBtn" onclick="presetSetting(settingsPresets.guitar.intermediate)">
+            <div><span data-t="guitar"></span> <span data-t="intermediate"></span></div>
+          </button>
+          <button class="gameBtn" onclick="presetSetting(settingsPresets.guitar.advanced)">
+            <div><span data-t="guitar"></span> <span data-t="advanced"></span></div>
+          </button>
         </div>
-        
+
       </details>
 
       <div class="mb">
@@ -131,7 +143,7 @@
           <div class="settingBtns" id="progressionChords"></div>
         </div>
       </details>
-      
+
       <a href="#" onclick="resetDefaultSettings()"><span data-t="resetDefaultSettings"></span></a>
     </div>
   </div>
@@ -221,7 +233,9 @@
   </div>
   <footer data-t="footer" data-html="true"></footer>
 
+  <div id="notifications"></div>
   <script src="vendor/abc.js?v=1746820950498"></script>
+  <script src="js/notifications.js?v=1746820950498"></script>
   <script src="js/lang.js?v=1746820950498"></script>
   <script src="js/music.js?v=1746820950498"></script>
   <script src="js/acoustic_guitar_sounds.js?v=1746820950498"></script>
@@ -237,6 +251,7 @@
   <script src="js/stats.js?v=1746820950498"></script>
   <script src="js/strumming.js?v=1746820950498"></script>
   <script src="js/staff.js?v=1746820950498"></script>
+  <script src="js/midi.js?v=1746820950498"></script>
 
   <script>
     trad();
