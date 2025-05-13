@@ -494,7 +494,10 @@ function pratiquezLecturePiano(key) {
 
   el.appendChild(staffDiv)
 
-  spawnPiano()
+  if (MIDI_ACCESS && MIDI_ACCESS.inputs.size === 0 && document.getElementById("pianoSimulation").innerHTML === "") {
+    notify("No MIDI controller found, spawning a fake piano.")
+    spawnPiano()
+  }
 
   currentNoteIndexToBePlayed = 0
 
@@ -521,16 +524,15 @@ function pratiquezLecturePiano(key) {
   badButton.disabled = true
 }
 
-
 function getPianoRange(notesArray) {
-  if (!notesArray.length) return null;
+  if (!notesArray.length) return null
 
-  let min = notesArray[0].midi;
-  let max = notesArray[0].midi;
+  let min = notesArray[0].midi
+  let max = notesArray[0].midi
 
   for (let note of notesArray) {
-    if (note.midi < min) min = note.midi;
-    if (note.midi > max) max = note.midi;
+    if (note.midi < min) min = note.midi
+    if (note.midi > max) max = note.midi
   }
 
   let minPiano = "A2"
@@ -541,12 +543,12 @@ function getPianoRange(notesArray) {
   if (max <= "83") maxPiano = "B6"
   if (max <= "71") maxPiano = "B5"
 
-  return { minPiano, maxPiano };
+  return { minPiano, maxPiano }
 }
 
 function spawnPiano() {
   let { minPiano, maxPiano } = getPianoRange(notesToBePlayed)
-  let keyboard = createPiano({ min: minPiano, max: maxPiano, onKeyClicked: (note) => { simulateNote(note); } })
+  let keyboard = createPiano({ min: minPiano, max: maxPiano, onKeyClicked: (note) => { simulateNote(note) } })
 
   const pianoSimulationEl = document.getElementById("pianoSimulation")
   pianoSimulationEl.innerHTML = ""
@@ -568,36 +570,35 @@ function spawnPiano() {
 function simulateNote(noteNumber) {
   const fakeMessage = {
     data: [144, noteNumber, 127] // 144 = Note On, velocity 127
-  };
-  console.log(noteNumber)
-  handleMIDIMessage(fakeMessage);
+  }
+  handleMIDIMessage(fakeMessage)
 }
 
 function noteToMidiNumber(note, octave, key = "C") {
-  const sharpMap = { "C": 0, "C♯": 1, "D": 2, "D♯": 3, "E": 4, "E♯": 5, "F": 5, "F♯": 6, "G": 7, "G♯": 8, "A": 9, "A♯": 10, "B": 11, "B♯": 12 };
-  const flatMap = { "C♭": -1, "C": 0, "D♭": 1, "D": 2, "E♭": 3, "E": 4, "F♭": 4, "F": 5, "G♭": 6, "G": 7, "A♭": 8, "A": 9, "B♭": 10, "B": 11 };
+  const sharpMap = { "C": 0, "C♯": 1, "D": 2, "D♯": 3, "E": 4, "E♯": 5, "F": 5, "F♯": 6, "G": 7, "G♯": 8, "A": 9, "A♯": 10, "B": 11, "B♯": 12 }
+  const flatMap = { "C♭": -1, "C": 0, "D♭": 1, "D": 2, "E♭": 3, "E": 4, "F♭": 4, "F": 5, "G♭": 6, "G": 7, "A♭": 8, "A": 9, "B♭": 10, "B": 11 }
 
   // Determine if this key uses flats or sharps
-  const useSharps = !key.includes("b") && !key.includes("♭");
-  const signature = keySignatureMap[key] || [];
+  const useSharps = !key.includes("b") && !key.includes("♭")
+  const signature = keySignatureMap[key] || []
 
-  let actualNote = note;
+  let actualNote = note
 
   // Apply key signature
   if (useSharps && signature.includes(note)) {
-    actualNote = note + "♯";
+    actualNote = note + "♯"
   } else if (!useSharps && signature.includes(note + "♭")) {
-    actualNote = note + "♭";
+    actualNote = note + "♭"
   }
 
   // Look up in correct map
-  const semitone = useSharps ? sharpMap[actualNote] : flatMap[actualNote];
+  const semitone = useSharps ? sharpMap[actualNote] : flatMap[actualNote]
 
   if (semitone == null) {
-    throw new Error(`Invalid or unhandled note: ${note} in key ${key}`);
+    throw new Error(`Invalid or unhandled note: ${note} in key ${key}`)
   }
 
-  return (octave + 5) * 12 + semitone;
+  return (octave + 5) * 12 + semitone
 }
 
 function handleMIDIMessage({ data }) {
@@ -605,21 +606,24 @@ function handleMIDIMessage({ data }) {
     return
   }
 
-  const [status, noteNumber, velocity] = data;
+  const [status, noteNumber, velocity] = data
+
+  log(`Note number ${noteNumber} pressed`, "error")
 
   // Only respond to Note On with velocity > 0
   if (status === 144 && velocity > 0) {
-    checkNote(noteNumber);
+    checkNote(noteNumber)
   }
 }
 
 function checkNote(playedMidiNote) {
-  const isCorrect = playedMidiNote === notesToBePlayed[currentNoteIndexToBePlayed].midi;
+  const isCorrect = playedMidiNote === notesToBePlayed[currentNoteIndexToBePlayed].midi
+  let noteEl = notesToBePlayed[currentNoteIndexToBePlayed].element
   if (isCorrect) {
+    log("Note is correct")
     addGoodNote()
-    let noteEl = notesToBePlayed[currentNoteIndexToBePlayed].element
-    noteEl.style.fill = "var(--barColor1)"
-    currentNoteIndexToBePlayed++;
+    noteEl.classList.add("correct")
+    currentNoteIndexToBePlayed++
     if (currentNoteIndexToBePlayed >= notesToBePlayed.length) {
       if (settings.continuousReading === "sameClef") {
         pratiquezLecturePiano(currentKey)
@@ -633,6 +637,11 @@ function checkNote(playedMidiNote) {
 
     }
   } else {
+    log("Note is incorrect", "error")
+    noteEl.classList.add("incorrect")
+    setTimeout(() => {
+      noteEl.classList.remove("incorrect")
+    }, 300)
     addBadNote()
   }
 }
@@ -647,5 +656,12 @@ function addBadNote() {
   badButton.innerText = ++badButton.dataset.count
 }
 
+function log(msg, type = "success") {
+  const params = new URLSearchParams(window.location.search)
+  const isDebug = params.get("debug") === "true"
+  if (isDebug) {
+    notify(msg, type)
+  }
+}
 
 
