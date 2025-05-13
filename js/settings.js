@@ -18,7 +18,8 @@ let defaultSettings = {
   continuousReading: "sameClef",
   clefs: ["treble", "bass"],
   octaves: ["0"],
-  afficherCorrection: "false"
+  afficherCorrection: "false",
+  //timeSignatures: ["4/4"]
 }
 
 let settings = { ...defaultSettings }
@@ -116,7 +117,6 @@ function setOption(optionKey, value, isToggle) {
     if (optionKey === "notation") {
       printAllGammes()
       printAllAccords()
-      //printAllIntervalles();
     }
     if (optionKey === "lang") {
       trad()
@@ -152,6 +152,7 @@ function clickOnElements(selector) {
     element.click()
   }
 }
+
 function selectAllSetting(event, settingKey) {
   event.preventDefault()
   clickOnElements(`.settingBtn.${settingKey}:not(.active)`)
@@ -164,14 +165,6 @@ function unselectAllSetting(event, settingKey) {
   clickOnElements(`.settingBtn.${settingKey}.active`)
 }
 
-function createTempoOptions() {
-  const tempos = [40, 60, 80, 100, 110, 120, 135, 150, 180]
-  for (let i = 0; i < tempos.length; i++) {
-    const button = createOptionbutton("tempo", tempos[i])
-    document.getElementById("tempos").appendChild(button)
-  }
-  setDefaultOption("tempo")
-}
 
 function createTimerOptions() {
   const timers = [5, 10, 20, 30, 60]
@@ -184,55 +177,6 @@ function createTimerOptions() {
   setDefaultOption("timerInSeconds")
 }
 
-function createTimerAutoBadOptions() {
-  const buttonTrue = createOptionbutton("autoSelectBadAfterTimer", 'true', false, "oui")
-  document.getElementById("autoBad").appendChild(buttonTrue)
-  const buttonFalse = createOptionbutton("autoSelectBadAfterTimer", 'false', false, "non")
-  document.getElementById("autoBad").appendChild(buttonFalse)
-
-  setDefaultOption("autoSelectBadAfterTimer")
-}
-
-function createAfficherCorrectionOptions() {
-  const buttonTrue = createOptionbutton("afficherCorrection", 'true', false, "oui")
-  document.getElementById("afficherCorrection").appendChild(buttonTrue)
-  const buttonFalse = createOptionbutton("afficherCorrection", 'false', false, "non")
-  document.getElementById("afficherCorrection").appendChild(buttonFalse)
-
-  setDefaultOption("afficherCorrection")
-}
-
-function createFretOptions() {
-  for (let i = 0; i < 12; i++) {
-    const button = createOptionbutton("frets", i + 1)
-    document.getElementById("frets").appendChild(button)
-  }
-  setDefaultOption("frets")
-}
-
-function createRepetitionOptions() {
-  for (let i = 0; i < 4; i++) {
-    const button = createOptionbutton("repeats", i + 1)
-    document.getElementById("repeats").appendChild(button)
-  }
-  setDefaultOption("repeats")
-}
-
-function createAccordsOptions() {
-  for (let i = 0; i < accords.length; i++) {
-    const button = createOptionbutton("accords", accords[i].name, true, accords[i].name)
-    document.getElementById("accordsSettings").appendChild(button)
-  }
-  setDefaultOption("accords", true)
-}
-
-function createScalesOptions() {
-  for (let i = 0; i < gammes.length; i++) {
-    const button = createOptionbutton("gammes", gammes[i].name, true, gammes[i].name)
-    document.getElementById("scalesSettings").appendChild(button)
-  }
-  setDefaultOption("gammes", true)
-}
 
 function createRootsOptions() {
   for (let i = 0; i < notes.map((n) => n.root).length; i++) {
@@ -256,78 +200,26 @@ function createQuestionsOptions() {
   setDefaultOption("questions", true)
 }
 
-function createChordProgressionOptions() {
-  const button = createOptionbutton("progressionChords", "Pratique", false, "practice")
-  document.getElementById("progressionChords").appendChild(button)
 
-  for (let i = 0; i < possibleProgressionChords.length; i++) {
-    const button = createOptionbutton("progressionChords", possibleProgressionChords[i])
-    document.getElementById("progressionChords").appendChild(button)
+function createOptions(list, settingKey, isToggle = false, elementId = "") {
+  elementId = elementId || settingKey
+  for (let i = 0; i < list.length; i++) {
+    const button = createOptionbutton(settingKey, list[i], isToggle, list[i])
+    document.getElementById(elementId).appendChild(button)
   }
-
-  setDefaultOption("progressionChords")
+  setDefaultOption(settingKey, isToggle)
 }
 
-function createNotationOptions() {
-  const buttonMot = createOptionbutton("notation", "word", false, "mot")
-  document.getElementById("notations").appendChild(buttonMot)
-  const buttonLetter = createOptionbutton("notation", "letter", false, "lettre")
-  document.getElementById("notations").appendChild(buttonLetter)
-  setDefaultOption("notation")
+function createOuiNonOptions(settingKey,elementId) {
+  elementId = elementId || settingKey
+  const buttonTrue = createOptionbutton(settingKey, 'true', false, "oui")
+  document.getElementById(elementId).appendChild(buttonTrue)
+  const buttonFalse = createOptionbutton(settingKey, 'false', false, "non")
+  document.getElementById(elementId).appendChild(buttonFalse)
+
+  setDefaultOption(settingKey)
 }
 
-function createShowNotesOptions() {
-  let button = createOptionbutton("showNotes", "guitar", false, "guitar")
-  document.getElementById("showNotes").appendChild(button)
-
-  let button2 = createOptionbutton("showNotes", "piano", false, "piano")
-  document.getElementById("showNotes").appendChild(button2)
-
-  let button3 = createOptionbutton("showNotes", "none", false, "none")
-  document.getElementById("showNotes").appendChild(button3)
-
-  setDefaultOption("showNotes")
-}
-
-function createContinuousReadingOptions() {
-  for (let continuousReading of ["non", "sameClef", "differentClef"]) {
-    const button = createOptionbutton("continuousReading", continuousReading, false, continuousReading)
-    document.getElementById("continuousReading").appendChild(button)
-  }
-  setDefaultOption("continuousReading")
-}
-
-function createOctavesOptions() {
-  for (let octave of [0, -1, 1]) {
-    const button = createOptionbutton("octaves", octave, true, octave)
-    document.getElementById("octaves").appendChild(button)
-  }
-  setDefaultOption("octaves", true)
-}
-
-function createClefsOptions() {
-  for (let clef of ["treble", "bass"]) {
-    const button = createOptionbutton("clefs", clef, true, clef)
-    document.getElementById("clefs").appendChild(button)
-  }
-  setDefaultOption("clefs", true)
-}
-
-function createInstrumentOptions() {
-  for (const instrumentKey in instruments) {
-    const button = createOptionbutton("instruments", instrumentKey, false, instrumentKey)
-    document.getElementById("instruments").appendChild(button)
-  }
-  setDefaultOption("instruments")
-}
-
-function createLanguesOptions() {
-  const fr = createOptionbutton("lang", "fr", false, "fr")
-  document.getElementById("lang").appendChild(fr)
-  const en = createOptionbutton("lang", "en", false, "en")
-  document.getElementById("lang").appendChild(en)
-  setDefaultOption("lang")
-}
 
 function loadSettings() {
   const currentSettings = JSON.parse(localStorage.getItem("settings")) || {}
@@ -359,26 +251,23 @@ function readSettings() {
   settings = JSON.parse(localStorage.getItem("settings"))
 }
 
-function resetSettings() {
-
-}
-
 loadSettings()
-createTempoOptions()
-createRepetitionOptions()
-createFretOptions()
-createNotationOptions()
-createAccordsOptions()
-createScalesOptions()
-createChordProgressionOptions()
 createRootsOptions()
 createQuestionsOptions()
-createLanguesOptions()
 createTimerOptions()
-createTimerAutoBadOptions()
-createInstrumentOptions()
-createShowNotesOptions()
-createContinuousReadingOptions()
-createOctavesOptions()
-createClefsOptions()
-createAfficherCorrectionOptions()
+createOuiNonOptions("afficherCorrection")
+createOuiNonOptions("autoSelectBadAfterTimer", "autoBad")
+createOptions([40, 60, 80, 100, 110, 120, 135, 150, 180], "tempo", false)
+createOptions([1,2,3,4], "repeats", false)
+createOptions([1,2,3,4,5,6,7,8,9,10,11,12], "frets", false)
+createOptions(["word", "letter"], "notation", false)
+createOptions(accords.map(x=> x.name), "accords", true, "accordsSettings")
+createOptions(gammes.map(x=> x.name), "gammes", true, "gammesSettings")
+createOptions([ "practice", ...possibleProgressionChords], "progressionChords", false)
+createOptions(["fr","en"], "lang", false)
+createOptions(instruments, "instrument", false)
+createOptions(["none", "piano","guitar"], "showNotes", false)
+createOptions(["non", "sameClef", "differentClef"], "continuousReading", false)
+//createOptions(["4/4", "2/4","3/4","6/4"], "timeSignatures", true)
+createOptions(["treble", "bass"], "clefs", true)
+createOptions(["0", "-1", "1"], "octaves", true)
