@@ -494,8 +494,8 @@ function pratiquezLecturePiano(key) {
 
   el.appendChild(staffDiv)
 
-  if (MIDI_ACCESS && MIDI_ACCESS.inputs.size === 0 && document.getElementById("pianoSimulation").innerHTML === "") {
-    notify("No MIDI controller found, spawning a fake piano.")
+  if (MIDI_ACCESS && MIDI_ACCESS.inputs.size === 0) {
+    notify("No MIDI controller found, showing a fake piano.")
     spawnPiano()
   }
 
