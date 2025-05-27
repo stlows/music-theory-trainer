@@ -367,11 +367,9 @@ function playNotes(bassIndex, interval) {
 function playPianoNote(note) {
   const noteFormat = allNotes[note - 21]
   if (noteFormat) {
-    console.log(noteFormat)
     const audio = new Audio(instruments.piano[noteFormat])
     audio.play()
   }
-
 }
 
 function printAllGammes() {

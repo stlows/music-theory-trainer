@@ -47,6 +47,9 @@ function formatTempo(i, stroke) {
   return " et "
 }
 function createPattern(pattern, chord) {
+  // const patternEl = div("strumming")
+  // let abcString = getAbcRythmNotation(pattern)
+  // ABCJS.renderAbc(patternEl, abcString, { scale: 1.4, selectTypes: [], add_classes: true, staffwidth: 300 })
   const patternEl = table("strumming")
   patternEl.appendChild(caption(pattern.name + " en " + chord))
   const split = pattern.pattern.split("")
@@ -60,10 +63,52 @@ function createPattern(pattern, chord) {
   patternEl.appendChild(tempo)
   return patternEl
 }
+
+function getAbcRythmNotation({ name, pattern }) {
+  let countPerMeasure = 4
+  let key = "C"
+  let patternString = ""
+  let title = name
+  for (let i = 0; i < pattern.length; i++) {
+    if (pattern[i] == "d") {
+      patternString += "v!style=x!A"
+    }
+    if (pattern[i] == "u") {
+      patternString += "u!style=x!A"
+    }
+    if (pattern[i] == "x") {
+      patternString += "!style=x!A"
+    }
+    if (pattern[i] == " ") {
+      patternString += "z"
+    }
+    if (i % 2) {
+      patternString += " "
+    }
+  }
+  let abcString = `
+X:1
+T: ${title}
+M:${countPerMeasure}/4
+L:1/8
+K:${key}
+${patternString}
+    `
+
+  return abcString
+}
+
+function getRandomPattern() {
+  let pattern = ""
+  for (let i = 0; i < 4; i++) {
+    pattern += chooseOne("xd ") + chooseOne("u ")
+  }
+  return { name: t("randomPattern"), pattern }
+}
 function addPatternToPartition(questionEl) {
   const chord = getChord()
   const partitionEl = questionEl.querySelector(".partition")
-  const pattern = chooseOne(patterns)
+  const pattern = Math.random() < 0.5 ? getRandomPattern() : chooseOne(patterns)
   const patternEl = createPattern(pattern, chord)
   partitionEl.appendChild(patternEl)
   return { pattern, chord }
@@ -92,10 +137,10 @@ function strummingQuestion() {
   questionWrapper.appendChild(partition)
   let currentPattern = addPatternToPartition(questionWrapper)
   let nextPattern = addPatternToPartition(questionWrapper)
-  const soundEl = h4(`${t("sound")}: 🔊`)
+  const soundEl = h4(`${t("sound")}: 🔈`)
   soundEl.classList.add("soundSetting")
   questionWrapper.appendChild(soundEl)
-  let sound = true
+  let sound = false
   soundEl.addEventListener("click", (e) => {
     e.stopPropagation()
     if (sound) {
@@ -104,6 +149,21 @@ function strummingQuestion() {
     } else {
       sound = true
       soundEl.innerText = `${t("sound")}: 🔊`
+    }
+  })
+
+  const metronomeEl = h4(`${t("metronome")}: 🔊`)
+  metronomeEl.classList.add("soundSetting")
+  let metronome = true
+  questionWrapper.appendChild(metronomeEl)
+  metronomeEl.addEventListener("click", (e) => {
+    e.stopPropagation()
+    if (metronome) {
+      metronome = false
+      metronomeEl.innerText = `${t("metronome")}: 🔈`
+    } else {
+      metronome = true
+      metronomeEl.innerText = `${t("metronome")}: 🔊`
     }
   })
 
@@ -117,6 +177,7 @@ function strummingQuestion() {
   let timeoutId, activeStroke, activeTempo
   const slap = new Audio("assets/Acoustic/slap.mp3")
   const pling = new Audio("assets/pling.mp3")
+  const klack = new Audio("assets/klack.mp3")
   questionWrapper.addEventListener("click", () => {
     if (status === "pause") {
       timeoutId = setInterval(async () => {
@@ -131,14 +192,26 @@ function strummingQuestion() {
         activeStroke.classList.add("active")
         activeTempo.classList.add("active")
 
-        if (sound) {
+        if (metronome && currentTempo % 2 === 0) {
+          klack.pause()
+          klack.currentTime = 0
+          klack.play()
+        }
+        if (metronome && currentTempo === 0) {
+          pling.pause()
+          pling.currentTime = 0
+          pling.play()
+        }
 
+        if (sound) {
 
           if (settings.plingAtFirstTempo && currentTempo === 0) {
             pling.pause()
             pling.currentTime = 0
             pling.play()
           }
+
+
 
           if (currentPattern.pattern.pattern[currentTempo] === "d") {
             const down = sounds.find(x => x.chord === currentPattern.chord).down

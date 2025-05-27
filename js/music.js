@@ -80,7 +80,7 @@ const gammes = [
 
   // Chromatic
   { name: "chromatic", notes: ["root", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"] }
-];
+]
 
 const gammeChromatic = gammes.find(x => x.name === 'chromatic').notes
 const naturals = ["C", "D", "E", "F", "G", "A", "B"]
@@ -303,7 +303,6 @@ const intervalManche = {
   "P8": { deltaCorde: 2, deltaFret: 2 }
 }
 function getIntervalleSurManche(intervalle, string, fret) {
-  console.log(intervalle, string, fret)
   const guitar = emptyGuitarSvg(fret, [{ isRoot: true }])
   return { svg: guitar, details }
 }
@@ -325,4 +324,4 @@ const keySignatureMap = {
   "D♭": ["B♭", "E♭", "A♭", "D♭", "G♭"],
   "G♭": ["B♭", "E♭", "A♭", "D♭", "G♭", "C♭"],
   "C♭": ["B♭", "E♭", "A♭", "D♭", "G♭", "C♭", "F♭"]
-};
+}
