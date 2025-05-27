@@ -38,13 +38,13 @@ function formatTempo(i, stroke) {
   if (stroke === " ") {
     return ""
   }
-  if (stroke === "x") {
-    return "X"
-  }
+  // if (stroke === "x") {
+  //   return "X"
+  // }
   if (i % 2 === 0) {
     return (i / 2) + 1
   }
-  return " et "
+  return "et"
 }
 function createPattern(pattern, chord) {
   // const patternEl = div("strumming")
@@ -105,6 +105,7 @@ function getRandomPattern() {
   }
   return { name: t("randomPattern"), pattern }
 }
+
 function addPatternToPartition(questionEl) {
   const chord = getChord()
   const partitionEl = questionEl.querySelector(".partition")
@@ -113,20 +114,30 @@ function addPatternToPartition(questionEl) {
   partitionEl.appendChild(patternEl)
   return { pattern, chord }
 }
+
 function getChord() {
-  if (settings.progressionChords == "Pratique") {
+  if (settings.progressionChords == "practice") {
     return chooseOne(possibleProgressionChords)
   }
   return settings.progressionChords
 }
 
-const sounds = possibleProgressionChords.map(x => {
-  return {
-    chord: x,
-    up: new Audio(`assets/Acoustic/Acoustic-${x}-Up.mp3`),
-    down: new Audio(`assets/Acoustic/Acoustic-${x}-Down.mp3`)
+let sounds = []
+
+function getSound(chord) {
+  const sound = sounds.find(x => x.chord === chord)
+  if(!sound) {
+    let newSound = {
+      chord: chord,
+      up: new Audio(`assets/Acoustic/Acoustic-${chord}-Up.mp3`),
+      down: new Audio(`assets/Acoustic/Acoustic-${chord}-Down.mp3`)
+    }
+    sounds.push(newSound)
+    return newSound
   }
-})
+
+  return sound
+}
 
 function strummingQuestion() {
   const questionWrapper = div("question")
@@ -214,14 +225,14 @@ function strummingQuestion() {
 
 
           if (currentPattern.pattern.pattern[currentTempo] === "d") {
-            const down = sounds.find(x => x.chord === currentPattern.chord).down
+            const down = getSound(currentPattern.chord).down
             down.pause()
             down.currentTime = 0
             down.play()
           }
 
           if (currentPattern.pattern.pattern[currentTempo] === "u") {
-            const up = sounds.find(x => x.chord === currentPattern.chord).up
+            const up = getSound(currentPattern.chord).up
             up.pause()
             up.currentTime = 0
             up.play()
