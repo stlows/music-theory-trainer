@@ -19,8 +19,7 @@ let defaultSettings = {
   clefs: ["treble", "bass"],
   octaves: ["0"],
   afficherCorrection: "false",
-  pianoRythm: [possibleTiming[0].name]
-  //timeSignatures: ["4/4"]
+  pianoRythm: settingsPresets.piano.intermediate.pianoRythm
 }
 
 let settings = { ...defaultSettings }
