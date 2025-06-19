@@ -9,10 +9,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="assets/style.css?v=1750363542783" />
-  <link rel="stylesheet" href="assets/guitar.css?v=1750363542783" />
-  <link rel="stylesheet" href="assets/stats.css?v=1750363542783" />
-  <link rel="stylesheet" href="assets/notifications.css?v=1750363542783" />
+  <link rel="stylesheet" href="assets/style.css?v=1750369275180" />
+  <link rel="stylesheet" href="assets/guitar.css?v=1750369275180" />
+  <link rel="stylesheet" href="assets/stats.css?v=1750369275180" />
+  <link rel="stylesheet" href="assets/notifications.css?v=1750369275180" />
+  <link rel="stylesheet" href="assets/practiceTimers.css?v=1750369275180" />
   <link rel="manifest" href="manifest.json" />
 </head>
 
@@ -151,12 +152,19 @@
       <details>
         <summary data-t="pianoRythmCategory"></summary>
         <div class="mb">
+          <h4><span data-t="possibleBeat"></span>:</h4>
           <div style="text-align: right">
             <a href="#" onclick="selectAllSetting(event, 'pianoRythm')" data-t="selectAll"></a> |
             <a href="#" onclick="unselectAllSetting(event, 'pianoRythm')" data-t="unselectAll"></a>
           </div>
-          <h4><span data-t="possibleBeat"></span>:</h4>
           <div class="settingBtns" id="pianoRythm"></div>
+        </div>
+      </details>
+
+      <details>
+        <summary data-t="practiceTimerCategory"></summary>
+        <div class="mb">
+          <div id="practiceTimers"></div>
         </div>
       </details>
 
@@ -250,24 +258,28 @@
   <footer data-t="footer" data-html="true"></footer>
 
   <div id="notifications"></div>
-  <script src="vendor/abc.js?v=1750363542783"></script>
-  <script src="js/notifications.js?v=1750363542783"></script>
-  <script src="js/lang.js?v=1750363542783"></script>
-  <script src="js/music.js?v=1750363542783"></script>
-  <script src="js/acoustic_guitar_sounds.js?v=1750363542783"></script>
-  <script src="js/grand_piano_sounds.js?v=1750363542783"></script>
-  <script src="js/instruments.js?v=1750363542783"></script>
-  <script src="js/utils.js?v=1750363542783"></script>
-  <script src="js/dom.js?v=1750363542783"></script>
-  <script src="js/guitar.js?v=1750363542783"></script>
-  <script src="js/piano.js?v=1750363542783"></script>
-  <script src="js/app.js?v=1750363542783"></script>
-  <script src="js/settings_presets.js?v=1750363542783"></script>
-  <script src="js/settings.js?v=1750363542783"></script>
-  <script src="js/stats.js?v=1750363542783"></script>
-  <script src="js/strumming.js?v=1750363542783"></script>
-  <script src="js/staff.js?v=1750363542783"></script>
-  <script src="js/midi.js?v=1750363542783"></script>
+  <div id="timerWrapper">
+    <div id="timer"></div>
+  </div>
+  <script src="vendor/abc.js?v=1750369275180"></script>
+  <script src="js/notifications.js?v=1750369275180"></script>
+  <script src="js/lang.js?v=1750369275180"></script>
+  <script src="js/music.js?v=1750369275180"></script>
+  <script src="js/acoustic_guitar_sounds.js?v=1750369275180"></script>
+  <script src="js/grand_piano_sounds.js?v=1750369275180"></script>
+  <script src="js/instruments.js?v=1750369275180"></script>
+  <script src="js/utils.js?v=1750369275180"></script>
+  <script src="js/dom.js?v=1750369275180"></script>
+  <script src="js/guitar.js?v=1750369275180"></script>
+  <script src="js/piano.js?v=1750369275180"></script>
+  <script src="js/app.js?v=1750369275180"></script>
+  <script src="js/settings_presets.js?v=1750369275180"></script>
+  <script src="js/settings.js?v=1750369275180"></script>
+  <script src="js/stats.js?v=1750369275180"></script>
+  <script src="js/strumming.js?v=1750369275180"></script>
+  <script src="js/staff.js?v=1750369275180"></script>
+  <script src="js/midi.js?v=1750369275180"></script>
+  <script src="js/practiceTimers.js?v=1750369275180"></script>
 
   <script>
     trad();

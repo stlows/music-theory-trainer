@@ -42,7 +42,7 @@ const settingsPresets = {
             clefs: ["treble", "bass"],
             octaves: ["0", "-1"],
             afficherCorrection: "false",
-            pianoRythm: ['2-Eights', 'Quarter', 'Rest Eight', 'Triplet', '4-Sixteenths', 'Eight 2-Sixteenths', '2-sixteenths Eight', 'Sixteenth-Eight-Sixteenth']
+            pianoRythm: possibleTiming.map(x => x.name).filter(x => !x.includes("Rest"))
         },
         advanced: {
             notation: "letter",
@@ -112,7 +112,7 @@ const settingsPresets = {
             clefs: ["treble", "bass"],
             octaves: ["0", "-1"],
             afficherCorrection: "false",
-            pianoRythm: ['2-Eights', 'Quarter', 'Rest Eight', 'Triplet', '4-Sixteenths', 'Eight 2-Sixteenths', '2-sixteenths Eight', 'Sixteenth-Eight-Sixteenth']
+            pianoRythm: possibleTiming.map(x => x.name).filter(x => !x.includes("Rest") && !x.includes("Triplet"))
         },
         advanced: {
             notation: "letter",
@@ -135,7 +135,7 @@ const settingsPresets = {
             clefs: ["treble", "bass"],
             octaves: ["0", "-1", "1"],
             afficherCorrection: "false",
-            pianoRythm: possibleTiming.map(x => x.name).filter(x => x !== "Triplet")
+            pianoRythm: possibleTiming.map(x => x.name).filter(x => !x.includes("Triplet"))
         }
     },
 }

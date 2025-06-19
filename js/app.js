@@ -459,16 +459,22 @@ const possibleTiming = [
   { name: "Sixteenth-Eight-Sixteenth", notation: "GG2G", text: "# e a" },
   { name: "2-sixteenths Eight", notation: "GGG2", text: "# e &" },
   { name: "Triplet", notation: "(3G2G2G2", text: "# tri plet" },
-  { name: "Rest Eight", notation: "z2G2", text: "&" },
-  { name: "Rest 3-Sixteenths", notation: "zGGG", text: "e & a" },
   { name: "Dotted-Eight Sixteenth", notation: "G3G", text: "# a" },
   { name: "Sixteenth Dotted-Eight", notation: "GG3", text: "# e" },
+  { name: "Rest Eight", notation: "z2G2", text: "&" },
+  { name: "Rest 2-Sixteenths", notation: "z2GG", text: "& a" },
+  { name: "Rest 3-Sixteenths", notation: "zGGG", text: "e & a" },
+  { name: "Rest Sixteenth Eight", notation: "zGG2", text: "e &" },
+  { name: "Rest Sixteenth", notation: "z3G", text: "a" },
+  { name: "Rest Dotted Eight", notation: "zG3", text: "e" },
+  { name: "Rest Eight-Sixteenth", notation: "zG2G", text: "e a" },
+  { name: "Rest Triplet", notation: "(3zG2G2", text: "tri plet" },
 ]
 
 function pianoRythm() {
   let el = div()
   let staffDiv = div()
-  let staffwidth = Math.min(screen.width * 0.65, 600)
+  let staffwidth = Math.min(screen.width, 600)
   let measures = []
   for (let measure = 0; measure < 1; measure++) {
     let notes = []
@@ -485,7 +491,7 @@ K: C
 |:${measures.map(m => m.map(x => x.notation).join(" ")).join("|")}:|
 w:${measures.map(m => m.map((x, index) => x.text.replace("#", index + 1)).join(" ")).join("|")}
 `
-  ABCJS.renderAbc(staffDiv, abcString, { scale: 1.4, selectTypes: [], add_classes: true, staffwidth })
+  ABCJS.renderAbc(staffDiv, abcString, { staffwidth })
 
   el.appendChild(staffDiv)
 

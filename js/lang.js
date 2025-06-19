@@ -199,6 +199,8 @@ const res = {
   pianoRythmDescription: { fr: "Pratique de rythme sur la portée", en: "Rythm practice with notation on the staff" },
   pianoRythmCategory: { fr: "Rythme sur la portée", en: "Rythm on the staff" },
   possibleBeat: { fr: "Séparation possible d'un temps", en: "Possible way to split a beat" },
+  practiceTimerCategory: { fr: "Chronomètre de pratique", en: "Practice timer" },
+  cancelTimer: { fr: "Terminer la pratique", en: "Finish practice" },
 }
 
 function t(key) {
