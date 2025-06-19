@@ -11,15 +11,16 @@ const settingsPresets = {
             lang: "en",
             theme: "light",
             roots: ["C", "G", "D", "A"],
-            questions: ["intervalle", "gamme", "chord", "relativeKey","pratiquezLecturePiano"],
+            questions: ["intervalle", "gamme", "chord", "relativeKey", "pratiquezLecturePiano", "pianoRythm"],
             timerInSeconds: 0,
             autoSelectBadAfterTimer: 'true',
             instruments: "piano",
             showNotes: "piano",
             continuousReading: "non",
-            clefs: ["treble","bass"],
+            clefs: ["treble", "bass"],
             octaves: ["0"],
-            afficherCorrection: "false"
+            afficherCorrection: "false",
+            pianoRythm: ['2-Eights', 'Quarter', 'Rest Eight']
         },
         intermediate: {
             notation: "letter",
@@ -31,8 +32,8 @@ const settingsPresets = {
             gammes: ["ionian", "minorPentatonic", "majorPentatonic"],
             lang: "en",
             theme: "dark",
-            roots: ["C", "G","D", "A","F"],
-            questions: ["intervalle", "gamme", "chord", "chordsInKey","nthNoteInKey","chordsInProgression","relativeKey","pratiquezLecturePiano"],
+            roots: ["C", "G", "D", "A", "F"],
+            questions: ["intervalle", "gamme", "chord", "chordsInKey", "nthNoteInKey", "chordsInProgression", "relativeKey", "pratiquezLecturePiano", "pianoRythm"],
             timerInSeconds: 0,
             autoSelectBadAfterTimer: 'true',
             instruments: "piano",
@@ -40,7 +41,8 @@ const settingsPresets = {
             continuousReading: "non",
             clefs: ["treble", "bass"],
             octaves: ["0", "-1"],
-            afficherCorrection: "false"
+            afficherCorrection: "false",
+            pianoRythm: ['2-Eights', 'Quarter', 'Rest Eight', 'Triplet', '4-Sixteenths', 'Eight 2-Sixteenths', '2-sixteenths Eight', 'Sixteenth-Eight-Sixteenth']
         },
         advanced: {
             notation: "letter",
@@ -53,7 +55,7 @@ const settingsPresets = {
             lang: "fr",
             theme: "dark",
             roots: [...fifths.major],
-            questions: ["intervalle", "gamme", "chord", "chordsInKey","nthNoteInKey","chordsInProgression","relativeKey","chordSimilarities","pratiquezLecturePiano"],
+            questions: ["intervalle", "gamme", "chord", "chordsInKey", "nthNoteInKey", "chordsInProgression", "relativeKey", "chordSimilarities", "pratiquezLecturePiano", "pianoRythm"],
             timerInSeconds: 0,
             autoSelectBadAfterTimer: 'false',
             instruments: "piano",
@@ -61,7 +63,8 @@ const settingsPresets = {
             continuousReading: "non",
             clefs: ["treble", "bass"],
             octaves: ["0", "-1", "1"],
-            afficherCorrection: "false"
+            afficherCorrection: "false",
+            pianoRythm: possibleTiming.map(x => x.name)
         }
     },
     guitar: {
@@ -83,9 +86,10 @@ const settingsPresets = {
             instruments: "guitar",
             showNotes: "guitar",
             continuousReading: "non",
-            clefs: ["treble","bass"],
+            clefs: ["treble", "bass"],
             octaves: ["0"],
-            afficherCorrection: "false"
+            afficherCorrection: "false",
+            pianoRythm: ['2-Eights', 'Quarter', 'Rest Eight']
         },
         intermediate: {
             notation: "letter",
@@ -97,8 +101,8 @@ const settingsPresets = {
             gammes: ["ionian", "minorPentatonic", "majorPentatonic", "blues"],
             lang: "en",
             theme: "dark",
-            roots: ["C", "G","D", "A","F", "E","B"],
-            questions: ["intervalle", "gamme", "chord", "chordsInKey","nthNoteInKey","chordsInProgression","relativeKey", "quelleNoteSurManche", "noteSurManche", "strummingQuestion"],
+            roots: ["C", "G", "D", "A", "F", "E", "B"],
+            questions: ["intervalle", "gamme", "chord", "chordsInKey", "nthNoteInKey", "chordsInProgression", "relativeKey", "quelleNoteSurManche", "noteSurManche", "strummingQuestion", "pianoRythm"],
             frets: 7,
             timerInSeconds: 0,
             autoSelectBadAfterTimer: 'true',
@@ -107,7 +111,8 @@ const settingsPresets = {
             continuousReading: "non",
             clefs: ["treble", "bass"],
             octaves: ["0", "-1"],
-            afficherCorrection: "false"
+            afficherCorrection: "false",
+            pianoRythm: ['2-Eights', 'Quarter', 'Rest Eight', 'Triplet', '4-Sixteenths', 'Eight 2-Sixteenths', '2-sixteenths Eight', 'Sixteenth-Eight-Sixteenth']
         },
         advanced: {
             notation: "letter",
@@ -120,7 +125,7 @@ const settingsPresets = {
             lang: "fr",
             theme: "dark",
             roots: [...fifths.major],
-            questions: ["intervalle", "gamme", "chord", "chordsInKey","nthNoteInKey","chordsInProgression","relativeKey", "quelleNoteSurManche", "noteSurManche", "strummingQuestion"],
+            questions: ["intervalle", "gamme", "chord", "chordsInKey", "nthNoteInKey", "chordsInProgression", "relativeKey", "quelleNoteSurManche", "noteSurManche", "strummingQuestion", "pianoRythm"],
             frets: 12,
             timerInSeconds: 0,
             autoSelectBadAfterTimer: 'false',
@@ -129,7 +134,8 @@ const settingsPresets = {
             continuousReading: "non",
             clefs: ["treble", "bass"],
             octaves: ["0", "-1", "1"],
-            afficherCorrection: "false"
+            afficherCorrection: "false",
+            pianoRythm: possibleTiming.map(x => x.name).filter(x => x !== "Triplet")
         }
     },
-};
+}

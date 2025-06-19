@@ -195,7 +195,10 @@ const res = {
   afficherCorrection: { fr: "Afficher les boutons d'auto-correction (stats)", en: "Show auto-correct buttons (for stats)" },
   randomPattern: { fr: "Pattern aléatoire", en: "Random pattern" },
   metronome: { fr: "Métronome", en: "Metronome" },
-
+  pianoRythm: { fr: "Jouez ce rythme", en: "Play this rythm" },
+  pianoRythmDescription: { fr: "Pratique de rythme sur la portée", en: "Rythm practice with notation on the staff" },
+  pianoRythmCategory: { fr: "Rythme sur la portée", en: "Rythm on the staff" },
+  possibleBeat: { fr: "Séparation possible d'un temps", en: "Possible way to split a beat" },
 }
 
 function t(key) {

@@ -19,6 +19,7 @@ let defaultSettings = {
   clefs: ["treble", "bass"],
   octaves: ["0"],
   afficherCorrection: "false",
+  pianoRythm: [possibleTiming[0].name]
   //timeSignatures: ["4/4"]
 }
 
@@ -38,7 +39,8 @@ const possibleQuestions = [
   { func: "chordSimilarities", t: "chordSimilarities" },
   { func: "strummingQuestion", t: "strummingQuestion" },
   { func: "intervalByEar", t: "intervalByEar" },
-  { func: "pratiquezLecturePiano", t: "pratiquezLecturePiano" }
+  { func: "pratiquezLecturePiano", t: "pratiquezLecturePiano" },
+  { func: "pianoRythm", t: "pianoRythm" }
 ]
 
 function toggleActive(id) {
@@ -210,7 +212,7 @@ function createOptions(list, settingKey, isToggle = false, elementId = "") {
   setDefaultOption(settingKey, isToggle)
 }
 
-function createOuiNonOptions(settingKey,elementId) {
+function createOuiNonOptions(settingKey, elementId) {
   elementId = elementId || settingKey
   const buttonTrue = createOptionbutton(settingKey, 'true', false, "oui")
   document.getElementById(elementId).appendChild(buttonTrue)
@@ -238,9 +240,9 @@ function resetDefaultSettings() {
   presetSetting(defaultSettings)
 }
 
-function presetSetting(newSettings){
+function presetSetting(newSettings) {
   let lang = settings.lang
-  localStorage.setItem("settings", JSON.stringify({...newSettings, lang}))
+  localStorage.setItem("settings", JSON.stringify({ ...newSettings, lang }))
   location.reload()
 }
 
@@ -258,15 +260,16 @@ createTimerOptions()
 createOuiNonOptions("afficherCorrection")
 createOuiNonOptions("autoSelectBadAfterTimer", "autoBad")
 createOptions([40, 60, 80, 100, 110, 120, 135, 150, 180], "tempo", false)
-createOptions([1,2,3,4], "repeats", false)
-createOptions([1,2,3,4,5,6,7,8,9,10,11,12], "frets", false)
+createOptions([1, 2, 3, 4], "repeats", false)
+createOptions([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "frets", false)
 createOptions(["word", "letter"], "notation", false)
-createOptions(accords.map(x=> x.name), "accords", true, "accordsSettings")
-createOptions(gammes.map(x=> x.name), "gammes", true, "gammesSettings")
-createOptions([ "practice", ...possibleProgressionChords], "progressionChords", false)
-createOptions(["fr","en"], "lang", false)
-createOptions(["guitar","piano"], "instruments", false)
-createOptions(["none", "piano","guitar"], "showNotes", false)
+createOptions(accords.map(x => x.name), "accords", true, "accordsSettings")
+createOptions(gammes.map(x => x.name), "gammes", true, "gammesSettings")
+createOptions(possibleTiming.map(x => x.name), "pianoRythm", true)
+createOptions(["practice", ...possibleProgressionChords], "progressionChords", false)
+createOptions(["fr", "en"], "lang", false)
+createOptions(["guitar", "piano"], "instruments", false)
+createOptions(["none", "piano", "guitar"], "showNotes", false)
 createOptions(["non", "sameClef", "differentClef"], "continuousReading", false)
 //createOptions(["4/4", "2/4","3/4","6/4"], "timeSignatures", true)
 createOptions(["treble", "bass"], "clefs", true)

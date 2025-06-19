@@ -451,6 +451,53 @@ function resetLectureQuestion() {
   currentKey = ""
 }
 
+const possibleTiming = [
+  { name: "Quarter", notation: "G4", text: "#" },
+  { name: "2-Eights", notation: "G2G2", text: "# &" },
+  { name: "4-Sixteenths", notation: "GGGG", text: "# e & a" },
+  { name: "Eight 2-Sixteenths", notation: "G2GG", text: "# & a" },
+  { name: "Sixteenth-Eight-Sixteenth", notation: "GG2G", text: "# e a" },
+  { name: "2-sixteenths Eight", notation: "GGG2", text: "# e &" },
+  { name: "Triplet", notation: "(3G2G2G2", text: "# tri plet" },
+  { name: "Rest Eight", notation: "z2G2", text: "&" },
+  { name: "Rest 3-Sixteenths", notation: "zGGG", text: "e & a" },
+  { name: "Dotted-Eight Sixteenth", notation: "G3G", text: "# a" },
+  { name: "Sixteenth Dotted-Eight", notation: "GG3", text: "# e" },
+]
+
+function pianoRythm() {
+  let el = div()
+  let staffDiv = div()
+  let staffwidth = Math.min(screen.width * 0.65, 600)
+  let measures = []
+  for (let measure = 0; measure < 1; measure++) {
+    let notes = []
+    for (let beat = 0; beat < 4; beat++) {
+      notes.push(chooseOne(possibleTiming.filter(x => settings.pianoRythm.includes(x.name))))
+    }
+    measures.push(notes)
+  }
+  let abcString = `
+X: 1
+M: 4/4
+L: 1/16
+K: C
+|:${measures.map(m => m.map(x => x.notation).join(" ")).join("|")}:|
+w:${measures.map(m => m.map((x, index) => x.text.replace("#", index + 1)).join(" ")).join("|")}
+`
+  ABCJS.renderAbc(staffDiv, abcString, { scale: 1.4, selectTypes: [], add_classes: true, staffwidth })
+
+  el.appendChild(staffDiv)
+
+  let question = createQuestion({
+    light: true,
+    questionText: t("pianoRythm"),
+    answerNode: el,
+  })
+
+  question.querySelector(".answer").click()
+}
+
 function pratiquezLecturePiano(key) {
   resetLectureQuestion()
   if (!key) {
