@@ -1,7 +1,7 @@
 const kickdrum = new Audio(`assets/kick-drum.mp3`)
 
 let metronomeId = undefined
-let metronomeTempo = 80
+let metronomeTempo = 60
 let metronomePlaying = false
 let beat = 0
 
