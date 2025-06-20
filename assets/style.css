@@ -398,6 +398,10 @@ table.strumming td.active {
   background-color: var(--flat-btn-hover-background);
 }
 
+.soundSetting.light:hover {
+  background-color: var(--settingBtn-color);
+}
+
 #accords .accord {
   position: relative;
 }
