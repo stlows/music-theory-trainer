@@ -177,7 +177,10 @@ const res = {
   dontShow: { fr: "Ne plus afficher", en: "Do not show again" },
   chordSimilaritiesDescription: { fr: "🎹 Similarités d'accord (inversions)", en: "🎹 Chord similarities (inversions)" },
   pratiquezLecturePianoDescription: { fr: "🎹 Pratiquez la lecture à vue au piano", en: "🎹 Practice staff sight-reading" },
-  pratiquezLecturePiano: { fr: (notesCount, key) => `Jouez ces ${notesCount} notes en ${key}`, en: (notesCount, key) => `Play these ${notesCount} notes in ${key}` },
+  pratiquezLecturePiano: {
+    fr: (notesCount, key) => `Jouez ces ${notesCount} notes en ${key}`,
+    en: (notesCount, key) => `Play these ${notesCount} notes in ${key}`,
+  },
   readingQuestionsCategory: { fr: "Lecture à vue", en: "Sight-Reading" },
   continuousReading: { fr: "Lecture à vue en continue", en: "Continuous sight-reading" },
   octaves: { fr: "Octaves", en: "Octaves" },
@@ -201,23 +204,25 @@ const res = {
   possibleBeat: { fr: "Séparation possible d'un temps", en: "Possible way to split a beat" },
   practiceTimerCategory: { fr: "Chronomètre de pratique", en: "Practice timer" },
   cancelTimer: { fr: "Terminer la pratique", en: "Finish practice" },
-}
+  stopTheBeat: { fr: "Arrêtez le rythme", en: "Stop the beat" },
+  startTheBeat: { fr: "Jouez le rythme", en: "Play the beat" },
+};
 
 function t(key) {
   if (!res[key] || !res[key][settings.lang]) {
-    return `${key}`
+    return `${key}`;
   }
-  return res[key][settings.lang]
+  return res[key][settings.lang];
 }
 
 function trad() {
   document.querySelectorAll("[data-t]").forEach((x) => {
     if (x.dataset.html === "true") {
-      x.innerHTML = t(x.dataset.t)
+      x.innerHTML = t(x.dataset.t);
     } else {
-      x.innerText = t(x.dataset.t)
+      x.innerText = t(x.dataset.t);
     }
-  })
-  printAllAccords()
-  window.scrollTo(0, 0)
+  });
+  printAllAccords();
+  window.scrollTo(0, 0);
 }

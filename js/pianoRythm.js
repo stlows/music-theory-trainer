@@ -102,7 +102,7 @@ w:${measures.map((m) => m.map((x, index) => x.text.replace("#", index + 1)).join
   addMetronomeControl(1, question, metronomeEl);
   addMetronomeControl(10, question, metronomeEl);
 
-  const playTheBeat = h4(t("playTheBeat"));
+  const playTheBeat = h4(t("startTheBeat"));
   playTheBeat.classList.add("soundSetting");
   playTheBeat.classList.add("light");
   playTheBeat.addEventListener("click", async (e) => {
@@ -110,10 +110,10 @@ w:${measures.map((m) => m.map((x, index) => x.text.replace("#", index + 1)).join
     stopMetronome();
     if (!beatPlaying) {
       beatPlaying = true;
-      playTheBeat.innerText = "Stop the beat next measure...";
+      playTheBeat.innerText = t("stopTheBeat");
       await playBeats(staffNotes, playTheBeat);
     } else {
-      playTheBeat.innerText = "Start the beat !";
+      playTheBeat.innerText = t("startTheBeat");
       beatPlaying = false;
     }
   });
@@ -128,7 +128,9 @@ async function playBeats(notes) {
       klack.currentTime = 0;
       klack.play();
     }
-    await wait((60000 / metronomeTempo) * staffNote.duration * 4);
+    if (beatPlaying) {
+      await wait((60000 / metronomeTempo) * staffNote.duration * 4);
+    }
   }
   if (beatPlaying) {
     await playBeats(notes);
