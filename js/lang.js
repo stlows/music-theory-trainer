@@ -206,6 +206,14 @@ const res = {
   cancelTimer: { fr: "Terminer la pratique", en: "Finish practice" },
   stopTheBeat: { fr: "Arrêtez le rythme", en: "Stop the beat" },
   startTheBeat: { fr: "Jouez le rythme", en: "Play the beat" },
+  octavesDifficulty: { fr: "Difficulté des octaves", en: "Octaves difficulty" },
+  easy: { fr: "Facile", en: "Easy" },
+  medium: { fr: "Moyen", en: "Medium" },
+  hard: { fr: "Difficile", en: "Hard" },
+  octavesDifficultyDescriptionEasy: { fr: "Octaves entre C4 et C5 (clé de sol) et entre C3 et C4 (clé de fa)", en: "Octaves between C4 and C5 (treble clef) and between C3 and C4 (bass clef)" },
+  octavesDifficultyDescriptionMedium: { fr: "Octaves entre G3 et A5 (clé de sol) et entre G2 et D4 (clé de fa)", en: "Octaves between G3 and A5 (treble clef) and between G2 and D4 (bass clef)" },
+  octavesDifficultyDescriptionHard: { fr: "Octaves entre F3 et E6 (clé de sol) et entre B2 et E4 (clé de fa)", en: "Octaves between F3 and E6 (treble clef) and between B2 and E4 (bass clef)" },
+
 };
 
 function t(key) {
