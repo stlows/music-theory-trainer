@@ -668,7 +668,8 @@ function handleMIDIMessage({ data }) {
 function checkNote(playedMidiNote) {
   const isCorrect = playedMidiNote === notesToBePlayed[currentNoteIndexToBePlayed].midi
   let noteEl = notesToBePlayed[currentNoteIndexToBePlayed].element
-  updatePianoStats(notesToBePlayed[currentNoteIndexToBePlayed].midi, isCorrect)
+  console.log(currentKey)
+  addPianoStats(notesToBePlayed[currentNoteIndexToBePlayed].midi, playedMidiNote, currentKey)
   if (isCorrect) {
     log("Note is correct")
     addGoodNote()
