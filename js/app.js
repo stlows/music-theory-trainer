@@ -190,7 +190,7 @@ function intervalle() {
   }
   if (settings.showNotes === "piano") {
     let pianoWrapper = createPiano({ notes: [notes[rootIndex].root, notes[rootIndex][intervalle]] })
-    answerNode.appendChild(pianoWrapper)
+    answerNode.appendChild(pianoWrapper._svg)
   }
   createQuestion({
     questionText: `${t(intervalle)} ${t("of")} ${printNote(notes[rootIndex].root)} ?`,
@@ -213,7 +213,7 @@ function chord() {
   }
   if (settings.showNotes === "piano") {
     let pianoWrapper = createPiano({ notes: accord.notes })
-    answerNode.appendChild(pianoWrapper)
+    answerNode.appendChild(pianoWrapper._svg)
   }
   createQuestion({
     questionText: t("chord")(printNote(accord.tonique), t(accord.type.name)) + " ?",
@@ -236,7 +236,7 @@ function gamme() {
   }
   if (settings.showNotes === "piano") {
     let pianoWrapper = createPiano({ notes: gamme.notes }, true)
-    answerNode.appendChild(pianoWrapper)
+    answerNode.appendChild(pianoWrapper._svg)
   }
   createQuestion({
     questionText: t("gamme")(printNote(gamme.tonique), t(gamme.type.name)) + " ?",
@@ -476,13 +476,13 @@ let currentNoteIndexToBePlayed = -1
 let currentLectureQuestionEl = undefined
 let notesToBePlayed = []
 let currentKey = ""
-const midiPianoNotes = [19, 21, 23, 24, 26, 28, 29, 31, 33, 35, 36, 38, 40, 41, 43, 45, 47, 48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77, 79,81,83,84,86,88,89,91,93,95,96,98,100,101,103]
-const midiNaturals = ["C","C","D","D","E","F","F","G","G","A","A","B"]
+const midiPianoNotes = [19, 21, 23, 24, 26, 28, 29, 31, 33, 35, 36, 38, 40, 41, 43, 45, 47, 48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77, 79, 81, 83, 84, 86, 88, 89, 91, 93, 95, 96, 98, 100, 101, 103]
+const midiNaturals = ["C", "C", "D", "D", "E", "F", "F", "G", "G", "A", "A", "B"]
 function notesSample(start, end) {
-  return midiPianoNotes.filter(n => n >= start && n <= end);
+  return midiPianoNotes.filter(n => n >= start && n <= end)
 }
 
-let octavesDifficuly = { easy: {treble: [60, 72], bass: [48, 60]}, medium: {treble: [55, 81], bass: [43, 62]}, hard: {treble: [53, 88], bass: [35, 64]}}
+let octavesDifficuly = { easy: { treble: [60, 72], bass: [48, 60] }, medium: { treble: [55, 81], bass: [43, 62] }, hard: { treble: [53, 88], bass: [35, 64] } }
 
 
 function resetLectureQuestion() {
@@ -513,7 +513,7 @@ function pratiquezLecturePiano(key) {
     let midi = chooseOne(clef == "treble" ? trebleNotes : bassNotes)
     let octave = Math.floor(midi / 12) - 5
     let note = midiNaturals[midi % 12]
-    
+
     //console.log({natural: midiNaturals[midi % 12], midi, clef, octave: Math.floor(midi / 12) - 6})
     // clef = "bass"
     // note = "E"
@@ -602,7 +602,7 @@ function spawnPiano() {
 
   const pianoSimulationEl = document.getElementById("pianoSimulation")
   pianoSimulationEl.innerHTML = ""
-  pianoSimulationEl.appendChild(keyboard)
+  pianoSimulationEl.appendChild(keyboard._svg)
 
   const divHide = div("mb-small")
   const hide = a("hidePiano")
@@ -668,6 +668,7 @@ function handleMIDIMessage({ data }) {
 function checkNote(playedMidiNote) {
   const isCorrect = playedMidiNote === notesToBePlayed[currentNoteIndexToBePlayed].midi
   let noteEl = notesToBePlayed[currentNoteIndexToBePlayed].element
+  updatePianoStats(notesToBePlayed[currentNoteIndexToBePlayed].midi, isCorrect)
   if (isCorrect) {
     log("Note is correct")
     addGoodNote()

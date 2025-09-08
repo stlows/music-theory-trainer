@@ -213,24 +213,25 @@ const res = {
   octavesDifficultyDescriptionEasy: { fr: "Octaves entre C4 et C5 (clé de sol) et entre C3 et C4 (clé de fa)", en: "Octaves between C4 and C5 (treble clef) and between C3 and C4 (bass clef)" },
   octavesDifficultyDescriptionMedium: { fr: "Octaves entre G3 et A5 (clé de sol) et entre G2 et D4 (clé de fa)", en: "Octaves between G3 and A5 (treble clef) and between G2 and D4 (bass clef)" },
   octavesDifficultyDescriptionHard: { fr: "Octaves entre F3 et E6 (clé de sol) et entre B2 et E4 (clé de fa)", en: "Octaves between F3 and E6 (treble clef) and between B2 and E4 (bass clef)" },
+  sightReadingStats: { fr: "Stats de lecture à vue", en: "Sight-reading stats" }
 
-};
+}
 
 function t(key) {
   if (!res[key] || !res[key][settings.lang]) {
-    return `${key}`;
+    return `${key}`
   }
-  return res[key][settings.lang];
+  return res[key][settings.lang]
 }
 
 function trad() {
   document.querySelectorAll("[data-t]").forEach((x) => {
     if (x.dataset.html === "true") {
-      x.innerHTML = t(x.dataset.t);
+      x.innerHTML = t(x.dataset.t)
     } else {
-      x.innerText = t(x.dataset.t);
+      x.innerText = t(x.dataset.t)
     }
-  });
-  printAllAccords();
-  window.scrollTo(0, 0);
+  })
+  printAllAccords()
+  window.scrollTo(0, 0)
 }

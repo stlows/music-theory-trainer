@@ -124,7 +124,7 @@ class Keyboard {
     const WHITE_KEY_HEIGHT = 140
     const BLACK_KEY_HEIGHT = 90
     const BLACK_KEY_WIDTH = 14
-    
+
     for (let note = lowest; note <= highest; note++) {
       const x = 168 * getOctave(note) + KEY_POSITIONS[getPitchClass(note)] - offset
 
@@ -134,14 +134,14 @@ class Keyboard {
         { x, y: 1, width: BLACK_KEY_WIDTH, height: BLACK_KEY_HEIGHT, rx: 2, ry: 2, stroke: keyStroke, 'stroke-width': 2, fill: blackKeyFill }
 
       const key = createSvgElement('rect', attrs)
-      if(options.onKeyClicked){
+      if (options.onKeyClicked) {
         key.classList.add("clickable")
         key.classList.add("piano-note")
         key.addEventListener("click", () => options.onKeyClicked(note))
       }
-      if(note === 60){
+      if (note === 60) {
         let fontSize = 10
-        c4ElementText = createSvgElement("text", { x: x + WHITE_KEY_WIDTH / 2 - (fontSize + 2) / 2, y: WHITE_KEY_HEIGHT - fontSize / 2, fill: "var(--background-color)"})
+        c4ElementText = createSvgElement("text", { x: x + WHITE_KEY_WIDTH / 2 - (fontSize + 2) / 2, y: WHITE_KEY_HEIGHT - fontSize / 2, fill: "var(--background-color)" })
         c4ElementText.textContent = "C4"
         c4ElementText.style.fontSize = fontSize + "px"
       }
@@ -158,18 +158,18 @@ class Keyboard {
     // First add white keys and then black keys, so that the black keys are drawn on top
     for (const whiteKey of whiteKeys) svg.appendChild(whiteKey)
     for (const blackKey of blackKeys) svg.appendChild(blackKey)
-    if(c4ElementText){
+    if (c4ElementText) {
       svg.appendChild(c4ElementText)
     }
 
     this._svg = svg
   }
 
-  fillKey(noteName, isTonic) {
+  fillKey(noteName, isTonic, color) {
     noteName = noteName.replace("♯", "#").replace("♭", "b")
     let note = parseNoteName(noteName)
     const key = this._keys[note]
-    if (key) key.setAttribute('fill', isTonic ? this._tonicFill : (isWhiteKey(note) ? this._whiteKeyHighlightFill : this._blackKeyHighlightFill))
+    if (key) key.setAttribute('fill', color ?? (isTonic ? this._tonicFill : (isWhiteKey(note) ? this._whiteKeyHighlightFill : this._blackKeyHighlightFill)))
   }
 
   clearKey(noteName) {
@@ -188,7 +188,7 @@ class Keyboard {
   }
 }
 
-function createPiano({ notes = [], min = "B4", max = "C7",  onKeyClicked = null }, repeatFirstNote = false) {
+function createPiano({ notes = [], min = "B4", max = "C7", onKeyClicked = null }, repeatFirstNote = false) {
   let order = "CDEFGAB"
   const keyboard = new Keyboard({
     lowest: min,
@@ -198,7 +198,7 @@ function createPiano({ notes = [], min = "B4", max = "C7",  onKeyClicked = null 
   let number = 5
   for (let i = 0; i < notes.length; i++) {
     let natural = order.indexOf(notes[i][0])
-    if (i > 0  && natural < order.indexOf(notes[i - 1][0])) {
+    if (i > 0 && natural < order.indexOf(notes[i - 1][0])) {
       number++
     }
     keyboard.fillKey(notes[i] + number, i === 0)
@@ -208,5 +208,5 @@ function createPiano({ notes = [], min = "B4", max = "C7",  onKeyClicked = null 
     keyboard.fillKey(notes[0] + number, true)
   }
   //keyboard.fillKey("Cb5", false)
-  return keyboard._svg
+  return keyboard
 }

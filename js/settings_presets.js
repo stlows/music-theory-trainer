@@ -18,7 +18,7 @@ const settingsPresets = {
             showNotes: "piano",
             continuousReading: "non",
             clefs: ["treble", "bass"],
-            octaves: ["0"],
+            octavesDifficulty: "easy",
             afficherCorrection: "false",
             pianoRythm: ['2-Eights', 'Quarter', 'Rest Eight']
         },
@@ -39,8 +39,8 @@ const settingsPresets = {
             instruments: "piano",
             showNotes: "piano",
             continuousReading: "non",
+            octavesDifficulty: "medium",
             clefs: ["treble", "bass"],
-            octaves: ["0", "-1"],
             afficherCorrection: "false",
             pianoRythm: possibleTiming.map(x => x.name).filter(x => !x.includes("Rest"))
         },
@@ -62,7 +62,7 @@ const settingsPresets = {
             showNotes: "piano",
             continuousReading: "non",
             clefs: ["treble", "bass"],
-            octaves: ["0", "-1", "1"],
+            octavesDifficulty: "hard",
             afficherCorrection: "false",
             pianoRythm: possibleTiming.map(x => x.name)
         }
@@ -87,7 +87,7 @@ const settingsPresets = {
             showNotes: "guitar",
             continuousReading: "non",
             clefs: ["treble", "bass"],
-            octaves: ["0"],
+            octavesDifficulty: "easy",
             afficherCorrection: "false",
             pianoRythm: ['2-Eights', 'Quarter', 'Rest Eight']
         },
@@ -110,7 +110,7 @@ const settingsPresets = {
             showNotes: "guitar",
             continuousReading: "non",
             clefs: ["treble", "bass"],
-            octaves: ["0", "-1"],
+            octavesDifficulty: "medium",
             afficherCorrection: "false",
             pianoRythm: possibleTiming.map(x => x.name).filter(x => !x.includes("Rest") && !x.includes("Triplet"))
         },
@@ -133,7 +133,7 @@ const settingsPresets = {
             showNotes: "guitar",
             continuousReading: "non",
             clefs: ["treble", "bass"],
-            octaves: ["0", "-1", "1"],
+            octavesDifficulty: "hard",
             afficherCorrection: "false",
             pianoRythm: possibleTiming.map(x => x.name).filter(x => !x.includes("Triplet"))
         }
