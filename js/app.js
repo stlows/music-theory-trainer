@@ -476,6 +476,7 @@ let currentNoteIndexToBePlayed = -1
 let currentLectureQuestionEl = undefined
 let notesToBePlayed = []
 let currentKey = ""
+let lastKeyHitSuccess = undefined
 const midiPianoNotes = [19, 21, 23, 24, 26, 28, 29, 31, 33, 35, 36, 38, 40, 41, 43, 45, 47, 48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77, 79, 81, 83, 84, 86, 88, 89, 91, 93, 95, 96, 98, 100, 101, 103]
 const midiNaturals = ["C", "C", "D", "D", "E", "F", "F", "G", "G", "A", "A", "B"]
 function notesSample(start, end) {
@@ -490,6 +491,7 @@ function resetLectureQuestion() {
   currentLectureQuestionEl = undefined
   notesToBePlayed = []
   currentKey = ""
+  currentKeyHitSuccess = undefined
 }
 
 function pratiquezLecturePiano(key) {
@@ -513,21 +515,6 @@ function pratiquezLecturePiano(key) {
     let midi = chooseOne(clef == "treble" ? trebleNotes : bassNotes)
     let octave = Math.floor(midi / 12) - 5
     let note = midiNaturals[midi % 12]
-
-    //console.log({natural: midiNaturals[midi % 12], midi, clef, octave: Math.floor(midi / 12) - 6})
-    // clef = "bass"
-    // note = "E"
-    // octave = -1
-    // if (clef === "treble" && naturals.indexOf(note) < naturals.indexOf("A")) {
-    //   octave++
-    // }
-    // if (clef === "bass") {
-    //   octave--
-    // }
-    // if (clef === "bass" && naturals.indexOf(note) >= naturals.indexOf("A")) {
-    //   octave--
-    // }
-
     notes.push({ note, clef, octave, midi: noteToMidiNumber(note, octave, currentKey) })
   }
 
@@ -668,9 +655,15 @@ function handleMIDIMessage({ data }) {
 function checkNote(playedMidiNote) {
   const isCorrect = playedMidiNote === notesToBePlayed[currentNoteIndexToBePlayed].midi
   let noteEl = notesToBePlayed[currentNoteIndexToBePlayed].element
-  console.log(currentKey)
-  addPianoStats(notesToBePlayed[currentNoteIndexToBePlayed].midi, playedMidiNote, currentKey)
   if (isCorrect) {
+    let currentKeyHitSuccess = new Date().valueOf()
+    if (lastKeyHitSuccess) {
+      let deltaTime = (currentKeyHitSuccess - lastKeyHitSuccess) / 1000
+      addPianoStats(notesToBePlayed[currentNoteIndexToBePlayed].midi, playedMidiNote, currentKey, deltaTime)
+    } else {
+      addPianoStats(notesToBePlayed[currentNoteIndexToBePlayed].midi, playedMidiNote, currentKey)
+    }
+    lastKeyHitSuccess = currentKeyHitSuccess
     log("Note is correct")
     addGoodNote()
     noteEl.classList.add("correct")
@@ -687,6 +680,7 @@ function checkNote(playedMidiNote) {
       resetLectureQuestion()
     }
   } else {
+    addPianoStats(notesToBePlayed[currentNoteIndexToBePlayed].midi, playedMidiNote, currentKey)
     log("Note is incorrect", "error")
     noteEl.classList.add("incorrect")
     setTimeout(() => {

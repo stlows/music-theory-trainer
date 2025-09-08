@@ -7,15 +7,7 @@ function addResult(result) {
 
 function clearStats() {
   localStorage.setItem("stats", JSON.stringify([]))
-  const fakeStats = [
-    { objective: 60, hit: 59, key: "C", success: false },
-    { objective: 60, hit: 60, key: "C", success: true },
-    { objective: 60, hit: 60, key: "C", success: true },
-    { objective: 61, hit: 60, key: "A", success: false },
-    { objective: 61, hit: 61, key: "A", success: true },
-    { objective: 60, hit: 61, key: "C", success: false },
-  ]
-  localStorage.setItem("pianoStats", JSON.stringify(fakeStats))
+  localStorage.setItem("pianoStats", JSON.stringify([]))
   printStats()
   printPianoStats()
 }
@@ -44,9 +36,9 @@ function stat(title, number) {
 }
 printStats()
 
-function addPianoStats(objective, hit, key) {
+function addPianoStats(objective, hit, key, deltaTime) {
   const stats = JSON.parse(localStorage.getItem("pianoStats")) || []
-  stats.push({ objective, key, hit, success: objective === hit, date: new Date().valueOf() })
+  stats.push({ objective, key, hit, success: objective === hit, date: new Date().valueOf(), deltaTime })
   localStorage.setItem("pianoStats", JSON.stringify(stats))
 }
 

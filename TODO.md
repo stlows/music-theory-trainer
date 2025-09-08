@@ -1,1 +1,2 @@
 - Ajouter tempo sur lecture à vue
+- Ajouter stats sur piano sur le deltaTime que je stocke dans la stat mais je ne fais rien avec pour le moment
