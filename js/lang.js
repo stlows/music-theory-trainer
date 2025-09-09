@@ -213,8 +213,14 @@ const res = {
   octavesDifficultyDescriptionEasy: { fr: "Octaves entre C4 et C5 (clé de sol) et entre C3 et C4 (clé de fa)", en: "Octaves between C4 and C5 (treble clef) and between C3 and C4 (bass clef)" },
   octavesDifficultyDescriptionMedium: { fr: "Octaves entre G3 et A5 (clé de sol) et entre G2 et D4 (clé de fa)", en: "Octaves between G3 and A5 (treble clef) and between G2 and D4 (bass clef)" },
   octavesDifficultyDescriptionHard: { fr: "Octaves entre F3 et E6 (clé de sol) et entre B2 et E4 (clé de fa)", en: "Octaves between F3 and E6 (treble clef) and between B2 and E4 (bass clef)" },
-  sightReadingStats: { fr: "Stats de lecture à vue", en: "Sight-reading stats" }
-
+  sightReadingStats: { fr: "Stats de lecture à vue", en: "Sight-reading stats" },
+  filterByKey: {fr: "Filtrer par tonalité", en: "Filter by key" },
+  noStatsYet: {fr: "Aucune statistique pour le moment pour cette tonalité. Commencez à pratiquer !", en: "No stats yet for this key. Start practicing!"},
+  note: {fr: "Note", en: "Note"},
+  successRate: {fr: "Taux de succès", en: "Success rate"},
+  succeeded: {fr: "Succès", en: "Succeeded"},
+  tried: {fr: "Essais", en: "Tried"},
+  averageTime: {fr: "Temps moyen", en: "Average time"},
 }
 
 function t(key) {

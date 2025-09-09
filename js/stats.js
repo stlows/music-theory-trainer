@@ -42,29 +42,6 @@ function addPianoStats(objective, hit, key, deltaTime) {
   localStorage.setItem("pianoStats", JSON.stringify(stats))
 }
 
-const detailNotes = []
-function addNoteDetail(tableContainer, note, stats, key) {
-  if (detailNotes.indexOf(note) > -1) {
-    detailNotes.splice(detailNotes.indexOf(note), 1)
-  } else {
-    detailNotes.push(note)
-  }
-  refreshNoteDetail(tableContainer, stats, key)
-}
-
-function refreshNoteDetail(tableContainer, stats, key) {
-  tableContainer.innerHTML = ""
-  for (const detail of detailNotes) {
-    let tried = getStatsCount(stats, detail, "all", "all", key)
-    let succeed = getStatsCount(stats, detail, "all", true, key)
-    let text = `${detail}: ${succeed}/${tried}`
-    if (tried > 0) {
-      text += ` (${Math.round(succeed / tried * 100)}%)`
-    }
-    tableContainer.appendChild(p(text))
-  }
-}
-
 function getStatsCount(stats, objective, hit, success, key) {
   return stats.filter((stat) => {
     if (objective !== "all" && objective !== stat.objective) {
@@ -86,35 +63,59 @@ function getStatsCount(stats, objective, hit, success, key) {
 function printPianoStats(key) {
   const stats = JSON.parse(localStorage.getItem("pianoStats")) || []
   const tableContainer = document.getElementById("pianoStatsTableContainer")
-  let piano = createPiano({ min: "C2", max: "B7", onKeyClicked: (note) => addNoteDetail(tableContainer, note, stats, key) })
-  refreshNoteDetail(tableContainer, stats, key)
+  const container = document.getElementById("pianoStatsContainer")
+  container.innerHTML = ""
+  tableContainer.innerHTML = ""
+
+  if(getStatsCount(stats, "all", "all", "all", key) === 0){
+    container.innerHTML = t("noStatsYet")
+    return
+  }
+  const tableElement = table()
+  tableElement.style.width = "100%"
+  const trHead = tr()
+  trHead.appendChild(td(t("note")))
+  trHead.appendChild(td(t("successRate")))
+  trHead.appendChild(td(t("succeeded")))
+  trHead.appendChild(td(t("tried")))
+  trHead.appendChild(td(t("averageTime")))
+  tableElement.appendChild(trHead)
+  let piano = createPiano({ min: "C2", max: "B7" })
   let i = 24
   for (const octave of [2, 3, 4, 5, 6, 7, 8]) {
     for (const noteName of ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]) {
       let tried = getStatsCount(stats, i, "all", "all", key)
       let succeed = getStatsCount(stats, i, "all", true, key)
       if (tried > 0) {
-        piano.fillKey(noteName + octave, false, getColor(succeed / tried))
+        let avgTime = (stats.filter(s => s.objective === i && s.success && s.deltaTime && (key === "all" || s.key === key)).reduce((a, b) => a + b.deltaTime, 0) / tried).toFixed(2)
+        piano.fillKey(noteName + octave, false, getColor(succeed / tried, avgTime))
+        const trNote = tr()
+        trNote.appendChild(td(noteName + octave))
+        trNote.appendChild(td(Math.round(succeed / tried * 100) + "%"))
+        trNote.appendChild(td(succeed))
+        trNote.appendChild(td(tried))
+        trNote.appendChild(td(avgTime > 0 ? avgTime + "s" : "-"))
+        trNote.style.backgroundColor = getColor(succeed / tried, avgTime) + "33" // 20% opacity
+        tableElement.appendChild(trNote)
       }
       i++
     }
   }
-  const container = document.getElementById("pianoStatsContainer")
-  container.innerHTML = ""
   container.appendChild(piano._svg)
+  tableContainer.appendChild(tableElement)
 }
 
-function getColor(successRate) {
-  if (successRate < 0.75) {
-    return "#ff0000ff"
+function getColor(successRate, avgTime) {
+  if (successRate < 0.75 || avgTime > 3) {
+    return "#ff0000"
   }
-  if (successRate < 0.80) {
-    return "#ff9900ff"
+  if (successRate < 0.80 || avgTime > 2.5) {
+    return "#ff9900"
   }
-  if (successRate < 0.95) {
-    return "#eeff00ff"
+  if (successRate < 0.95 || avgTime > 2) {
+    return "#eeff00"
   }
-  return "#09ff00ff"
+  return "#09ff00"
 }
 
 function selectKeyFilter(key, keyFilter) {

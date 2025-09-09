@@ -491,7 +491,7 @@ function resetLectureQuestion() {
   currentLectureQuestionEl = undefined
   notesToBePlayed = []
   currentKey = ""
-  currentKeyHitSuccess = undefined
+  lastKeyHitSuccess = undefined
 }
 
 function pratiquezLecturePiano(key) {
