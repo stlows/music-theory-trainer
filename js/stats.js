@@ -90,7 +90,7 @@ function printPianoStats(key) {
         let avgTime = (stats.filter(s => s.objective === i && s.success && s.deltaTime && (key === "all" || s.key === key)).reduce((a, b) => a + b.deltaTime, 0) / tried).toFixed(2)
         piano.fillKey(noteName + octave, false, getColor(succeed / tried, avgTime))
         const trNote = tr()
-        trNote.appendChild(td(noteName + octave))
+        trNote.appendChild(td(`${noteName}${octave - 1} (${i})`))
         trNote.appendChild(td(Math.round(succeed / tried * 100) + "%"))
         trNote.appendChild(td(succeed))
         trNote.appendChild(td(tried))
