@@ -105,17 +105,19 @@ function printPianoStats(key) {
   tableContainer.appendChild(tableElement)
 }
 
+const colorsFormats = [
+  {successRate: 0.75, color: "#ff0000", avgTime: 3},
+  {successRate: 0.80, color: "#ff9900", avgTime: 2.5},
+  {successRate: 0.95, color: "#eeff00", avgTime: 2},
+  {successRate: 1, color: "#09ff00", avgTime: 0 }
+]
+
 function getColor(successRate, avgTime) {
-  if (successRate < 0.75 || avgTime > 3) {
-    return "#ff0000"
+  for (const color of colorsFormats) {
+    if (successRate < color.successRate || avgTime > color.avgTime) {
+      return color.color
+    }
   }
-  if (successRate < 0.80 || avgTime > 2.5) {
-    return "#ff9900"
-  }
-  if (successRate < 0.95 || avgTime > 2) {
-    return "#eeff00"
-  }
-  return "#09ff00"
 }
 
 function selectKeyFilter(key, keyFilter) {
@@ -142,4 +144,14 @@ function printKeysFilter() {
   }
 }
 
+function printColorCodes() {
+  let container = document.getElementById("colorCodes")
+  for (const color of colorsFormats) {
+    const colorText = p(t("colorDescription")(color.successRate, color.avgTime), "colorText")
+    colorText.style.color = color.color
+    container.appendChild(colorText)
+  }
+}
+
 printKeysFilter()
+printColorCodes()

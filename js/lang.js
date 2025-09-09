@@ -221,6 +221,10 @@ const res = {
   succeeded: {fr: "Succès", en: "Succeeded"},
   tried: {fr: "Essais", en: "Tried"},
   averageTime: {fr: "Temps moyen", en: "Average time"},
+  colorDescription: {
+    fr: (successRate, avgTime) => `Taux de succès <${Math.round(successRate * 100)}% ou temps moyen >${avgTime}s`,
+    en: (successRate, avgTime) => `Success rate <${Math.round(successRate * 100)}% or average time >${avgTime}s`,
+  }
 }
 
 function t(key) {
