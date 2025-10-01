@@ -39,7 +39,8 @@ const possibleQuestions = [
   { func: "strummingQuestion", t: "strummingQuestion" },
   { func: "intervalByEar", t: "intervalByEar" },
   { func: "pratiquezLecturePiano", t: "pratiquezLecturePiano" },
-  { func: "pianoRythm", t: "pianoRythm" }
+  { func: "pianoRythm", t: "pianoRythm" },
+  { func: "hanonExercise", t: "hanonExercise" },
 ]
 
 function toggleActive(id) {

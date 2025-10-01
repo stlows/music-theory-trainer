@@ -610,6 +610,27 @@ function simulateNote(noteNumber) {
   handleMIDIMessage(fakeMessage)
 }
 
+
+function hanonExercise() {
+  const exercise = chooseOne(hanonExercises);
+  const rootIndex = getRandomRootIndex()
+  const key = notes[rootIndex].root;
+  const hanonPattern = exercise.notes.map((n) => {
+    return {  note: n.note, clef: "treble", octave: n.octave }
+  });
+
+  let el = div();
+  let staffDiv = staff(printNote(key), hanonPattern, 2, 16);
+  el.appendChild(staffDiv);
+
+  let question = createQuestion({
+    light: true,
+    questionText: t("hanonExerciseQuestion")(exercise.name, printNote(key)),
+    answerNode: el
+  });
+  question.querySelector(".answer").click()
+
+}
 function noteToMidiNumber(note, octave, key = "C") {
   const sharpMap = { C: 0, "C♯": 1, D: 2, "D♯": 3, E: 4, "E♯": 5, F: 5, "F♯": 6, G: 7, "G♯": 8, A: 9, "A♯": 10, B: 11, "B♯": 12 }
   const flatMap = { "C♭": -1, C: 0, "D♭": 1, D: 2, "E♭": 3, E: 4, "F♭": 4, F: 5, "G♭": 6, G: 7, "A♭": 8, A: 9, "B♭": 10, B: 11 }

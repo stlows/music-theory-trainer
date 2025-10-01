@@ -1,11 +1,12 @@
-function staff(key, notes, countPerMeasure = 4) {
+function staff(key, notes, countPerMeasure = 4, beat = 4) {
     const el = div()
     let trebleNotes = "";
     let bassNotes = "";
+    let notesParBeat = beat / 4
 
-    for (let group = 0; group < notes.length / countPerMeasure; group++) {
-        for (let i = 0; i < countPerMeasure; i++) {
-            const note = notes[group * countPerMeasure + i];
+    for (let group = 0; group < notes.length / countPerMeasure / notesParBeat; group++) {
+        for (let i = 0; i < countPerMeasure * notesParBeat; i++) {
+            const note = notes[group * countPerMeasure * notesParBeat + i];
             const abcNote = getAbcNote(note);
             if (note.clef === "treble") {
                 trebleNotes += abcNote;
@@ -24,7 +25,7 @@ function staff(key, notes, countPerMeasure = 4) {
     let abcString = `
 X:1
 M:${countPerMeasure}/4
-L:1/4
+L:1/${beat}
 K:${key}
 %%%score (T B)
 V: T clef=treble

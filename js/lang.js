@@ -224,6 +224,11 @@ const res = {
   colorDescription: {
     fr: (successRate, avgTime) => `Taux de succès <${Math.round(successRate * 100)}% ou temps moyen >${avgTime}s`,
     en: (successRate, avgTime) => `Success rate <${Math.round(successRate * 100)}% or average time >${avgTime}s`,
+  },
+  hanonExerciseDescription: {fr: "🎹 Pratiquez les exercices de Hanon au piano", en: "🎹 Practice Hanon exercises on piano"},
+  hanonExerciseQuestion: {
+    fr: (exercise, key) => `Jouez l'exercice de Hanon #${exercise} en ${key}.`,
+    en: (exercise, key) => `Play Hanon Exercice ${exercise.name} in the key of ${key}.`
   }
 }
 
