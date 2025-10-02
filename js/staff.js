@@ -74,3 +74,19 @@ function getAbcNote(note) {
 
     return prefix + baseNote;
 }
+
+function hanonStaff(key, hanonExercice) {
+    
+    const el = div()
+    const hanonABC = generateHanonABC({
+        key,
+        barsPerLine: 2,
+        lastAscending: 6,
+        lastDescending: 0,
+        ...hanonExercice,
+    });
+
+    let staffwidth = Math.min(screen.width * 0.65, 600)
+    ABCJS.renderAbc(el, hanonABC, { scale: 1.4, selectTypes: [], add_classes: false, staffwidth })
+    return el
+}
