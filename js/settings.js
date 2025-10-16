@@ -38,6 +38,7 @@ const possibleQuestions = [
   { func: "chordSimilarities", t: "chordSimilarities" },
   { func: "strummingQuestion", t: "strummingQuestion" },
   { func: "intervalByEar", t: "intervalByEar" },
+  { func: "melodyByEar", t: "melodyByEar" },
   { func: "pratiquezLecturePiano", t: "pratiquezLecturePiano" },
   { func: "pianoRythm", t: "pianoRythm" },
   { func: "hanonExercise", t: "hanonExercise" },

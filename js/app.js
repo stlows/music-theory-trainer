@@ -375,9 +375,80 @@ function playPianoNote(note) {
   }
 }
 
+async function playPianoNotes(notes, bpm = 60) {
+  const beatDuration = 60000 / bpm; // ms per beat
+  const fadeTime = beatDuration / 5
+  let currentAudio = null;
+
+  for (let i = 0; i < notes.length; i++) {
+    // Stop & fade out previous note if needed
+    if (currentAudio) {
+      await fadeOutAndStop(currentAudio, fadeTime);
+    }
+
+    // Play the new note
+    const noteFormat = allNotes[notes[i].midi - 21];
+    if (noteFormat) {
+      currentAudio = new Audio(instruments.piano[noteFormat]);
+      currentAudio.volume = 1;
+      currentAudio.play();
+    }
+
+    // Wait (beat duration - fadeTime) before starting fade
+    const playTime = Math.max(beatDuration * (notes[i].tempo || 1) - fadeTime, 0);
+    await new Promise(r => setTimeout(r, playTime));
+
+    // Start fading out while beat still runs
+    if (currentAudio) {
+      await fadeOutAndStop(currentAudio, fadeTime);
+      currentAudio = null;
+    }
+  }
+}
+
+async function fadeOutAndStop(audio, fadeTime) {
+  const steps = 20;
+  const stepTime = fadeTime / steps;
+
+  for (let i = 0; i < steps; i++) {
+    audio.volume = 1 - i / steps;
+    await new Promise(r => setTimeout(r, stepTime));
+  }
+
+  audio.pause();
+  audio.currentTime = 0;
+}
+
 function printAllGammes() {
   const gammesEl = document.getElementById("gammes")
   gammesEl.innerHTML = ""
+
+  const gammeSelector = div("flex")
+  const gammeSelect = select([...new Set(gammes.map((g) => {return {value: g.name, label: t(g.name)}}))], { id: "gammeSelect",style: "margin-right: 10px;" })
+  const keySelect = select([...new Set(notes.map(n => n.root))], { id: "keyGammeSelect" })
+  const gammeSelectorResult = div("")
+  gammeSelectorResult.id = "gammeSelectorResult"
+
+  function updateGammeDisplay() {
+    const selectedGamme = document.getElementById("gammeSelect").value
+    const selectedKey = document.getElementById("keyGammeSelect").value
+      let wrapper = div("gamme")
+      let keyIndex = notes.findIndex(n => n.root === selectedKey)
+      let gammeIndex = gammes.findIndex(g => g.name === selectedGamme)
+      let gamme = getGamme(keyIndex, gammeIndex )
+      const gammeTitle = h5(t("gamme")(printNote(notes[keyIndex].root), t(gamme.type.name)))
+      wrapper.appendChild(gammeTitle)
+      wrapper.appendChild(p(join(gamme.notes.map((x) => printNote(x)))))
+      gammeSelectorResult.innerHTML = ""
+      gammeSelectorResult.appendChild(wrapper)
+  }
+  gammeSelect.addEventListener("change", updateGammeDisplay)
+  keySelect.addEventListener("change", updateGammeDisplay)
+
+  gammeSelector.appendChild(gammeSelect)
+  gammeSelector.appendChild(keySelect)
+  gammesEl.appendChild(gammeSelector)
+  gammesEl.appendChild(gammeSelectorResult)
   for (let gammeIndex = 0; gammeIndex < gammes.length; gammeIndex++) {
     let { detailsEl, summary } = details()
     summary.innerText = t(gammes[gammeIndex].name)
@@ -398,6 +469,33 @@ function printAllGammes() {
 function printAllAccords() {
   const accordsEl = document.getElementById("accords")
   accordsEl.innerHTML = ""
+  const accordSelector = div("flex")
+  const accordSelect = select([...new Set(accords.map((a) => {return {value: a.name, label: t(a.name)}}))], { id: "accordSelect"})
+  const keySelect = select([...new Set(notes.map(n => n.root))], { id: "keyAccordSelect", style: "margin-right: 10px;" })
+  const accordSelectorResult = div("")
+  accordSelectorResult.id = "accordSelectorResult"
+
+  function updateAccordDisplay() {
+    const selectedChord = document.getElementById("accordSelect").value
+    const selectedKey = document.getElementById("keyAccordSelect").value
+      let wrapper = div("accord")
+      let keyIndex = notes.findIndex(n => n.root === selectedKey)
+      let chordIndex = accords.findIndex(a => a.name === selectedChord)
+      let chord = getAccord(keyIndex, chordIndex )
+      const chordTitle = h5(t("chord")(printNote(notes[keyIndex].root), t(chord.type.name)))
+      wrapper.appendChild(chordTitle)
+      wrapper.appendChild(p(join(chord.notes.map((x) => printNote(x)))))
+      accordSelectorResult.innerHTML = ""
+      accordSelectorResult.appendChild(wrapper)
+  }
+  accordSelect.addEventListener("change", updateAccordDisplay)
+  keySelect.addEventListener("change", updateAccordDisplay)
+
+  accordSelector.appendChild(keySelect)
+  accordSelector.appendChild(accordSelect)
+  accordsEl.appendChild(accordSelector)
+  accordsEl.appendChild(accordSelectorResult)
+
   for (let accordIndex = 0; accordIndex < accords.length; accordIndex++) {
     let { detailsEl, summary } = details()
     summary.innerText = t(accords[accordIndex].title)
@@ -717,10 +815,51 @@ function addBadNote() {
   badButton.innerText = ++badButton.dataset.count
 }
 
+function melodyByEar(){
+  // constants, load from settings later
+  let semitoneBelow = 5 // quinte en dessous (G - C)
+  let semitoneAbove = 7 // quarte au dessus (C - G)
+  let maxGap = 4
+  const numberOfNotes = 4
+  const bpm = 120
+  let key = chooseOne([55,56,57,58,59,60,61,62,63,64,65])
+
+  let minMidi = key - semitoneBelow
+  let maxMidi = key + semitoneAbove
+  let notes = []
+  for(let i = 0; i < numberOfNotes; i++){
+    let lastNote = notes.length ? notes[notes.length -1].midi : key
+    let minMidiForNote = Math.max(minMidi, lastNote - maxGap)
+    let maxMidiForNote = Math.min(maxMidi, lastNote + maxGap)
+    let midi = random(maxMidiForNote + 1, minMidiForNote)
+    notes.push({midi})
+  }
+  // for test only
+  // notes = popularRiffs.iCanBuyMyselfFlowers // for test only
+  console.log(key, minMidi, maxMidi, notes)
+  const midiSet = Array.from(new Set(notes.map(n => n.midi)))
+  console.log(midiSet.map(x => allNotes[x]))
+  answerNode = div("mw-100")
+  let pianoWrapper = createPiano({ notes: midiSet.map(x => allNotes[x]) })
+    answerNode.appendChild(pianoWrapper._svg)
+  createEarQuestion({
+    questionText: t("whatIsThisInterval"),
+    answerText,
+    playNotes: () => playPianoNotes(notes, bpm),
+  })
+
+  playPianoNotes(notes, bpm)
+}
+
 function log(msg, type = "success") {
   const params = new URLSearchParams(window.location.search)
   const isDebug = params.get("debug") === "true"
   if (isDebug) {
     notify(msg, type)
   }
+}
+
+const popularRiffs = {
+  iCanBuyMyselfFlowers: [{midi:64, tempo:0.5},{midi:64,tempo:0.5},{midi:64, tempo: 0.5},{midi:62, tempo:0.5},{midi:60, tempo:0.5},{midi:64, tempo:0.5},{midi:65, tempo:2}],
+  pourUnInstant: [{midi:69, tempo: 2},{midi:67, tempo: 0.5},{midi:69},{midi:65},{midi:65},{midi:67},{midi:69, tempo: 0.5},{midi:67, tempo: 3.5}, {midi:69, tempo:0.5},{midi:67, tempo:3.5}]
 }

@@ -164,3 +164,26 @@ function emptyGuitarSvg(referenceFret, notes) {
 
   return guitarSvg
 }
+
+
+function select(options = [], attributes = {}) {
+  const select = document.createElement("select");
+
+  for (const [key, value] of Object.entries(attributes)) {
+    select.setAttribute(key, value);
+  }
+
+  options.forEach(opt => {
+    const option = document.createElement("option");
+    if (typeof opt === "object") {
+      option.value = opt.value ?? opt.label;
+      option.textContent = opt.label ?? opt.value;
+    } else {
+      option.value = opt;
+      option.textContent = opt;
+    }
+    select.appendChild(option);
+  });
+
+  return select;
+}
