@@ -214,22 +214,32 @@ const res = {
   octavesDifficultyDescriptionMedium: { fr: "Octaves entre G3 et A5 (clé de sol) et entre G2 et D4 (clé de fa)", en: "Octaves between G3 and A5 (treble clef) and between G2 and D4 (bass clef)" },
   octavesDifficultyDescriptionHard: { fr: "Octaves entre F3 et E6 (clé de sol) et entre B2 et E4 (clé de fa)", en: "Octaves between F3 and E6 (treble clef) and between B2 and E4 (bass clef)" },
   sightReadingStats: { fr: "Stats de lecture à vue", en: "Sight-reading stats" },
-  filterByKey: {fr: "Filtrer par tonalité", en: "Filter by key" },
-  noStatsYet: {fr: "Aucune statistique pour le moment pour cette tonalité. Commencez à pratiquer !", en: "No stats yet for this key. Start practicing!"},
-  note: {fr: "Note", en: "Note"},
-  successRate: {fr: "Taux de succès", en: "Success rate"},
-  succeeded: {fr: "Succès", en: "Succeeded"},
-  tried: {fr: "Essais", en: "Tried"},
-  averageTime: {fr: "Temps moyen", en: "Average time"},
+  filterByKey: { fr: "Filtrer par tonalité", en: "Filter by key" },
+  noStatsYet: { fr: "Aucune statistique pour le moment pour cette tonalité. Commencez à pratiquer !", en: "No stats yet for this key. Start practicing!" },
+  note: { fr: "Note", en: "Note" },
+  successRate: { fr: "Taux de succès", en: "Success rate" },
+  succeeded: { fr: "Succès", en: "Succeeded" },
+  tried: { fr: "Essais", en: "Tried" },
+  averageTime: { fr: "Temps moyen", en: "Average time" },
   colorDescription: {
     fr: (successRate, avgTime) => `Taux de succès <${Math.round(successRate * 100)}% ou temps moyen >${avgTime}s`,
     en: (successRate, avgTime) => `Success rate <${Math.round(successRate * 100)}% or average time >${avgTime}s`,
   },
-  hanonExerciseDescription: {fr: "🎹 Pratiquez les exercices de Hanon au piano", en: "🎹 Practice Hanon exercises on piano"},
+  hanonExerciseDescription: { fr: "🎹 Pratiquez les exercices de Hanon au piano", en: "🎹 Practice Hanon exercises on piano" },
   hanonExerciseQuestion: {
     fr: (exercise, key) => `Jouez l'exercice de Hanon #${exercise} en ${key}.`,
     en: (exercise, key) => `Play Hanon Exercice ${exercise.name} in the key of ${key}.`
-  }
+  },
+  melodyByEarDescription: { fr: "Mélodie à l'oreille", en: "Melody by ear" },
+  indice1: { fr: "Révélez la première note", en: "Reveal first note" },
+  indice2: { fr: "Révélez les notes utilisées", en: "Reveal used notes" },
+  indice3: { fr: "Révélez les notes dans l'ordre", en: "Reveal notes in order" },
+  whatIsThisMelody: { fr: "Quelles sont les notes de cette mélodie", en: "Find the notes of this melody" },
+  melodyTrainingCategory: { fr: "Mélodie à l'oreille", en: "Melody ear training" },
+  melodyTrainingScale: { fr: "Gamme utilisée pour la mélodie à l'oreille", en: "Used scale for melody ear training" },
+  melodyTrainingNotesCount: { fr: "Nombre de notes dans la mélodie", en: "Notes count in the melody" },
+  melodyScaleMajor: { fr: "Gamme majeure", en: "Major scale" },
+  melodyScaleChromatic: { fr: "Gamme chromatique", en: "Chromatic scale" },
 }
 
 function t(key) {

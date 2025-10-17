@@ -188,7 +188,7 @@ class Keyboard {
   }
 }
 
-function createPiano({ notes = [], min = "B4", max = "C7", onKeyClicked = null }, repeatFirstNote = false) {
+function createPiano({ notes = [], min = "B4", max = "C7", onKeyClicked = null }, repeatFirstNote = false, fullNoteGiven = false) {
   let order = "CDEFGAB"
   const keyboard = new Keyboard({
     lowest: min,
@@ -201,11 +201,11 @@ function createPiano({ notes = [], min = "B4", max = "C7", onKeyClicked = null }
     if (i > 0 && natural < order.indexOf(notes[i - 1][0])) {
       number++
     }
-    keyboard.fillKey(notes[i] + number, i === 0)
+    keyboard.fillKey(notes[i] + (fullNoteGiven ? "" : number), i === 0)
 
   }
   if (repeatFirstNote) {
-    keyboard.fillKey(notes[0] + number, true)
+    keyboard.fillKey(notes[0] + (fullNoteGiven ? "" : number), true)
   }
   //keyboard.fillKey("Cb5", false)
   return keyboard

@@ -19,7 +19,9 @@ let defaultSettings = {
   clefs: ["treble", "bass"],
   octaves: ["0"],
   afficherCorrection: "false",
-  pianoRythm: settingsPresets.piano.intermediate.pianoRythm
+  pianoRythm: settingsPresets.piano.intermediate.pianoRythm,
+  melodyTrainingScale: "melodyScaleMajor",
+  melodyTraningNotesCount: 4
 }
 
 let settings = { ...defaultSettings }
@@ -275,3 +277,5 @@ createOptions(["non", "sameClef", "differentClef"], "continuousReading", false)
 //createOptions(["4/4", "2/4","3/4","6/4"], "timeSignatures", true)
 createOptions(["treble", "bass"], "clefs", true)
 createOptions(["easy", "medium", "hard"], "octavesDifficulty", false)
+createOptions(["melodyScaleMajor", "melodyScaleChromatic"], "melodyTrainingScale", false)
+createOptions([4, 6, 8, 12], "melodyTrainingNotesCount", false)

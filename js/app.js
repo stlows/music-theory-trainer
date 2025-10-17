@@ -42,7 +42,7 @@ function createGuitarQuestion({ questionText = "Test", notes = [], answerText = 
   gameEl.prepend(questionWrapper)
 }
 
-function createEarQuestion({ questionText, answerText, playNotes }) {
+function createEarQuestion({ questionText, answerText, playNotes, indices }) {
   const questionWrapper = div("question")
   const question = h4(questionText)
   const replay = button(t("replay"))
@@ -54,18 +54,39 @@ function createEarQuestion({ questionText, answerText, playNotes }) {
   questionWrapper.appendChild(replay)
 
   const answer = div("answer")
-  answer.innerText = t("clickForAnswer")
-  questionWrapper.appendChild(answer)
 
-  const timeoutId = addCorrectionAndTimer(questionWrapper, answer)
-
-  answer.addEventListener("click", (a) => {
-    if (!questionWrapper.classList.contains("answered")) {
-      a.target.innerText = answerText
-      questionWrapper.classList.add("answered")
-      clearInterval(timeoutId)
+  if (answerText) {
+    answer.innerText = t("clickForAnswer")
+    questionWrapper.appendChild(answer)
+    const timeoutId = addCorrectionAndTimer(questionWrapper, answer)
+    answer.addEventListener("click", (a) => {
+      if (!questionWrapper.classList.contains("answered")) {
+        a.target.innerText = answerText
+        questionWrapper.classList.add("answered")
+        clearInterval(timeoutId)
+      }
+    })
+  } if (indices) {
+    let currentIndex = 0
+    let indicesWrapper = div("answer")
+    function showNextIndice() {
+      if (currentIndex > indices.length) {
+        return
+      }
+      indicesWrapper.innerHTML = ""
+      if (currentIndex < indices.length) {
+        let indiceText = p(t("indice" + (currentIndex + 1)))
+        indicesWrapper.appendChild(indiceText)
+      }
+      if (currentIndex > 0) {
+        indicesWrapper.appendChild(indices[currentIndex - 1])
+      }
+      currentIndex++
     }
-  })
+    indicesWrapper.addEventListener("click", showNextIndice)
+    showNextIndice()
+    questionWrapper.appendChild(indicesWrapper)
+  }
   gameEl.prepend(questionWrapper)
 
   playNotes()
@@ -376,47 +397,47 @@ function playPianoNote(note) {
 }
 
 async function playPianoNotes(notes, bpm = 60) {
-  const beatDuration = 60000 / bpm; // ms per beat
+  const beatDuration = 60000 / bpm // ms per beat
   const fadeTime = beatDuration / 5
-  let currentAudio = null;
+  let currentAudio = null
 
   for (let i = 0; i < notes.length; i++) {
     // Stop & fade out previous note if needed
     if (currentAudio) {
-      await fadeOutAndStop(currentAudio, fadeTime);
+      await fadeOutAndStop(currentAudio, fadeTime)
     }
 
     // Play the new note
-    const noteFormat = allNotes[notes[i].midi - 21];
+    const noteFormat = allNotes[notes[i].midi - 21]
     if (noteFormat) {
-      currentAudio = new Audio(instruments.piano[noteFormat]);
-      currentAudio.volume = 1;
-      currentAudio.play();
+      currentAudio = new Audio(instruments.piano[noteFormat])
+      currentAudio.volume = 1
+      currentAudio.play()
     }
 
     // Wait (beat duration - fadeTime) before starting fade
-    const playTime = Math.max(beatDuration * (notes[i].tempo || 1) - fadeTime, 0);
-    await new Promise(r => setTimeout(r, playTime));
+    const playTime = Math.max(beatDuration * (notes[i].tempo || 1) - fadeTime, 0)
+    await new Promise(r => setTimeout(r, playTime))
 
     // Start fading out while beat still runs
     if (currentAudio) {
-      await fadeOutAndStop(currentAudio, fadeTime);
-      currentAudio = null;
+      await fadeOutAndStop(currentAudio, fadeTime)
+      currentAudio = null
     }
   }
 }
 
 async function fadeOutAndStop(audio, fadeTime) {
-  const steps = 20;
-  const stepTime = fadeTime / steps;
+  const steps = 20
+  const stepTime = fadeTime / steps
 
   for (let i = 0; i < steps; i++) {
-    audio.volume = 1 - i / steps;
-    await new Promise(r => setTimeout(r, stepTime));
+    audio.volume = 1 - i / steps
+    await new Promise(r => setTimeout(r, stepTime))
   }
 
-  audio.pause();
-  audio.currentTime = 0;
+  audio.pause()
+  audio.currentTime = 0
 }
 
 function printAllGammes() {
@@ -424,7 +445,7 @@ function printAllGammes() {
   gammesEl.innerHTML = ""
 
   const gammeSelector = div("flex")
-  const gammeSelect = select([...new Set(gammes.map((g) => {return {value: g.name, label: t(g.name)}}))], { id: "gammeSelect",style: "margin-right: 10px;" })
+  const gammeSelect = select([...new Set(gammes.map((g) => { return { value: g.name, label: t(g.name) } }))], { id: "gammeSelect", style: "margin-right: 10px;" })
   const keySelect = select([...new Set(notes.map(n => n.root))], { id: "keyGammeSelect" })
   const gammeSelectorResult = div("")
   gammeSelectorResult.id = "gammeSelectorResult"
@@ -432,15 +453,15 @@ function printAllGammes() {
   function updateGammeDisplay() {
     const selectedGamme = document.getElementById("gammeSelect").value
     const selectedKey = document.getElementById("keyGammeSelect").value
-      let wrapper = div("gamme")
-      let keyIndex = notes.findIndex(n => n.root === selectedKey)
-      let gammeIndex = gammes.findIndex(g => g.name === selectedGamme)
-      let gamme = getGamme(keyIndex, gammeIndex )
-      const gammeTitle = h5(t("gamme")(printNote(notes[keyIndex].root), t(gamme.type.name)))
-      wrapper.appendChild(gammeTitle)
-      wrapper.appendChild(p(join(gamme.notes.map((x) => printNote(x)))))
-      gammeSelectorResult.innerHTML = ""
-      gammeSelectorResult.appendChild(wrapper)
+    let wrapper = div("gamme")
+    let keyIndex = notes.findIndex(n => n.root === selectedKey)
+    let gammeIndex = gammes.findIndex(g => g.name === selectedGamme)
+    let gamme = getGamme(keyIndex, gammeIndex)
+    const gammeTitle = h5(t("gamme")(printNote(notes[keyIndex].root), t(gamme.type.name)))
+    wrapper.appendChild(gammeTitle)
+    wrapper.appendChild(p(join(gamme.notes.map((x) => printNote(x)))))
+    gammeSelectorResult.innerHTML = ""
+    gammeSelectorResult.appendChild(wrapper)
   }
   gammeSelect.addEventListener("change", updateGammeDisplay)
   keySelect.addEventListener("change", updateGammeDisplay)
@@ -470,7 +491,7 @@ function printAllAccords() {
   const accordsEl = document.getElementById("accords")
   accordsEl.innerHTML = ""
   const accordSelector = div("flex")
-  const accordSelect = select([...new Set(accords.map((a) => {return {value: a.name, label: t(a.name)}}))], { id: "accordSelect"})
+  const accordSelect = select([...new Set(accords.map((a) => { return { value: a.name, label: t(a.name) } }))], { id: "accordSelect" })
   const keySelect = select([...new Set(notes.map(n => n.root))], { id: "keyAccordSelect", style: "margin-right: 10px;" })
   const accordSelectorResult = div("")
   accordSelectorResult.id = "accordSelectorResult"
@@ -478,15 +499,15 @@ function printAllAccords() {
   function updateAccordDisplay() {
     const selectedChord = document.getElementById("accordSelect").value
     const selectedKey = document.getElementById("keyAccordSelect").value
-      let wrapper = div("accord")
-      let keyIndex = notes.findIndex(n => n.root === selectedKey)
-      let chordIndex = accords.findIndex(a => a.name === selectedChord)
-      let chord = getAccord(keyIndex, chordIndex )
-      const chordTitle = h5(t("chord")(printNote(notes[keyIndex].root), t(chord.type.name)))
-      wrapper.appendChild(chordTitle)
-      wrapper.appendChild(p(join(chord.notes.map((x) => printNote(x)))))
-      accordSelectorResult.innerHTML = ""
-      accordSelectorResult.appendChild(wrapper)
+    let wrapper = div("accord")
+    let keyIndex = notes.findIndex(n => n.root === selectedKey)
+    let chordIndex = accords.findIndex(a => a.name === selectedChord)
+    let chord = getAccord(keyIndex, chordIndex)
+    const chordTitle = h5(t("chord")(printNote(notes[keyIndex].root), t(chord.type.name)))
+    wrapper.appendChild(chordTitle)
+    wrapper.appendChild(p(join(chord.notes.map((x) => printNote(x)))))
+    accordSelectorResult.innerHTML = ""
+    accordSelectorResult.appendChild(wrapper)
   }
   accordSelect.addEventListener("change", updateAccordDisplay)
   keySelect.addEventListener("change", updateAccordDisplay)
@@ -710,17 +731,17 @@ function simulateNote(noteNumber) {
 
 
 function hanonExercise() {
-  const exercise = chooseOne(hanonExercises);
+  const exercise = chooseOne(hanonExercises)
   const rootIndex = getRandomRootIndex()
-  const key = notes[rootIndex].root.replace("♯", "#").replace("♭", "b");
-  
-  let staffDiv = hanonStaff(key, exercise);
+  const key = notes[rootIndex].root.replace("♯", "#").replace("♭", "b")
+
+  let staffDiv = hanonStaff(key, exercise)
 
   let question = createQuestion({
     light: true,
     questionText: t("hanonExerciseQuestion")(exercise.name, printNote(key)),
     answerNode: staffDiv
-  });
+  })
   question.querySelector(".answer").click()
 
 }
@@ -815,36 +836,35 @@ function addBadNote() {
   badButton.innerText = ++badButton.dataset.count
 }
 
-function melodyByEar(){
+function melodyByEar() {
   // constants, load from settings later
-  let semitoneBelow = 5 // quinte en dessous (G - C)
-  let semitoneAbove = 7 // quarte au dessus (C - G)
-  let maxGap = 4
-  const numberOfNotes = 4
+  const intervals = settings.melodyTrainingScale == "melodyScaleMajor" ? [-12, -10, -8, -7, -5, -3, -1, 0, 2, 4, 5, 7, 9, 11, 12] : [-12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  let maxGap = settings.melodyTrainingScale == "melodyScaleMajor" ? 5 : 9
+  const numberOfNotes = settings.melodyTrainingNotesCount || 4
   const bpm = 120
-  let key = chooseOne([55,56,57,58,59,60,61,62,63,64,65])
-
-  let minMidi = key - semitoneBelow
-  let maxMidi = key + semitoneAbove
-  let notes = []
-  for(let i = 0; i < numberOfNotes; i++){
-    let lastNote = notes.length ? notes[notes.length -1].midi : key
-    let minMidiForNote = Math.max(minMidi, lastNote - maxGap)
-    let maxMidiForNote = Math.min(maxMidi, lastNote + maxGap)
-    let midi = random(maxMidiForNote + 1, minMidiForNote)
-    notes.push({midi})
+  let key = chooseOne([55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65])
+  let middleIndex = intervals.indexOf(0)
+  let lastNote = key
+  let notes = [{ midi: lastNote }]
+  let possible = intervals.slice(middleIndex - maxGap, middleIndex + maxGap + 1)
+  for (let i = 0; i < numberOfNotes - 1; i++) {
+    let interval = chooseOne(possible)
+    lastNote += interval
+    notes.push({ midi: lastNote })
   }
   // for test only
   // notes = popularRiffs.iCanBuyMyselfFlowers // for test only
-  console.log(key, minMidi, maxMidi, notes)
   const midiSet = Array.from(new Set(notes.map(n => n.midi)))
-  console.log(midiSet.map(x => allNotes[x]))
-  answerNode = div("mw-100")
-  let pianoWrapper = createPiano({ notes: midiSet.map(x => allNotes[x]) })
-    answerNode.appendChild(pianoWrapper._svg)
+  let minMidi = Math.min(...midiSet)
+  let maxMidi = Math.max(...midiSet)
+  let min = allNotes[minMidi - random(10, 5)]
+  let max = allNotes[maxMidi + random(10, 5)]
+  let indice1 = createPiano({ notes: [allNotes[notes[0].midi]], min, max }, false, true)._svg
+  let indice2 = createPiano({ notes: midiSet.map(x => allNotes[x]), min, max }, false, true)._svg
+  let indice3 = p(join(notes.map(x => allNotes[x.midi].slice(0, -1))))
   createEarQuestion({
-    questionText: t("whatIsThisInterval"),
-    answerText,
+    questionText: t("whatIsThisMelody"),
+    indices: [indice1, indice2, indice3],
     playNotes: () => playPianoNotes(notes, bpm),
   })
 
@@ -860,6 +880,6 @@ function log(msg, type = "success") {
 }
 
 const popularRiffs = {
-  iCanBuyMyselfFlowers: [{midi:64, tempo:0.5},{midi:64,tempo:0.5},{midi:64, tempo: 0.5},{midi:62, tempo:0.5},{midi:60, tempo:0.5},{midi:64, tempo:0.5},{midi:65, tempo:2}],
-  pourUnInstant: [{midi:69, tempo: 2},{midi:67, tempo: 0.5},{midi:69},{midi:65},{midi:65},{midi:67},{midi:69, tempo: 0.5},{midi:67, tempo: 3.5}, {midi:69, tempo:0.5},{midi:67, tempo:3.5}]
+  iCanBuyMyselfFlowers: [{ midi: 64, tempo: 0.5 }, { midi: 64, tempo: 0.5 }, { midi: 64, tempo: 0.5 }, { midi: 62, tempo: 0.5 }, { midi: 60, tempo: 0.5 }, { midi: 64, tempo: 0.5 }, { midi: 65, tempo: 2 }],
+  pourUnInstant: [{ midi: 69, tempo: 2 }, { midi: 67, tempo: 0.5 }, { midi: 69 }, { midi: 65 }, { midi: 65 }, { midi: 67 }, { midi: 69, tempo: 0.5 }, { midi: 67, tempo: 3.5 }, { midi: 69, tempo: 0.5 }, { midi: 67, tempo: 3.5 }]
 }
