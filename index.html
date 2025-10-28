@@ -9,11 +9,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="assets/style.css?v=1760660750354" />
-  <link rel="stylesheet" href="assets/guitar.css?v=1760660750354" />
-  <link rel="stylesheet" href="assets/stats.css?v=1760660750354" />
-  <link rel="stylesheet" href="assets/notifications.css?v=1760660750354" />
-  <link rel="stylesheet" href="assets/practiceTimers.css?v=1760660750354" />
+  <link rel="stylesheet" href="assets/style.css?v=1761682943627" />
+  <link rel="stylesheet" href="assets/guitar.css?v=1761682943627" />
+  <link rel="stylesheet" href="assets/stats.css?v=1761682943627" />
+  <link rel="stylesheet" href="assets/notifications.css?v=1761682943627" />
+  <link rel="stylesheet" href="assets/practiceTimers.css?v=1761682943627" />
   <link rel="manifest" href="manifest.json" />
 </head>
 
@@ -48,10 +48,7 @@
         </div>
       </details>
 
-      <div class="mb">
-        <h4><span data-t="notation"></span>:</h4>
-        <div class="settingBtns" id="notation"></div>
-      </div>
+     
       <div class="mb">
         <h4><span data-t="questionsAsked"></span>:</h4>
         <div style="text-align: right">
@@ -80,10 +77,15 @@
         <h4><span data-t="rootsAsked"></span>:</h4>
         <div style="text-align: right">
           <a href="#" onclick="selectAllSetting(event, 'roots')" data-t="selectAll"></a> |
+          <a href="#" onclick="selectEnharmonic(event)" data-t="selectAllEnharmonicKeys"></a> |
           <a href="#" onclick="unselectAllSetting(event, 'roots')" data-t="unselectAll"></a>
         </div>
         <p class="mb-small"><span data-t="rootsExplanation"></span></p>
         <div class="settingBtns" id="rootsSettings"></div>
+      </div>
+       <div class="mb">
+        <h4><span data-t="notation"></span>:</h4>
+        <div class="settingBtns" id="notation"></div>
       </div>
       <div class="mb">
         <h4><span data-t="maximalFret"></span>:</h4>
@@ -283,28 +285,28 @@
   <div id="timerWrapper">
     <div id="timer"></div>
   </div>
-  <script src="vendor/abc.js?v=1760660750354"></script>
-  <script src="js/notifications.js?v=1760660750354"></script>
-  <script src="js/lang.js?v=1760660750354"></script>
-  <script src="js/music.js?v=1760660750354"></script>
-  <script src="js/acoustic_guitar_sounds.js?v=1760660750354"></script>
-  <script src="js/grand_piano_sounds.js?v=1760660750354"></script>
-  <script src="js/instruments.js?v=1760660750354"></script>
-  <script src="js/utils.js?v=1760660750354"></script>
-  <script src="js/dom.js?v=1760660750354"></script>
-  <script src="js/guitar.js?v=1760660750354"></script>
-  <script src="js/piano.js?v=1760660750354"></script>
-  <script src="js/app.js?v=1760660750354"></script>
-  <script src="js/pianoRythm.js?v=1760660750354"></script>
-  <script src="js/settings_presets.js?v=1760660750354"></script>
-  <script src="js/settings.js?v=1760660750354"></script>
-  <script src="js/stats.js?v=1760660750354"></script>
-  <script src="js/strumming.js?v=1760660750354"></script>
-  <script src="js/staff.js?v=1760660750354"></script>
-  <script src="js/midi.js?v=1760660750354"></script>
-  <script src="js/practiceTimers.js?v=1760660750354"></script>
-  <script src="js/metronome.js?v=1760660750354"></script>
-  <script src="js/hanon.js?v=1760660750354"></script>
+  <script src="vendor/abc.js?v=1761682943627"></script>
+  <script src="js/notifications.js?v=1761682943627"></script>
+  <script src="js/lang.js?v=1761682943627"></script>
+  <script src="js/music.js?v=1761682943627"></script>
+  <script src="js/acoustic_guitar_sounds.js?v=1761682943627"></script>
+  <script src="js/grand_piano_sounds.js?v=1761682943627"></script>
+  <script src="js/instruments.js?v=1761682943627"></script>
+  <script src="js/utils.js?v=1761682943627"></script>
+  <script src="js/dom.js?v=1761682943627"></script>
+  <script src="js/guitar.js?v=1761682943627"></script>
+  <script src="js/piano.js?v=1761682943627"></script>
+  <script src="js/app.js?v=1761682943627"></script>
+  <script src="js/pianoRythm.js?v=1761682943627"></script>
+  <script src="js/settings_presets.js?v=1761682943627"></script>
+  <script src="js/settings.js?v=1761682943627"></script>
+  <script src="js/stats.js?v=1761682943627"></script>
+  <script src="js/strumming.js?v=1761682943627"></script>
+  <script src="js/staff.js?v=1761682943627"></script>
+  <script src="js/midi.js?v=1761682943627"></script>
+  <script src="js/practiceTimers.js?v=1761682943627"></script>
+  <script src="js/metronome.js?v=1761682943627"></script>
+  <script src="js/hanon.js?v=1761682943627"></script>
   <script>
     trad();
   </script>

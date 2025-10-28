@@ -208,34 +208,37 @@ const accordsManches = {
 const cordes = ["E", "B", "G", "D", "A", "E"].map((x) => notes.find((n) => n.root === x));
 const chromatic = ["A", "A♯", "B", "C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯"];
 
-const fifths = {
-  major: ["F", "C", "G", "D", "A", "E", "B", "F♯", "D♭", "A♭", "E♭", "B♭"],
-  minor: ["Dm", "Am", "Em", "Bm", "F♯m", "C♯m", "G♯m", "D♯m", "B♭m", "Fm", "Cm", "Gm"],
-  chords: [
-    { type: "major", add: 0, roman: "I" },
-    { type: "minor", add: 11, roman: "ii" },
-    { type: "minor", add: 1, roman: "iii" },
-    { type: "major", add: 11, roman: "IV" },
-    { type: "major", add: 1, roman: "V" },
-    { type: "minor", add: 0, roman: "vi" },
-  ],
-};
+const enharmonicKeys = ["C", "D", "E", "F", "G", "A", "B", "D♭", "E♭", "F♯", "A♭", "B♭"];
+
+const degreeToNote = ["root", "M2", "M3", "P4", "P5", "M6", "M7"];
 
 function getChordDegree(key, degree) {
-  if (degree < 1 || degree > 6) {
+  if (degree < 1 || degree > 7) {
     console.error(`Degree ${degree} is not valid`);
   }
-  let chord = fifths.chords[degree - 1];
-  let keyIndex = fifths.major.indexOf(key);
-  let degreeIndex = (keyIndex + chord.add) % 12;
-  return fifths[chord.type][degreeIndex];
+
+  let degreeInterval = gammes.find(g => g.name === "ionian").notes[degree -1];
+
+  let root = notes.find(n => n.root === key)[degreeInterval];
+
+  // 2e, 3e et 6e degré mineurs
+  if(degree === 2 || degree === 3 || degree ===6) {
+    root += "m";
+  }
+
+  // 7e degré diminué
+  if(degree === 7){
+    root += "dim";
+  }
+  
+  return root;
 }
 
 function getChordDegrees(key) {
-  return [1, 2, 3, 4, 5, 6].map((x) => getChordDegree(key, x));
+  return [1, 2, 3, 4, 5, 6, 7].map((x) => getChordDegree(key, x));
 }
 function getRoman(degree) {
-  return fifths.chords[degree - 1].roman;
+  return ["I", "ii", "iii", "IV", "V", "vi", "vii°"][degree - 1];
 }
 
 function note(corde, fret) {
@@ -264,7 +267,6 @@ function getAccord(noteIndex, accordIndex) {
   return accord;
 }
 
-// note: C
 function printNote(note) {
   note = note.replace("b", "♭");
   if (settings.notation === "word") {
@@ -297,8 +299,6 @@ function getDescriptionAccord(accordIndex) {
 function getDescriptionGamme(gammeIndex) {
   return join(gammes[gammeIndex].notes.map((i) => t(i)));
 }
-
-function getNotes(rootIndex, from, to) {}
 
 function getDistance(root, note) {
   note = replaceFlatForSharp(note);
