@@ -31,19 +31,19 @@ const possibleQuestions = [
   { func: "intervalle", t: "intervalles" },
   { func: "gamme", t: "gammes" },
   { func: "chord", t: "chords" },
-  { func: "quelleNoteSurManche", t: "whatIsThisNote" },
-  { func: "noteSurManche", t: "findSome" },
   { func: "chordsInKey", t: "chordsInTheKey" },
   { func: "nthNoteInKey", t: "nthNoteInKey" },
   { func: "chordsInProgression", t: "chordsInProgression" },
   { func: "relativeKey", t: "relativeKey" },
-  { func: "chordSimilarities", t: "chordSimilarities" },
+  { func: "quelleNoteSurManche", t: "whatIsThisNote" },
+  { func: "noteSurManche", t: "findSome" },
   { func: "strummingQuestion", t: "strummingQuestion" },
   { func: "intervalByEar", t: "intervalByEar" },
   { func: "melodyByEar", t: "melodyByEar" },
+  { func: "chordSimilarities", t: "chordSimilarities" },
   { func: "pratiquezLecturePiano", t: "pratiquezLecturePiano" },
-  { func: "pianoRythm", t: "pianoRythm" },
   { func: "hanonExercise", t: "hanonExercise" },
+  { func: "pianoRythm", t: "pianoRythm" },
 ]
 
 function toggleActive(id) {
@@ -165,6 +165,20 @@ function selectAllSetting(event, settingKey) {
     clickOnElements(`.settingBtn.${settingKey}[data-value=strummingQuestion]`)
   }
 }
+
+function selectEnharmonic(event) {
+  event.preventDefault()
+  unselectAllSetting(event, 'roots')
+  const enharmonicRoots = enharmonicKeys.filter(r => !settings.roots.includes(r))
+  for (const root of enharmonicRoots) {
+    const element = document.querySelector(`.settingBtn.roots[data-value='${root}']`)
+    if (element) {
+      element.click()
+    }
+  }
+}
+
+
 function unselectAllSetting(event, settingKey) {
   event.preventDefault()
   clickOnElements(`.settingBtn.${settingKey}.active`)
@@ -190,7 +204,7 @@ function createRootsOptions() {
       notes[i].root,
       true,
       printNote(notes[i].root),
-      fifths.major.includes(notes[i].root) ? "highlight" : ""
+      enharmonicKeys.includes(notes[i].root) ? "highlight" : ""
     )
     document.getElementById("rootsSettings").appendChild(button)
   }

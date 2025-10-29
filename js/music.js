@@ -212,18 +212,9 @@ const accordsManches = {
 const cordes = ["E", "B", "G", "D", "A", "E"].map((x) => notes.find((n) => n.root === x))
 const chromatic = ["A", "A♯", "B", "C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯"]
 
-const fifths = {
-  major: ["F", "C", "G", "D", "A", "E", "B", "F♯", "D♭", "A♭", "E♭", "B♭"],
-  minor: ["Dm", "Am", "Em", "Bm", "F♯m", "C♯m", "G♯m", "D♯m", "B♭m", "Fm", "Cm", "Gm"],
-  chords: [
-    { type: "major", add: 0, roman: "I" },
-    { type: "minor", add: 11, roman: "ii" },
-    { type: "minor", add: 1, roman: "iii" },
-    { type: "major", add: 11, roman: "IV" },
-    { type: "major", add: 1, roman: "V" },
-    { type: "minor", add: 0, roman: "vi" },
-  ],
-}
+const enharmonicKeys = ["C", "D", "E", "F", "G", "A", "B", "D♭", "E♭", "F♯", "A♭", "B♭"]
+
+const degreeToNote = ["root", "M2", "M3", "P4", "P5", "M6", "M7"]
 
 function getChordDegree(key, degree) {
   if (degree < 1 || degree > 6) {
@@ -268,7 +259,6 @@ function getAccord(noteIndex, accordIndex) {
   return accord
 }
 
-// note: C
 function printNote(note) {
   note = note.replace("b", "♭")
   if (settings.notation === "word") {

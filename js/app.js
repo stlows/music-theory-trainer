@@ -266,12 +266,12 @@ function gamme() {
   })
 }
 
-function getCircleOfFifthsKey() {
-  return chooseOne(settings.roots.filter((x) => fifths.major.indexOf(x) > -1))
+function getRandomEnharmonicKey() {
+  return chooseOne(settings.roots.filter((x) => enharmonicKeys.indexOf(x) > -1))
 }
 
 function chordsInKey() {
-  const key = getCircleOfFifthsKey()
+  const key = chooseOne(settings.roots)
   createQuestion({
     questionText: t("chordsInTheKey")(key),
     answerText: join(getChordDegrees(key)),
@@ -279,7 +279,7 @@ function chordsInKey() {
 }
 
 function nthNoteInKey() {
-  const key = getCircleOfFifthsKey()
+  const key = chooseOne(settings.roots)
   const degree = random(6, 1)
   createQuestion({
     questionText: t("nthNoteInKey")(key, getRoman(degree)),
@@ -289,7 +289,7 @@ function nthNoteInKey() {
 }
 
 function chordsInProgression() {
-  const key = getCircleOfFifthsKey()
+  const key = chooseOne(settings.roots)
   const chords = [1, 2, 3, 4, 5, 6]
     .sort((a, b) => {
       return Math.random() - 0.5
@@ -304,11 +304,10 @@ function chordsInProgression() {
 }
 
 function relativeKey() {
-  const key = getCircleOfFifthsKey()
-  const keyIndex = fifths.major.indexOf(key)
+  const key = chooseOne(settings.roots)
   createQuestion({
     questionText: t("relativeKey")(key),
-    answerText: fifths.minor[keyIndex],
+    answerText: getChordDegree(key, 6),
   })
 }
 
@@ -561,36 +560,6 @@ function printAllIntervalles() {
   }
 }
 
-function pratiquezOreille() {
-  const notes = ["C4", "D4", "E4", "F4", "G4", "C4", "E4", "G4", "C4"]
-  let index = 0
-  let bpm = 60
-  const noteDuration = 60000 / bpm // 1 second per note (60 BPM)
-
-  function playNext() {
-    if (index >= notes.length) {
-      console.log("All notes played!")
-      return
-    }
-
-    let note = notes[index]
-    const audio = new Audio(instruments[settings.instruments][note])
-    console.log("Playing:", note)
-
-    audio.play()
-
-    // Stop after noteDuration and move to next note
-    setTimeout(() => {
-      audio.pause()
-      audio.currentTime = 0 // reset for next play if needed
-      index++
-      playNext()
-    }, noteDuration)
-  }
-
-  playNext()
-}
-
 let currentNoteIndexToBePlayed = -1
 let currentLectureQuestionEl = undefined
 let notesToBePlayed = []
@@ -616,7 +585,7 @@ function resetLectureQuestion() {
 function pratiquezLecturePiano(key) {
   resetLectureQuestion()
   if (!key) {
-    currentKey = getCircleOfFifthsKey()
+    currentKey = getRandomEnharmonicKey(settings.roots)
   } else {
     currentKey = key
   }

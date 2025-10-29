@@ -196,7 +196,7 @@ function createPiano({ notes = [], min = "B4", max = "C7", onKeyClicked = null }
     highest: max,
     onKeyClicked
   })
-  let number = 5
+  let number = notes[0][0] === "B" ? 4 : 5
   for (let i = 0; i < notes.length; i++) {
     let natural = order.indexOf(notes[i][0])
     if (i > 0 && natural < order.indexOf(notes[i - 1][0])) {
