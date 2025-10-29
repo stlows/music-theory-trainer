@@ -58,6 +58,7 @@ function parseNoteName(noteName) {
   switch (noteName.length) {
     case 2: return parseLetter(noteName[0]) + parseOctave(noteName[1])
     case 3: return parseLetter(noteName[0]) + parseAccidental(noteName[1]) + parseOctave(noteName[2])
+    case 4: return parseLetter(noteName[0]) + parseAccidental(noteName[1]) + parseAccidental(noteName[2]) + parseOctave(noteName[3])
     default: throw new NoteNameParseError()
   }
 }
@@ -166,7 +167,7 @@ class Keyboard {
   }
 
   fillKey(noteName, isTonic, color) {
-    noteName = noteName.replace("♯", "#").replace("♭", "b")
+    noteName = noteName.replaceAll("♯", "#").replaceAll("♭", "b")
     let note = parseNoteName(noteName)
     const key = this._keys[note]
     if (key) key.setAttribute('fill', color ?? (isTonic ? this._tonicFill : (isWhiteKey(note) ? this._whiteKeyHighlightFill : this._blackKeyHighlightFill)))

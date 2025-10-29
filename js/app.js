@@ -200,8 +200,8 @@ function createQuestion({ questionText, answerText, extraInfos, answerNode, ligh
 
 function intervalle() {
   const rootIndex = getRandomRootIndex()
-  const intervalle = chooseOne(Object.keys(notes[0]))
-  const notesDansIntervalle = gammeChromatic.slice(0, gammeChromatic.indexOf(intervalle) + 1)
+  const intervalle = chooseOne(Object.keys(notes[rootIndex]))
+  //const notesDansIntervalle = gammeChromatic.slice(0, gammeChromatic.indexOf(intervalle) + 1)
   answerNode = div("mw-100")
   answerNode.appendChild(p(printNote(notes[rootIndex][intervalle])))
   if (settings.showNotes === "guitar") {
@@ -216,7 +216,7 @@ function intervalle() {
   createQuestion({
     questionText: `${t(intervalle)} ${t("of")} ${printNote(notes[rootIndex].root)} ?`,
     answerNode,
-    extraInfos: join(notesDansIntervalle.map((x) => printNote(notes[rootIndex][x]))),
+    //extraInfos: join(notesDansIntervalle.map((x) => printNote(notes[rootIndex][x]))),
   })
 }
 
