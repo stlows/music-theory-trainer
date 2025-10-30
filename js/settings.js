@@ -17,7 +17,7 @@ let defaultSettings = {
   showNotes: "guitar",
   continuousReading: "sameClef",
   clefs: ["treble", "bass"],
-  octaves: ["0"],
+  octavesDifficulty: "medium",
   afficherCorrection: "false",
   pianoRythm: settingsPresets.piano.intermediate.pianoRythm,
   melodyTrainingScale: "melodyScaleMajor",
@@ -25,26 +25,6 @@ let defaultSettings = {
 }
 
 let settings = { ...defaultSettings }
-
-const possibleProgressionChords = ["A", "Am", "C", "D", "Dm", "E", "Em", "F", "G"]
-const possibleQuestions = [
-  { func: "intervalle", t: "intervalles" },
-  { func: "gamme", t: "gammes" },
-  { func: "chord", t: "chords" },
-  { func: "chordsInKey", t: "chordsInTheKey" },
-  { func: "nthNoteInKey", t: "nthNoteInKey" },
-  { func: "chordsInProgression", t: "chordsInProgression" },
-  { func: "relativeKey", t: "relativeKey" },
-  { func: "quelleNoteSurManche", t: "whatIsThisNote" },
-  { func: "noteSurManche", t: "findSome" },
-  { func: "strummingQuestion", t: "strummingQuestion" },
-  { func: "intervalByEar", t: "intervalByEar" },
-  { func: "melodyByEar", t: "melodyByEar" },
-  { func: "chordSimilarities", t: "chordSimilarities" },
-  { func: "pratiquezLecturePiano", t: "pratiquezLecturePiano" },
-  { func: "hanonExercise", t: "hanonExercise" },
-  { func: "pianoRythm", t: "pianoRythm" },
-]
 
 function toggleActive(id) {
   document.getElementById(id).classList.toggle("active")

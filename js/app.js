@@ -1,10 +1,32 @@
 const gameEl = document.getElementById("game")
 
+function tests(questions, keys) {
+  for (q of questions) {
+    for (k of keys) {
+      try {
+        window[q](k)
+        clearGame()
+      } catch (ex) {
+        console.error(ex)
+        console.error(q, k)
+      }
+    }
+  }
+}
+
 function question() {
   resetLectureQuestion()
   const questionFunc = chooseOne(settings.questions)
   if (window[questionFunc]) {
-    window[questionFunc]()
+    let key = chooseOne(settings.roots)
+    try {
+      window[questionFunc](key)
+    }
+    catch (ex) {
+      console.error("Erreur pour la question:")
+      console.error(`${questionFunc}("${key}")`)
+      console.error(ex)
+    }
   }
 }
 
@@ -16,6 +38,10 @@ function clearGame() {
 function getRandomRootIndex() {
   const tonic = chooseOne(settings.roots)
   return notes.findIndex((x) => x.root === tonic)
+}
+
+function keyIndex(key) {
+  return notes.findIndex((x) => x.root === key)
 }
 
 function createGuitarQuestion({ questionText = "Test", notes = [], answerText = "", delayedNotes = false }) {
@@ -198,8 +224,8 @@ function createQuestion({ questionText, answerText, extraInfos, answerNode, ligh
   return questionWrapper
 }
 
-function intervalle() {
-  const rootIndex = getRandomRootIndex()
+function intervalle(key) {
+  let rootIndex = keyIndex(key)
   const intervalle = chooseOne(Object.keys(notes[rootIndex]))
   //const notesDansIntervalle = gammeChromatic.slice(0, gammeChromatic.indexOf(intervalle) + 1)
   answerNode = div("mw-100")
@@ -220,8 +246,8 @@ function intervalle() {
   })
 }
 
-function chord() {
-  const noteIndex = getRandomRootIndex()
+function chord(key) {
+  let noteIndex = keyIndex(key)
   const accordSettingsIndex = random(settings.accords.length)
   const accordIndex = accords.findIndex((x) => x.name === settings.accords[accordSettingsIndex])
   const accord = getAccord(noteIndex, accordIndex)
@@ -243,8 +269,8 @@ function chord() {
   })
 }
 
-function gamme() {
-  const noteIndex = getRandomRootIndex()
+function gamme(key) {
+  let noteIndex = keyIndex(key)
   const randomGammeName = chooseOne(settings.gammes)
   const gammeIndex = gammes.findIndex((x) => x.name === randomGammeName)
   const gamme = getGamme(noteIndex, gammeIndex)
@@ -270,16 +296,14 @@ function getRandomEnharmonicKey() {
   return chooseOne(settings.roots.filter((x) => enharmonicKeys.indexOf(x) > -1))
 }
 
-function chordsInKey() {
-  const key = chooseOne(settings.roots)
+function chordsInKey(key) {
   createQuestion({
     questionText: t("chordsInTheKey")(key),
     answerText: join(getChordDegrees(key)),
   })
 }
 
-function nthNoteInKey() {
-  const key = chooseOne(settings.roots)
+function nthNoteInKey(key) {
   const degree = random(6, 1)
   createQuestion({
     questionText: t("nthNoteInKey")(key, getRoman(degree)),
@@ -288,8 +312,7 @@ function nthNoteInKey() {
   })
 }
 
-function chordsInProgression() {
-  const key = chooseOne(settings.roots)
+function chordsInProgression(key) {
   const chords = [1, 2, 3, 4, 5, 6]
     .sort((a, b) => {
       return Math.random() - 0.5
@@ -303,8 +326,7 @@ function chordsInProgression() {
   })
 }
 
-function relativeKey() {
-  const key = chooseOne(settings.roots)
+function relativeKey(key) {
   createQuestion({
     questionText: t("relativeKey")(key),
     answerText: getChordDegree(key, 6),
@@ -697,7 +719,6 @@ function simulateNote(noteNumber) {
   }
   handleMIDIMessage(fakeMessage)
 }
-
 
 function hanonExercise() {
   const exercise = chooseOne(hanonExercises)

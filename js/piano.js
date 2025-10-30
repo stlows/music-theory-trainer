@@ -189,14 +189,14 @@ class Keyboard {
   }
 }
 
-function createPiano({ notes = [], min = "B4", max = "C7", onKeyClicked = null }, repeatFirstNote = false, fullNoteGiven = false) {
+function createPiano({ notes = [], min = "B4", max = "D7", onKeyClicked = null }, repeatFirstNote = false, fullNoteGiven = false) {
   let order = "CDEFGAB"
   const keyboard = new Keyboard({
     lowest: min,
     highest: max,
     onKeyClicked
   })
-  let number = notes[0][0] === "B" ? 4 : 5
+  let number = 5
   for (let i = 0; i < notes.length; i++) {
     let natural = order.indexOf(notes[i][0])
     if (i > 0 && natural < order.indexOf(notes[i - 1][0])) {

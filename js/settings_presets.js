@@ -32,7 +32,7 @@ const settingsPresets = {
             gammes: ["ionian", "minorPentatonic", "majorPentatonic"],
             lang: "en",
             theme: "dark",
-            roots: ["C", "G", "D", "A", "F"],
+            roots: enharmonicKeys,
             questions: ["intervalle", "gamme", "chord", "chordsInKey", "nthNoteInKey", "chordsInProgression", "relativeKey", "pratiquezLecturePiano", "pianoRythm"],
             timerInSeconds: 0,
             autoSelectBadAfterTimer: 'true',
