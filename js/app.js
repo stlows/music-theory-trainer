@@ -8,7 +8,7 @@ function question() {
     let seededRandom = new SeededRandom(seed)
     try {
       window[questionFunc](seededRandom)
-      console.info(`${questionFunc}(new SeededRandom(${seed}))`)
+      //console.info(`${questionFunc}(new SeededRandom(${seed}))`)
     }
     catch (ex) {
       console.error("Erreur pour la question:")

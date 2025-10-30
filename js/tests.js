@@ -21,5 +21,9 @@ function tests(questions, count, seed) {
 }
 
 function testSample(count) {
+  enabledNotifications = false
   tests(possibleQuestions.map(x => x.func).filter(x => x !== "intervalByEar" && x !== "melodyByEar"), count)
+  enabledNotifications = true
+  const pianoSimulationEl = document.getElementById("pianoSimulation")
+  pianoSimulationEl.innerHTML = ""
 }
