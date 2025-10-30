@@ -1,30 +1,18 @@
 const gameEl = document.getElementById("game")
 
-function tests(questions, keys) {
-  for (q of questions) {
-    for (k of keys) {
-      try {
-        window[q](k)
-        clearGame()
-      } catch (ex) {
-        console.error(ex)
-        console.error(q, k)
-      }
-    }
-  }
-}
-
 function question() {
   resetLectureQuestion()
   const questionFunc = chooseOne(settings.questions)
   if (window[questionFunc]) {
-    let key = chooseOne(settings.roots)
+    let seed = random(2147483647)
+    let seededRandom = new SeededRandom(seed)
     try {
-      window[questionFunc](key)
+      window[questionFunc](seededRandom)
+      console.info(`${questionFunc}(new SeededRandom(${seed}))`)
     }
     catch (ex) {
       console.error("Erreur pour la question:")
-      console.error(`${questionFunc}("${key}")`)
+      console.error(`${questionFunc}(new SeededRandom(${seed}))`)
       console.error(ex)
     }
   }
@@ -35,8 +23,8 @@ function clearGame() {
   resetLectureQuestion()
 }
 
-function getRandomRootIndex() {
-  const tonic = chooseOne(settings.roots)
+function getRandomRootIndex(seededRandom) {
+  const tonic = seededRandom.chooseOne(settings.roots)
   return notes.findIndex((x) => x.root === tonic)
 }
 
@@ -118,9 +106,9 @@ function createEarQuestion({ questionText, answerText, playNotes, indices }) {
   playNotes()
 }
 
-function quelleNoteSurManche() {
-  const corde = random(7, 1)
-  const fret = random(parseInt(settings.frets) + 1, 1)
+function quelleNoteSurManche(seededRandom) {
+  const corde = seededRandom.int(7, 1)
+  const fret = seededRandom.int(parseInt(settings.frets) + 1, 1)
   createGuitarQuestion({
     questionText: t("whatIsThisNote"),
     answerText: printNote(note(corde - 1, fret)),
@@ -128,8 +116,8 @@ function quelleNoteSurManche() {
   })
 }
 
-function noteSurManche() {
-  const noteATrouver = chooseOne(chromatic)
+function noteSurManche(seededRandom) {
+  const noteATrouver = seededRandom.chooseOne(chromatic)
   const notesSurManche = []
   for (let corde = 0; corde < cordes.length; corde++) {
     for (let fret = 0; fret < FRET_COUNT; fret++) {
@@ -224,7 +212,8 @@ function createQuestion({ questionText, answerText, extraInfos, answerNode, ligh
   return questionWrapper
 }
 
-function intervalle(key) {
+function intervalle(seededRandom) {
+  let key = seededRandom.chooseOne(settings.roots)
   let rootIndex = keyIndex(key)
   const intervalle = chooseOne(Object.keys(notes[rootIndex]))
   //const notesDansIntervalle = gammeChromatic.slice(0, gammeChromatic.indexOf(intervalle) + 1)
@@ -246,9 +235,10 @@ function intervalle(key) {
   })
 }
 
-function chord(key) {
+function chord(seededRandom) {
+  let key = seededRandom.chooseOne(settings.roots)
   let noteIndex = keyIndex(key)
-  const accordSettingsIndex = random(settings.accords.length)
+  const accordSettingsIndex = seededRandom.int(settings.accords.length)
   const accordIndex = accords.findIndex((x) => x.name === settings.accords[accordSettingsIndex])
   const accord = getAccord(noteIndex, accordIndex)
   answerNode = div("mw-100")
@@ -269,9 +259,10 @@ function chord(key) {
   })
 }
 
-function gamme(key) {
+function gamme(seededRandom) {
+  let key = seededRandom.chooseOne(settings.roots)
   let noteIndex = keyIndex(key)
-  const randomGammeName = chooseOne(settings.gammes)
+  const randomGammeName = seededRandom.chooseOne(settings.gammes)
   const gammeIndex = gammes.findIndex((x) => x.name === randomGammeName)
   const gamme = getGamme(noteIndex, gammeIndex)
   answerNode = div("mw-100")
@@ -292,19 +283,21 @@ function gamme(key) {
   })
 }
 
-function getRandomEnharmonicKey() {
-  return chooseOne(settings.roots.filter((x) => enharmonicKeys.indexOf(x) > -1))
+function getRandomEnharmonicKey(seededRandom) {
+  return seededRandom.chooseOne(settings.roots.filter((x) => enharmonicKeys.indexOf(x) > -1))
 }
 
-function chordsInKey(key) {
+function chordsInKey(seededRandom) {
+  let key = seededRandom.chooseOne(settings.roots)
   createQuestion({
     questionText: t("chordsInTheKey")(key),
     answerText: join(getChordDegrees(key)),
   })
 }
 
-function nthNoteInKey(key) {
-  const degree = random(6, 1)
+function nthNoteInKey(seededRandom) {
+  let key = seededRandom.chooseOne(settings.roots)
+  const degree = seededRandom.int(6, 1)
   createQuestion({
     questionText: t("nthNoteInKey")(key, getRoman(degree)),
     answerText: getChordDegree(key, degree),
@@ -312,10 +305,11 @@ function nthNoteInKey(key) {
   })
 }
 
-function chordsInProgression(key) {
+function chordsInProgression(seededRandom) {
+  let key = seededRandom.chooseOne(settings.roots)
   const chords = [1, 2, 3, 4, 5, 6]
     .sort((a, b) => {
-      return Math.random() - 0.5
+      return seededRandom.next() - 0.5
     })
     .slice(0, 4)
   const progression = join(chords.map(getRoman))
@@ -326,19 +320,20 @@ function chordsInProgression(key) {
   })
 }
 
-function relativeKey(key) {
+function relativeKey(seededRandom) {
+  let key = seededRandom.chooseOne(settings.roots)
   createQuestion({
     questionText: t("relativeKey")(key),
     answerText: getChordDegree(key, 6),
   })
 }
 
-function intervalByEar() {
+function intervalByEar(seededRandom) {
   const startIndex = 20
   const endIndex = 40
   const maxInterval = 12
-  const bassIndex = random(endIndex + 1, startIndex)
-  const interval = random(maxInterval + 1)
+  const bassIndex = seededRandom.int(endIndex + 1, startIndex)
+  const interval = seededRandom.int(maxInterval + 1)
   createEarQuestion({
     questionText: t("whatIsThisInterval"),
     answerText: `${t(Object.keys(notes[0])[interval])} - Basse: ${printNote(allNotes[bassIndex])} - High note: ${printNote(
@@ -348,9 +343,9 @@ function intervalByEar() {
   })
 }
 
-function chordSimilarities() {
-  const accord1 = getRandomChord()
-  const accord2 = getRandomChord()
+function chordSimilarities(seededRandom) {
+  const accord1 = getRandomChord(seededRandom)
+  const accord2 = getRandomChord(seededRandom)
   const notes1 = [...accord1.notes]
   const notes2 = [...accord2.notes]
 
@@ -389,9 +384,9 @@ function alignNotes(arr1, arr2) {
   return bestAlignment
 }
 
-function getRandomChord() {
-  const noteIndex = getRandomRootIndex()
-  const accordSettingsIndex = random(settings.accords.length)
+function getRandomChord(seededRandom) {
+  const noteIndex = getRandomRootIndex(seededRandom)
+  const accordSettingsIndex = seededRandom.int(settings.accords.length)
   const accordIndex = accords.findIndex((x) => x.name === settings.accords[accordSettingsIndex])
   const accord = getAccord(noteIndex, accordIndex)
   return accord
@@ -604,10 +599,10 @@ function resetLectureQuestion() {
   lastKeyHitSuccess = undefined
 }
 
-function pratiquezLecturePiano(key) {
+function pratiquezLecturePiano(seededRandom, key) {
   resetLectureQuestion()
   if (!key) {
-    currentKey = getRandomEnharmonicKey(settings.roots)
+    currentKey = getRandomEnharmonicKey(seededRandom)
   } else {
     currentKey = key
   }
@@ -620,9 +615,9 @@ function pratiquezLecturePiano(key) {
   let bassNotes = notesSample(octavesDifficuly[settings.octavesDifficulty].bass[0], octavesDifficuly[settings.octavesDifficulty].bass[1])
   for (let i = 0; i < numberOfNotes; i++) {
 
-    let clef = chooseOne(settings.clefs)
+    let clef = seededRandom.chooseOne(settings.clefs)
     //let midi = chooseOne(octavesDifficuly.hard.bass)
-    let midi = chooseOne(clef == "treble" ? trebleNotes : bassNotes)
+    let midi = seededRandom.chooseOne(clef == "treble" ? trebleNotes : bassNotes)
     let octave = Math.floor(midi / 12) - 5
     let note = midiNaturals[midi % 12]
     notes.push({ note, clef, octave, midi: noteToMidiNumber(note, octave, currentKey) })
@@ -650,19 +645,18 @@ function pratiquezLecturePiano(key) {
 
   currentLectureQuestionEl.querySelector(".answer").click()
 
-  let goodButton = currentLectureQuestionEl.querySelector(".correction button:nth-child(1)")
-  goodButton.innerText = 0
-  goodButton.dataset.count = 0
-  goodButton.style.color = "var(--barColor1)"
-  goodButton.style.cursor = "default"
-  goodButton.disabled = true
+  updateCorrectionButton(1)
+  updateCorrectionButton(2)
+  
+}
 
-  let badButton = currentLectureQuestionEl.querySelector(".correction button:nth-child(2)")
-  badButton.innerText = 0
-  badButton.dataset.count = 0
-  badButton.style.color = "var(--barColor2)"
-  badButton.style.cursor = "default"
-  badButton.disabled = true
+function updateCorrectionButton(n){
+  let button = currentLectureQuestionEl.querySelector(`.correction button:nth-child(${n})`)
+  button.innerText = 0
+  button.dataset.count = 0
+  button.style.color = `var(--barColor${n})`
+  button.style.cursor = "default"
+  button.disabled = true
 }
 
 function getPianoRange(notesArray) {
@@ -720,9 +714,9 @@ function simulateNote(noteNumber) {
   handleMIDIMessage(fakeMessage)
 }
 
-function hanonExercise() {
-  const exercise = chooseOne(hanonExercises)
-  const rootIndex = getRandomRootIndex()
+function hanonExercise(seededRandom) {
+  const exercise = seededRandom.chooseOne(hanonExercises)
+  const rootIndex = getRandomRootIndex(seededRandom)
   const key = notes[rootIndex].root.replace("♯", "#").replace("♭", "b")
 
   let staffDiv = hanonStaff(key, exercise)
@@ -796,11 +790,11 @@ function checkNote(playedMidiNote) {
     currentNoteIndexToBePlayed++
     if (currentNoteIndexToBePlayed >= notesToBePlayed.length) {
       if (settings.continuousReading === "sameClef") {
-        pratiquezLecturePiano(currentKey)
+        pratiquezLecturePiano(seededRandom, currentKey)
         return
       }
       if (settings.continuousReading === "differentClef") {
-        pratiquezLecturePiano()
+        pratiquezLecturePiano(seededRandom)
         return
       }
       resetLectureQuestion()
@@ -826,19 +820,19 @@ function addBadNote() {
   badButton.innerText = ++badButton.dataset.count
 }
 
-function melodyByEar() {
+function melodyByEar(seededRandom) {
   // constants, load from settings later
   const intervals = settings.melodyTrainingScale == "melodyScaleMajor" ? [-12, -10, -8, -7, -5, -3, -1, 0, 2, 4, 5, 7, 9, 11, 12] : [-12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   let maxGap = settings.melodyTrainingScale == "melodyScaleMajor" ? 5 : 9
   const numberOfNotes = settings.melodyTrainingNotesCount || 4
   const bpm = 120
-  let key = chooseOne([55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65])
+  let key = seededRandom.chooseOne([55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65])
   let middleIndex = intervals.indexOf(0)
   let lastNote = key
   let notes = [{ midi: lastNote }]
   let possible = intervals.slice(middleIndex - maxGap, middleIndex + maxGap + 1)
   for (let i = 0; i < numberOfNotes - 1; i++) {
-    let interval = chooseOne(possible)
+    let interval = seededRandom.chooseOne(possible)
     lastNote += interval
     notes.push({ midi: lastNote })
   }
@@ -847,8 +841,8 @@ function melodyByEar() {
   const midiSet = Array.from(new Set(notes.map(n => n.midi)))
   let minMidi = Math.min(...midiSet)
   let maxMidi = Math.max(...midiSet)
-  let min = allNotes[minMidi - random(10, 5)]
-  let max = allNotes[maxMidi + random(10, 5)]
+  let min = allNotes[minMidi - seededRandom.int(10, 5)]
+  let max = allNotes[maxMidi + seededRandom.int(10, 5)]
   let indice1 = createPiano({ notes: [allNotes[notes[0].midi]], min, max }, false, true)._svg
   let indice2 = createPiano({ notes: midiSet.map(x => allNotes[x]), min, max }, false, true)._svg
   let indice3 = p(join(notes.map(x => allNotes[x.midi].slice(0, -1))))

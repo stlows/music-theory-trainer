@@ -13,8 +13,8 @@ let defaultSettings = {
   questions: ["intervalle", "gamme", "chord", "quelleNoteSurManche", "noteSurManche"],
   timerInSeconds: 0,
   autoSelectBadAfterTimer: 'true',
-  instruments: "guitar",
-  showNotes: "guitar",
+  instruments: "piano",
+  showNotes: "piano",
   continuousReading: "sameClef",
   clefs: ["treble", "bass"],
   octavesDifficulty: "medium",
@@ -141,9 +141,9 @@ function clickOnElements(selector) {
 function selectAllSetting(event, settingKey) {
   event.preventDefault()
   clickOnElements(`.settingBtn.${settingKey}:not(.active)`)
-  if (settingKey === 'questions') {
-    clickOnElements(`.settingBtn.${settingKey}[data-value=strummingQuestion]`)
-  }
+  // if (settingKey === 'questions') {
+  //   clickOnElements(`.settingBtn.${settingKey}[data-value=strummingQuestion]`)
+  // }
 }
 
 function selectEnharmonic(event) {
