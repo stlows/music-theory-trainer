@@ -15,15 +15,16 @@ function question() {
   const questionFunc = chooseOne(settings.questions)
   if (window[questionFunc]) {
     let seed = random(2147483647)
+    gtag('event', "question", { questionFunc, seed })
     let seededRandom = new SeededRandom(seed)
     try {
       window[questionFunc](seededRandom)
-      //console.info(`${questionFunc}(new SeededRandom(${seed}))`)
     }
     catch (ex) {
       console.error("Erreur pour la question:")
       console.error(`${questionFunc}(new SeededRandom(${seed}))`)
       console.error(ex)
+      gtag('event', "question_error", { questionFunc, seed, ex })
     }
   }
 }
