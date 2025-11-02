@@ -1,7 +1,17 @@
 const gameEl = document.getElementById("game")
+//let questionCount = 0
 
 function question() {
   resetLectureQuestion()
+  // questionCount++
+  // if (questionCount === 5) {
+  //   createQuestion({
+  //     questionText: "areYouEnjoyingTheApp",
+  //     answerNode: p("thankYou"),
+  //   })
+  //   questionCount = 0
+  //   return
+  // }
   const questionFunc = chooseOne(settings.questions)
   if (window[questionFunc]) {
     let seed = random(2147483647)
@@ -175,7 +185,7 @@ function addCorrectionAndTimer(questionWrapper, answer) {
   }
 }
 
-function createQuestion({ questionText, answerText, extraInfos, answerNode, light }) {
+function createQuestion({ questionText, answerText, extraInfos, answerNode, light, autoAnswer }) {
   const questionWrapper = div("question")
   if (light) {
     questionWrapper.classList.add("light")
@@ -208,6 +218,11 @@ function createQuestion({ questionText, answerText, extraInfos, answerNode, ligh
       clearInterval(timeoutId)
     }
   })
+
+  if (autoAnswer) {
+    answer.click()
+  }
+
   gameEl.prepend(questionWrapper)
   return questionWrapper
 }
@@ -647,10 +662,10 @@ function pratiquezLecturePiano(seededRandom, key) {
 
   updateCorrectionButton(1)
   updateCorrectionButton(2)
-  
+
 }
 
-function updateCorrectionButton(n){
+function updateCorrectionButton(n) {
   let button = currentLectureQuestionEl.querySelector(`.correction button:nth-child(${n})`)
   button.innerText = 0
   button.dataset.count = 0

@@ -44,8 +44,6 @@ const accords = [
   { name: "add4", notes: ["root", "M3", "P4", "P5"], title: "Additionné 4" },
   { name: "sus2", notes: ["root", "M2", "P5"], title: "Suspendu 2" },
   { name: "sus4", notes: ["root", "P4", "P5"], title: "Suspendu 4" },
-  { name: "dim", notes: ["root", "m3", "d5"], title: "Diminué" },
-  { name: "aug", notes: ["root", "M3", "A5"], title: "Augmenté" },
   { name: "6", notes: ["root", "M3", "P5", "M6"], title: "6" },
   { name: "chord_m6", notes: ["root", "m3", "P5", "M6"], title: "m6" },
   { name: "9", notes: ["root", "M3", "P5", "m7", "M9"], title: "9" },
