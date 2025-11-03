@@ -4,6 +4,7 @@ const settingsPresets = {
             notation: "letter",
             tempo: 60,
             repeats: 2,
+            frets: 7,
             progressionChords: "C",
             plingAtFirstTempo: true,
             accords: ["majeur", "mineur"],
@@ -20,12 +21,15 @@ const settingsPresets = {
             clefs: ["treble", "bass"],
             octavesDifficulty: "easy",
             afficherCorrection: "false",
-            pianoRythm: ['2-Eights', 'Quarter', 'Rest Eight']
+            pianoRythm: ['2-Eights', 'Quarter', 'Rest Eight'],
+            melodyTrainingScale: "melodyScaleMajor",
+            melodyTrainingNotesCount: 4
         },
         intermediate: {
             notation: "letter",
             tempo: 80,
             repeats: 3,
+            frets: 7,
             progressionChords: "G",
             plingAtFirstTempo: false,
             accords: ["majeur", "mineur", "7", "maj7", "m7", "m(maj7)"],
@@ -42,12 +46,15 @@ const settingsPresets = {
             octavesDifficulty: "medium",
             clefs: ["treble", "bass"],
             afficherCorrection: "false",
-            pianoRythm: possibleTiming.map(x => x.name).filter(x => !x.includes("Rest"))
+            pianoRythm: possibleTiming.map(x => x.name).filter(x => !x.includes("Rest")),
+            melodyTrainingScale: "melodyScaleMajor",
+            melodyTrainingNotesCount: 4
         },
         advanced: {
             notation: "letter",
             tempo: 120,
             repeats: 4,
+            frets: 7,
             progressionChords: "Dm",
             plingAtFirstTempo: false,
             accords: [...accords.map(x => x.name)],
@@ -64,7 +71,9 @@ const settingsPresets = {
             clefs: ["treble", "bass"],
             octavesDifficulty: "hard",
             afficherCorrection: "false",
-            pianoRythm: possibleTiming.map(x => x.name)
+            pianoRythm: possibleTiming.map(x => x.name),
+            melodyTrainingScale: "melodyScaleMajor",
+            melodyTrainingNotesCount: 6
         }
     },
     guitar: {
@@ -89,7 +98,9 @@ const settingsPresets = {
             clefs: ["treble", "bass"],
             octavesDifficulty: "easy",
             afficherCorrection: "false",
-            pianoRythm: ['2-Eights', 'Quarter', 'Rest Eight']
+            pianoRythm: ['2-Eights', 'Quarter', 'Rest Eight'],
+            melodyTrainingScale: "melodyScaleMajor",
+            melodyTrainingNotesCount: 4
         },
         intermediate: {
             notation: "letter",
@@ -112,7 +123,9 @@ const settingsPresets = {
             clefs: ["treble", "bass"],
             octavesDifficulty: "medium",
             afficherCorrection: "false",
-            pianoRythm: possibleTiming.map(x => x.name).filter(x => !x.includes("Rest") && !x.includes("Triplet"))
+            pianoRythm: possibleTiming.map(x => x.name).filter(x => !x.includes("Rest") && !x.includes("Triplet")),
+            melodyTrainingScale: "melodyScaleMajor",
+            melodyTrainingNotesCount: 4
         },
         advanced: {
             notation: "letter",
@@ -135,7 +148,9 @@ const settingsPresets = {
             clefs: ["treble", "bass"],
             octavesDifficulty: "hard",
             afficherCorrection: "false",
-            pianoRythm: possibleTiming.map(x => x.name).filter(x => !x.includes("Triplet"))
+            pianoRythm: possibleTiming.map(x => x.name).filter(x => !x.includes("Triplet")),
+            melodyTrainingScale: "melodyScaleMajor",
+            melodyTrainingNotesCount: 6
         }
     },
 }

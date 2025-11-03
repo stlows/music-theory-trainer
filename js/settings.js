@@ -1,28 +1,4 @@
-let defaultSettings = {
-  notation: "letter",
-  frets: 6,
-  tempo: 100,
-  repeats: 2,
-  progressionChords: "D",
-  plingAtFirstTempo: false,
-  accords: ["majeur", "mineur", "7"],
-  gammes: ["ionian", "minorPentatonic"],
-  lang: "fr",
-  theme: "dark",
-  roots: ["C", "D", "G", "A"],
-  questions: ["intervalle", "gamme", "chord", "quelleNoteSurManche", "noteSurManche"],
-  timerInSeconds: 0,
-  autoSelectBadAfterTimer: 'true',
-  instruments: "piano",
-  showNotes: "piano",
-  continuousReading: "sameClef",
-  clefs: ["treble", "bass"],
-  octavesDifficulty: "medium",
-  afficherCorrection: "false",
-  pianoRythm: settingsPresets.piano.intermediate.pianoRythm,
-  melodyTrainingScale: "melodyScaleMajor",
-  melodyTraningNotesCount: 4
-}
+let defaultSettings = { ...settingsPresets.piano.intermediate }
 
 let settings = { ...defaultSettings }
 
