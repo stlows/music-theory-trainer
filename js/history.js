@@ -8,7 +8,6 @@ function addHistory(questionInfo) {
   history.push(questionInfo)
   localStorage.setItem("history", JSON.stringify(history))
   renderHistory()
-  console.log("History added")
 }
 
 function renderHistory() {

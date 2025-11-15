@@ -256,7 +256,8 @@ const res = {
   melodyScaleMajor: { fr: "Gamme majeure", en: "Major scale" },
   melodyScaleChromatic: { fr: "Gamme chromatique", en: "Chromatic scale" },
   history: { fr: "Historique", en: "History" },
-  clearHistory: { fr: "Vider l'hitorique", en: "Clear history" }
+  clearHistory: { fr: "Vider l'hitorique", en: "Clear history" },
+  noHistory: { fr: "Aucun historique", en: "No history" }
 }
 
 function t(key) {
