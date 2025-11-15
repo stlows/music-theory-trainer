@@ -231,6 +231,22 @@
     </div>
   </div>
 
+  <div id="history" class="modal">
+    <div class="container">
+      <div class="mb">
+        <div class="settingToggle pointer" onclick="toggleActive('history')">← <span data-t="retour"></span></div>
+      </div>
+
+      <div class="mb">
+        <h2 class="mb-small"><span data-t="history"></span></h2>
+      </div>
+      <ul id="historyContainer"></ul>
+
+      <hr class="mt" />
+      <button class="settingBtn" onclick="clearHistory()"><span data-t="clearHistory"></span></button>
+    </div>
+  </div>
+
   <div id="stats" class="modal">
     <div class="container">
       <div class="mb">
@@ -274,8 +290,9 @@
       <div class="settingToggle pointer" onclick="toggleSettings()">⚙ <span data-t="settings"></span></div>
 
       <div class="settingToggle pointer" onclick="toggleStats()">📊 <span data-t="stats"></span></div>
+      <div class="settingToggle pointer" onclick="toggleActive('history')">📋 <span data-t="history"></span></div>
 
-      <div class="settingToggle pointer" onclick="toggleDocumentation()">🎹 <span data-t="documentation"></span></div>
+      <div class="settingToggle pointer" onclick="toggleDocumentation()">📖 <span data-t="documentation"></span></div>
     </div>
 
     <div class="center mb">
@@ -321,6 +338,7 @@
   <script src="js/hanon.js?v=1762122157644"></script>
   <script src="js/tests.js?v=1762122157644"></script>
   <script src="js/reviews.js?v=1762122157644"></script>
+  <script src="js/history.js?v=1762122157644"></script>
   <script>
     trad()
 

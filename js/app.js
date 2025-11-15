@@ -3,22 +3,14 @@ const gameEl = document.getElementById("game")
 
 function question() {
   resetLectureQuestion()
-  // questionCount++
-  // if (questionCount === 5) {
-  //   createQuestion({
-  //     questionText: "areYouEnjoyingTheApp",
-  //     answerNode: p("thankYou"),
-  //   })
-  //   questionCount = 0
-  //   return
-  // }
   const questionFunc = chooseOne(settings.questions)
   if (window[questionFunc]) {
     let seed = random(2147483647)
     gtag('event', "question", { questionFunc, seed })
     let seededRandom = new SeededRandom(seed)
     try {
-      window[questionFunc](seededRandom)
+      let questionTitle = window[questionFunc](seededRandom)
+      addHistory({ questionFunc, questionTitle, seed, date: new Date().valueOf() })
     }
     catch (ex) {
       console.error("Erreur pour la question:")
@@ -120,11 +112,13 @@ function createEarQuestion({ questionText, answerText, playNotes, indices }) {
 function quelleNoteSurManche(seededRandom) {
   const corde = seededRandom.int(7, 1)
   const fret = seededRandom.int(parseInt(settings.frets) + 1, 1)
+  let questionTitle = t("whatIsThisNote")
   createGuitarQuestion({
-    questionText: t("whatIsThisNote"),
+    questionText: questionTitle,
     answerText: printNote(note(corde - 1, fret)),
     notes: [{ corde, fret, color: "#1E90FF", selected: true }],
   })
+  return questionTitle
 }
 
 function noteSurManche(seededRandom) {
@@ -138,11 +132,14 @@ function noteSurManche(seededRandom) {
       }
     }
   }
+  let questionText = `${t("findSome")} ${printNote(noteATrouver)}?`
   createGuitarQuestion({
-    questionText: `${t("findSome")} ${printNote(noteATrouver)}?`,
+    questionText,
     notes: notesSurManche,
     delayedNotes: true,
   })
+
+  return questionText
 }
 
 function correction() {
@@ -244,11 +241,13 @@ function intervalle(seededRandom) {
     let pianoWrapper = createPiano({ notes: [notes[rootIndex].root, notes[rootIndex][intervalle]] })
     answerNode.appendChild(pianoWrapper._svg)
   }
+  let questionText = `${t(intervalle)} ${t("of")} ${printNote(notes[rootIndex].root)} ?`
   createQuestion({
-    questionText: `${t(intervalle)} ${t("of")} ${printNote(notes[rootIndex].root)} ?`,
+    questionText,
     answerNode,
     //extraInfos: join(notesDansIntervalle.map((x) => printNote(notes[rootIndex][x]))),
   })
+  return questionText
 }
 
 function chord(seededRandom) {
@@ -268,11 +267,14 @@ function chord(seededRandom) {
     let pianoWrapper = createPiano({ notes: accord.notes })
     answerNode.appendChild(pianoWrapper._svg)
   }
+  let questionText = t("chord")(printNote(accord.tonique), t(accord.type.name)) + " ?"
   createQuestion({
-    questionText: t("chord")(printNote(accord.tonique), t(accord.type.name)) + " ?",
+    questionText,
     answerNode: answerNode,
     extraInfos: join(accords[accordIndex].notes),
   })
+
+  return questionText
 }
 
 function gamme(seededRandom) {
@@ -292,11 +294,15 @@ function gamme(seededRandom) {
     let pianoWrapper = createPiano({ notes: gamme.notes }, true)
     answerNode.appendChild(pianoWrapper._svg)
   }
+  let questionText = t("gamme")(printNote(gamme.tonique), t(gamme.type.name)) + " ?"
+
   createQuestion({
-    questionText: t("gamme")(printNote(gamme.tonique), t(gamme.type.name)) + " ?",
+    questionText,
     answerNode: answerNode,
     extraInfos: join(gammes[gammeIndex].notes),
   })
+
+  return questionText
 }
 
 function getRandomEnharmonicKey(seededRandom) {
@@ -305,20 +311,24 @@ function getRandomEnharmonicKey(seededRandom) {
 
 function chordsInKey(seededRandom) {
   let key = seededRandom.chooseOne(settings.roots)
+  let questionText = t("chordsInTheKey")(key)
   createQuestion({
-    questionText: t("chordsInTheKey")(key),
+    questionText,
     answerText: join(getChordDegrees(key)),
   })
+  return questionText
 }
 
 function nthNoteInKey(seededRandom) {
   let key = seededRandom.chooseOne(settings.roots)
   const degree = seededRandom.int(6, 1)
+  let questionText = t("nthNoteInKey")(key, getRoman(degree))
   createQuestion({
-    questionText: t("nthNoteInKey")(key, getRoman(degree)),
+    questionText,
     answerText: getChordDegree(key, degree),
     extraInfos: join(getChordDegrees(key)),
   })
+  return questionText
 }
 
 function chordsInProgression(seededRandom) {
@@ -329,19 +339,23 @@ function chordsInProgression(seededRandom) {
     })
     .slice(0, 4)
   const progression = join(chords.map(getRoman))
+  let questionText = t("chordsInProgression")(key, progression)
   createQuestion({
-    questionText: t("chordsInProgression")(key, progression),
+    questionText,
     answerText: join(chords.map((x) => getChordDegree(key, x))),
     extraInfos: join(getChordDegrees(key)),
   })
+  return questionText
 }
 
 function relativeKey(seededRandom) {
   let key = seededRandom.chooseOne(settings.roots)
+  let questionText = t("relativeKey")(key)
   createQuestion({
-    questionText: t("relativeKey")(key),
+    questionText,
     answerText: getChordDegree(key, 6),
   })
+  return questionText
 }
 
 function intervalByEar(seededRandom) {
@@ -350,13 +364,15 @@ function intervalByEar(seededRandom) {
   const maxInterval = 12
   const bassIndex = seededRandom.int(endIndex + 1, startIndex)
   const interval = seededRandom.int(maxInterval + 1)
+  let questionText = t("whatIsThisInterval")
   createEarQuestion({
-    questionText: t("whatIsThisInterval"),
+    questionText,
     answerText: `${t(Object.keys(notes[0])[interval])} - Basse: ${printNote(allNotes[bassIndex])} - High note: ${printNote(
       allNotes[bassIndex + interval]
     )} `,
     playNotes: () => playNotes(bassIndex, interval),
   })
+  return questionText
 }
 
 function chordSimilarities(seededRandom) {
@@ -371,10 +387,12 @@ function chordSimilarities(seededRandom) {
     answerDiv.appendChild(p(join(rotated) + " | " + join(alignNotes(notes2, rotated)), "mb-small"))
   }
 
+  let questionText = t("chord")(printNote(accord1.tonique), t(accord1.type.name)) + " - " + t("chord")(printNote(accord2.tonique), t(accord2.type.name))
   createQuestion({
-    questionText: t("chord")(printNote(accord1.tonique), t(accord1.type.name)) + " - " + t("chord")(printNote(accord2.tonique), t(accord2.type.name)),
+    questionText,
     answerNode: answerDiv,
   })
+  return questionText
 }
 
 function alignNotes(arr1, arr2) {
@@ -653,9 +671,10 @@ function pratiquezLecturePiano(seededRandom, key) {
 
   currentNoteIndexToBePlayed = 0
 
+  let questionText = t("pratiquezLecturePiano")(numberOfNotes, printNote(currentKey))
   currentLectureQuestionEl = createQuestion({
     light: true,
-    questionText: t("pratiquezLecturePiano")(numberOfNotes, printNote(currentKey)),
+    questionText,
     answerNode: el,
   })
 
@@ -663,7 +682,7 @@ function pratiquezLecturePiano(seededRandom, key) {
 
   updateCorrectionButton(1)
   updateCorrectionButton(2)
-
+  return questionText
 }
 
 function updateCorrectionButton(n) {
@@ -737,13 +756,14 @@ function hanonExercise(seededRandom) {
 
   let staffDiv = hanonStaff(key, exercise)
 
+  let questionText = t("hanonExerciseQuestion")(exercise.name, printNote(key))
   let question = createQuestion({
     light: true,
-    questionText: t("hanonExerciseQuestion")(exercise.name, printNote(key)),
+    questionText,
     answerNode: staffDiv
   })
   question.querySelector(".answer").click()
-
+  return questionText
 }
 
 function noteToMidiNumber(note, octave, key = "C") {
@@ -862,13 +882,15 @@ function melodyByEar(seededRandom) {
   let indice1 = createPiano({ notes: [allNotes[notes[0].midi]], min, max }, false, true)._svg
   let indice2 = createPiano({ notes: midiSet.map(x => allNotes[x]), min, max }, false, true)._svg
   let indice3 = p(join(notes.map(x => allNotes[x.midi].slice(0, -1))))
+  let questionText = t("whatIsThisMelody")
   createEarQuestion({
-    questionText: t("whatIsThisMelody"),
+    questionText,
     indices: [indice1, indice2, indice3],
     playNotes: () => playPianoNotes(notes, bpm),
   })
 
   playPianoNotes(notes, bpm)
+  return questionText
 }
 
 function log(msg, type = "success") {

@@ -255,6 +255,8 @@ const res = {
   melodyTrainingNotesCount: { fr: "Nombre de notes dans la mélodie", en: "Notes count in the melody" },
   melodyScaleMajor: { fr: "Gamme majeure", en: "Major scale" },
   melodyScaleChromatic: { fr: "Gamme chromatique", en: "Chromatic scale" },
+  history: { fr: "Historique", en: "History" },
+  clearHistory: { fr: "Vider l'hitorique", en: "Clear history" }
 }
 
 function t(key) {
