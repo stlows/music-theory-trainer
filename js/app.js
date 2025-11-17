@@ -359,17 +359,20 @@ function relativeKey(seededRandom) {
 }
 
 function intervalByEar(seededRandom) {
-  const startIndex = 20
-  const endIndex = 40
-  const maxInterval = 12
-  const bassIndex = seededRandom.int(endIndex + 1, startIndex)
+  const startMidi = 48
+  const endMidi = 72
+  const maxInterval = 12 // octave
+  const bassIndex = seededRandom.int(endMidi + 1, startMidi)
   const interval = seededRandom.int(maxInterval + 1)
   let questionText = t("whatIsThisInterval")
+  let indice1 = createPiano({ notes: [midiToPianoNote(bassIndex)], min: midiToPianoNote(bassIndex - 5), max: midiToPianoNote(bassIndex + maxInterval + 5) }, false, fullNoteGiven = true)._svg
+  let indice2 = createPiano({ notes: [midiToPianoNote(bassIndex), midiToPianoNote(bassIndex + interval)], min: midiToPianoNote(bassIndex - 5), max: midiToPianoNote(bassIndex + maxInterval + 5) }, false, fullNoteGiven = true)._svg
   createEarQuestion({
     questionText,
-    answerText: `${t(Object.keys(notes[0])[interval])} - Basse: ${printNote(allNotes[bassIndex])} - High note: ${printNote(
-      allNotes[bassIndex + interval]
-    )} `,
+    indices: [indice1, indice2],
+    // answerText: `${t(Object.keys(notes[0])[interval])} - Basse: ${printNote(allNotes[bassIndex])} - High note: ${printNote(
+    //   allNotes[bassIndex + interval]
+    // )} `,
     playNotes: () => playNotes(bassIndex, interval),
   })
   return questionText
@@ -428,13 +431,11 @@ function getRandomChord(seededRandom) {
 
 function playNotes(bassIndex, interval) {
   const highNoteIndex = bassIndex + interval
-  const audio1 = new Audio(instruments[settings.instruments][allNotes[bassIndex]])
-  const audio2 = new Audio(instruments[settings.instruments][allNotes[highNoteIndex]])
-  console.log("Played " + bassIndex + " on " + settings.instruments)
+  const audio1 = new Audio(instruments[settings.instruments][allNotes[bassIndex - 24]])
+  const audio2 = new Audio(instruments[settings.instruments][allNotes[highNoteIndex - 24]])
   audio1.play()
   audio1.addEventListener("ended", () => {
     audio2.play()
-    console.log("Played " + highNoteIndex + " on " + settings.instruments)
   })
 }
 
@@ -706,12 +707,12 @@ function getPianoRange(notesArray) {
   }
 
   let minPiano = "A2"
-  if (min >= 36) minPiano = "C3"
-  if (min >= 48) minPiano = "C4"
+  if (min >= 36) minPiano = "C2"
+  if (min >= 48) minPiano = "C3"
 
   let maxPiano = "G7"
-  if (max <= "83") maxPiano = "B6"
-  if (max <= "71") maxPiano = "B5"
+  if (max <= 83) maxPiano = "B5"
+  if (max <= 71) maxPiano = "B4"
 
   return { minPiano, maxPiano }
 }

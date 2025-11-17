@@ -67,6 +67,15 @@ function getOctave(note) {
   return Math.floor(note / 12)
 }
 
+function midiToPianoNoteIndex(midi) {
+  return midi - 21
+}
+
+function midiToPianoNote(midi) {
+  return allNotes[midiToPianoNoteIndex(midi)]
+}
+
+
 function getPitchClass(note) {
   return note % 12
 }
@@ -138,9 +147,9 @@ class Keyboard {
       if (options.onKeyClicked) {
         key.classList.add("clickable")
         key.classList.add("piano-note")
-        key.addEventListener("click", () => options.onKeyClicked(note))
+        key.addEventListener("click", () => options.onKeyClicked(note + 12))
       }
-      if (note === 60) {
+      if (note === 48) {
         let fontSize = 10
         c4ElementText = createSvgElement("text", { x: x + WHITE_KEY_WIDTH / 2 - (fontSize + 2) / 2, y: WHITE_KEY_HEIGHT - fontSize / 2, fill: "var(--background-color)" })
         c4ElementText.textContent = "C4"
