@@ -617,6 +617,7 @@ let currentLectureQuestionEl = undefined
 let notesToBePlayed = []
 let currentKey = ""
 let lastKeyHitSuccess = undefined
+let lectureSeededRandom = undefined
 const midiPianoNotes = [19, 21, 23, 24, 26, 28, 29, 31, 33, 35, 36, 38, 40, 41, 43, 45, 47, 48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77, 79, 81, 83, 84, 86, 88, 89, 91, 93, 95, 96, 98, 100, 101, 103]
 const midiNaturals = ["C", "C", "D", "D", "E", "F", "F", "G", "G", "A", "A", "B"]
 function notesSample(start, end) {
@@ -632,6 +633,7 @@ function resetLectureQuestion() {
   notesToBePlayed = []
   currentKey = ""
   lastKeyHitSuccess = undefined
+  lectureSeededRandom = undefined
 }
 
 function pratiquezLecturePiano(seededRandom, key) {
@@ -641,6 +643,7 @@ function pratiquezLecturePiano(seededRandom, key) {
   } else {
     currentKey = key
   }
+  lectureSeededRandom = seededRandom
   let notes = []
   let numberOfNotes = screen.width < 700 ? 4 : 12
   let countPerMeasure = 4
@@ -805,6 +808,8 @@ function handleMIDIMessage({ data }) {
 
   // Only respond to Note On with velocity > 0
   if (status === 144 && velocity > 0) {
+    //console.log("Playing note:", midiToPianoNote(noteNumber))
+    playPianoNotes([{midi: noteNumber}])
     checkNote(noteNumber)
   }
 }
@@ -827,11 +832,11 @@ function checkNote(playedMidiNote) {
     currentNoteIndexToBePlayed++
     if (currentNoteIndexToBePlayed >= notesToBePlayed.length) {
       if (settings.continuousReading === "sameClef") {
-        pratiquezLecturePiano(seededRandom, currentKey)
+        pratiquezLecturePiano(lectureSeededRandom, currentKey)
         return
       }
       if (settings.continuousReading === "differentClef") {
-        pratiquezLecturePiano(seededRandom)
+        pratiquezLecturePiano(lectureSeededRandom)
         return
       }
       resetLectureQuestion()
