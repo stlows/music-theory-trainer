@@ -257,7 +257,11 @@ const res = {
   melodyScaleChromatic: { fr: "Gamme chromatique", en: "Chromatic scale" },
   history: { fr: "Historique", en: "History" },
   clearHistory: { fr: "Vider l'hitorique", en: "Clear history" },
-  noHistory: { fr: "Aucun historique", en: "No history" }
+  noHistory: { fr: "Aucun historique", en: "No history" },
+  rootPosition: { fr: "Position fondamentale", en: "Root position" },
+  firstInversion: { fr: "1ère inversion", en: "1st inversion" },
+  secondInversion: { fr: "2ème inversion", en: "2nd inversion" },
+  chordChangeDescription: { fr: "Changement d'accord dans toutes les clés", en: "Chord change in all keys" },
 }
 
 function t(key) {

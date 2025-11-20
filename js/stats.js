@@ -42,6 +42,7 @@ function addPianoStats(objective, hit, key, deltaTime) {
   localStorage.setItem("pianoStats", JSON.stringify(stats))
 }
 
+
 function getStatsCount(stats, objective, hit, success, key) {
   return stats.filter((stat) => {
     if (objective !== "all" && objective !== stat.objective) {

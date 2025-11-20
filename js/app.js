@@ -285,6 +285,8 @@ function gamme(seededRandom) {
   const gamme = getGamme(noteIndex, gammeIndex)
   answerNode = div("mw-100")
   answerNode.appendChild(p(join(gamme.notes)))
+  
+
   if (settings.showNotes === "guitar") {
     let guitarWrapper = createGuitar({ notes: [], fretCount: 13 })
     answerNode.appendChild(guitarWrapper)
@@ -293,6 +295,11 @@ function gamme(seededRandom) {
   if (settings.showNotes === "piano") {
     let pianoWrapper = createPiano({ notes: gamme.notes }, true)
     answerNode.appendChild(pianoWrapper._svg)
+    if(gamme.type.fingers){
+      let fingering = gamme.type.fingers.find(x => x.root == key)
+      answerNode.appendChild(p("RH: " + join(fingering.RH)))
+      answerNode.appendChild(p("LH: " + join(fingering.LH)))
+  }
   }
   let questionText = t("gamme")(printNote(gamme.tonique), t(gamme.type.name)) + " ?"
 
@@ -302,6 +309,36 @@ function gamme(seededRandom) {
     extraInfos: join(gammes[gammeIndex].notes),
   })
 
+  return questionText
+}
+
+function chordChange(seededRandom){
+  let degreeFrom = seededRandom.int(6, 1)
+  let degreeTo = seededRandom.int(6, 1)
+  let inversion = seededRandom.int(3)
+  let inversionText = ""
+  if(inversion === 0){
+    inversionText = t("rootPosition")
+  }else if(inversion === 1){
+    inversionText = t("firstInversion")
+  }else if(inversion === 2){
+    inversionText = t("secondInversion")
+  }
+  let answerNode = div()
+  let order = ["C", "F", "B♭", "E♭", "A♭", "D♭", "G♭", "B", "E", "A", "D", "G"]
+  //let order = ["C", "G", "D", "A", "E", "B", "F♯", "D♭", "A♭", "E♭", "B♭", "F"]
+  for(let i = 0; i < order.length; i++){
+    let key = order[i]
+    let chordFrom = getChordDegree(key, degreeFrom)
+    let chordTo = getChordDegree(key, degreeTo)
+    answerNode.appendChild(p(`(${key}) ${chordFrom} → ${chordTo}`))
+  }
+
+  let questionText = `${getRoman(degreeFrom)} (${inversionText}) → ${getRoman(degreeTo)}`
+  createQuestion({
+    questionText,
+    answerNode
+  })
   return questionText
 }
 

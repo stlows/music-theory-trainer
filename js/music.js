@@ -78,7 +78,13 @@ const accords = [
 // Formula: H W W H W W W
 const gammes = [
   // Diatonic Modes (7 modes)
-  { name: "ionian", notes: ["root", "M2", "M3", "P4", "P5", "M6", "M7"] }, // Major
+  { // Major
+    name: "ionian",
+    notes: ["root", "M2", "M3", "P4", "P5", "M6", "M7"],
+    fingers: [
+      { root: "C", RH: [1, 2, 3, 1, 2, 3, 4, 1, 2, 3, 1, 2,3,4,5], LH: [5,4,3,2,1,3,2,1,4,3,2,1] },
+    ]
+   }, 
   { name: "dorian", notes: ["root", "M2", "m3", "P4", "P5", "M6", "m7"] },
   { name: "phrygian", notes: ["root", "m2", "m3", "P4", "P5", "m6", "m7"] },
   { name: "lydian", notes: ["root", "M2", "M3", "d5", "P5", "M6", "M7"] },
@@ -99,6 +105,12 @@ const gammes = [
   // Chromatic
   { name: "chromatic", notes: ["root", "m2", "M2", "m3", "M3", "P4", "d5", "P5", "m6", "M6", "m7", "M7"] },
 ]
+
+const gammesFingers = {
+  ionian: [
+    {root: "C", fingers: [1, 2, 3, 1, 2, 3, 4]},
+  ]
+}
 
 const gammeChromatic = gammes.find((x) => x.name === "chromatic").notes
 const naturals = ["C", "D", "E", "F", "G", "A", "B"]
