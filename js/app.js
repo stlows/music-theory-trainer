@@ -285,7 +285,7 @@ function gamme(seededRandom) {
   const gamme = getGamme(noteIndex, gammeIndex)
   answerNode = div("mw-100")
   answerNode.appendChild(p(join(gamme.notes)))
-  
+
 
   if (settings.showNotes === "guitar") {
     let guitarWrapper = createGuitar({ notes: [], fretCount: 13 })
@@ -295,11 +295,13 @@ function gamme(seededRandom) {
   if (settings.showNotes === "piano") {
     let pianoWrapper = createPiano({ notes: gamme.notes }, true)
     answerNode.appendChild(pianoWrapper._svg)
-    if(gamme.type.fingers){
+    if (gamme.type.fingers) {
       let fingering = gamme.type.fingers.find(x => x.root == key)
-      answerNode.appendChild(p("RH: " + join(fingering.RH)))
-      answerNode.appendChild(p("LH: " + join(fingering.LH)))
-  }
+      if (fingering) {
+        answerNode.appendChild(p("RH: " + join(fingering.RH)))
+        answerNode.appendChild(p("LH: " + join(fingering.LH)))
+      }
+    }
   }
   let questionText = t("gamme")(printNote(gamme.tonique), t(gamme.type.name)) + " ?"
 
@@ -312,22 +314,22 @@ function gamme(seededRandom) {
   return questionText
 }
 
-function chordChange(seededRandom){
+function chordChange(seededRandom) {
   let degreeFrom = seededRandom.int(6, 1)
   let degreeTo = seededRandom.int(6, 1)
   let inversion = seededRandom.int(3)
   let inversionText = ""
-  if(inversion === 0){
+  if (inversion === 0) {
     inversionText = t("rootPosition")
-  }else if(inversion === 1){
+  } else if (inversion === 1) {
     inversionText = t("firstInversion")
-  }else if(inversion === 2){
+  } else if (inversion === 2) {
     inversionText = t("secondInversion")
   }
   let answerNode = div()
   let order = ["C", "F", "B♭", "E♭", "A♭", "D♭", "G♭", "B", "E", "A", "D", "G"]
   //let order = ["C", "G", "D", "A", "E", "B", "F♯", "D♭", "A♭", "E♭", "B♭", "F"]
-  for(let i = 0; i < order.length; i++){
+  for (let i = 0; i < order.length; i++) {
     let key = order[i]
     let chordFrom = getChordDegree(key, degreeFrom)
     let chordTo = getChordDegree(key, degreeTo)
@@ -846,7 +848,7 @@ function handleMIDIMessage({ data }) {
   // Only respond to Note On with velocity > 0
   if (status === 144 && velocity > 0) {
     //console.log("Playing note:", midiToPianoNote(noteNumber))
-    playPianoNotes([{midi: noteNumber}])
+    playPianoNotes([{ midi: noteNumber }])
     checkNote(noteNumber)
   }
 }
@@ -899,41 +901,45 @@ function addBadNote() {
   badButton.innerText = ++badButton.dataset.count
 }
 
-function melodyByEar(seededRandom) {
-  // constants, load from settings later
-  const intervals = settings.melodyTrainingScale == "melodyScaleMajor" ? [-12, -10, -8, -7, -5, -3, -1, 0, 2, 4, 5, 7, 9, 11, 12] : [-12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-  let maxGap = settings.melodyTrainingScale == "melodyScaleMajor" ? 5 : 9
-  const numberOfNotes = settings.melodyTrainingNotesCount || 4
-  const bpm = 120
-  let key = seededRandom.chooseOne([55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65])
-  let middleIndex = intervals.indexOf(0)
-  let lastNote = key
-  let notes = [{ midi: lastNote }]
-  let possible = intervals.slice(middleIndex - maxGap, middleIndex + maxGap + 1)
-  for (let i = 0; i < numberOfNotes - 1; i++) {
-    let interval = seededRandom.chooseOne(possible)
-    lastNote += interval
-    notes.push({ midi: lastNote })
-  }
-  // for test only
-  // notes = popularRiffs.iCanBuyMyselfFlowers // for test only
-  const midiSet = Array.from(new Set(notes.map(n => n.midi)))
-  let minMidi = Math.min(...midiSet)
-  let maxMidi = Math.max(...midiSet)
-  let min = allNotes[minMidi - seededRandom.int(10, 5)]
-  let max = allNotes[maxMidi + seededRandom.int(10, 5)]
-  let indice1 = createPiano({ notes: [allNotes[notes[0].midi]], min, max }, false, true)._svg
-  let indice2 = createPiano({ notes: midiSet.map(x => allNotes[x]), min, max }, false, true)._svg
-  let indice3 = p(join(notes.map(x => allNotes[x.midi].slice(0, -1))))
-  let questionText = t("whatIsThisMelody")
-  createEarQuestion({
-    questionText,
-    indices: [indice1, indice2, indice3],
-    playNotes: () => playPianoNotes(notes, bpm),
-  })
+// function melodyByEar(seededRandom) {
+//   // constants, load from settings later
+//   const intervals = settings.melodyTrainingScale == "melodyScaleMajor" ? [-12, -10, -8, -7, -5, -3, -1, 0, 2, 4, 5, 7, 9, 11, 12] : [-12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+//   let maxGap = settings.melodyTrainingScale == "melodyScaleMajor" ? 5 : 9
+//   const numberOfNotes = settings.melodyTrainingNotesCount || 4
+//   const bpm = 120
+//   let key = seededRandom.chooseOne([55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65])
+//   let middleIndex = intervals.indexOf(0)
+//   let lastNote = key
+//   let notes = [{ midi: lastNote }]
+//   let possible = intervals.slice(middleIndex - maxGap, middleIndex + maxGap + 1)
+//   for (let i = 0; i < numberOfNotes - 1; i++) {
+//     let interval = seededRandom.chooseOne(possible)
+//     lastNote += interval
+//     notes.push({ midi: lastNote })
+//   }
+//   // for test only
+//   // notes = popularRiffs.iCanBuyMyselfFlowers // for test only
+//   const midiSet = Array.from(new Set(notes.map(n => n.midi)))
+//   let minMidi = Math.min(...midiSet)
+//   let maxMidi = Math.max(...midiSet)
+//   let min = allNotes[minMidi - seededRandom.int(10, 5)]
+//   let max = allNotes[maxMidi + seededRandom.int(10, 5)]
+//   let indice1 = createPiano({ notes: [allNotes[notes[0].midi]], min, max }, false, true)._svg
+//   let indice2 = createPiano({ notes: midiSet.map(x => allNotes[x]), min, max }, false, true)._svg
+//   let indice3 = p(join(notes.map(x => allNotes[x.midi].slice(0, -1))))
+//   let questionText = t("whatIsThisMelody")
+//   createEarQuestion({
+//     questionText,
+//     indices: [indice1, indice2, indice3],
+//     playNotes: () => playPianoNotes(notes, bpm),
+//   })
 
-  playPianoNotes(notes, bpm)
-  return questionText
+//   playPianoNotes(notes, bpm)
+//   return questionText
+// }
+
+function melodyByEar(seededRandom) {
+  return dictee(seededRandom, { M: 4, measureCount: 4 })
 }
 
 function log(msg, type = "success") {

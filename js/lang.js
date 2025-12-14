@@ -262,6 +262,10 @@ const res = {
   firstInversion: { fr: "1ère inversion", en: "1st inversion" },
   secondInversion: { fr: "2ème inversion", en: "2nd inversion" },
   chordChangeDescription: { fr: "Changement d'accord dans toutes les clés", en: "Chord change in all keys" },
+  dicteeMusicale: { fr: "Dictée musicale", en: "Musical transcription" },
+  firstNoteForMeasure: { fr: "Première note - Mesure ", en: "First note - Bar " },
+  fullBar: { fr: "Au complet - Mesure ", en: "Full - Bar " },
+  playBars: { fr: "Jouer les mesures", en: "Play bars" }
 }
 
 function t(key) {

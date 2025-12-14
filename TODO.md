@@ -1,3 +1,6 @@
 - Ajouter tempo sur lecture à vue
 - Hanon ajouter différents tempo
 - Question favorite dans l'historique et dans la question
+- Traduire dictée musicale
+- Dictée musicale en différentes clé
+- Revoir la génération de la dictée musicale pour pas être trop biaisé quand on est en haut ou en bas

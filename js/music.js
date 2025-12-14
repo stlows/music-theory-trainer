@@ -82,9 +82,9 @@ const gammes = [
     name: "ionian",
     notes: ["root", "M2", "M3", "P4", "P5", "M6", "M7"],
     fingers: [
-      { root: "C", RH: [1, 2, 3, 1, 2, 3, 4, 1, 2, 3, 1, 2,3,4,5], LH: [5,4,3,2,1,3,2,1,4,3,2,1] },
+      { root: "C", RH: [1, 2, 3, 1, 2, 3, 4, 1, 2, 3, 1, 2, 3, 4, 5], LH: [5, 4, 3, 2, 1, 3, 2, 1, 4, 3, 2, 1] },
     ]
-   }, 
+  },
   { name: "dorian", notes: ["root", "M2", "m3", "P4", "P5", "M6", "m7"] },
   { name: "phrygian", notes: ["root", "m2", "m3", "P4", "P5", "m6", "m7"] },
   { name: "lydian", notes: ["root", "M2", "M3", "d5", "P5", "M6", "M7"] },
@@ -108,7 +108,7 @@ const gammes = [
 
 const gammesFingers = {
   ionian: [
-    {root: "C", fingers: [1, 2, 3, 1, 2, 3, 4]},
+    { root: "C", fingers: [1, 2, 3, 1, 2, 3, 4] },
   ]
 }
 
@@ -412,4 +412,14 @@ const keySignatureMap = {
   "D♭": ["B♭", "E♭", "A♭", "D♭", "G♭"],
   "G♭": ["B♭", "E♭", "A♭", "D♭", "G♭", "C♭"],
   "C♭": ["B♭", "E♭", "A♭", "D♭", "G♭", "C♭", "F♭"],
+}
+
+const scaleNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+
+function degreeToNoteWithOctave(degree, baseOctave = 4) {
+  const octave = Math.floor(degree / 7) + baseOctave
+  const note = scaleNotes[(degree + 7) % 7]
+  if (octave < baseOctave) return note + ','.repeat(baseOctave - octave)
+  if (octave > baseOctave) return note + "'".repeat(octave - baseOctave)
+  return note
 }

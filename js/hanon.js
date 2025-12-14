@@ -1,32 +1,30 @@
 const hanonExercises =
-    [
-        {
-            name: "1",
-            ascendingPattern: [0,2,3,4,5,4,3,2],
-            descendingPattern: [5,3,2,1,0,1,2,3],
-        },
+  [
+    {
+      name: "1",
+      ascendingPattern: [0, 2, 3, 4, 5, 4, 3, 2],
+      descendingPattern: [5, 3, 2, 1, 0, 1, 2, 3],
+    },
 
-        {
-            name: "2",
-            ascendingPattern: [0,2,5,4, 3,4,3,2],
-            descendingPattern: [5,2,0,1, 2,1,2,3],
-        },
+    {
+      name: "2",
+      ascendingPattern: [0, 2, 5, 4, 3, 4, 3, 2],
+      descendingPattern: [5, 2, 0, 1, 2, 1, 2, 3],
+    },
 
-         {
-            name: "3",
-            ascendingPattern: [0,2,5,4, 3,2,1,2],
-            descendingPattern: [5,2,0,1, 2,3,2,1],
-        }
-    ]
+    {
+      name: "3",
+      ascendingPattern: [0, 2, 5, 4, 3, 2, 1, 2],
+      descendingPattern: [5, 2, 0, 1, 2, 3, 2, 1],
+    }
+  ]
 
 // Map degree to note in uppercase, with octave modifiers
-const scaleNotes = ['C','D','E','F','G','A','B'];
-// Add parameters for fingerings
 function generateHanonABC({
   key = 'C',
-  ascendingPattern = [0,2,3,4,5,4,3,2],
+  ascendingPattern = [0, 2, 3, 4, 5, 4, 3, 2],
   lastAscending = 1,
-  descendingPattern = [5,3,2,1,0,1,2,3],
+  descendingPattern = [5, 3, 2, 1, 0, 1, 2, 3],
   lastDescending = 0,
   barsPerLine = 4,
   notesPerBar = 8,
@@ -39,72 +37,52 @@ function generateHanonABC({
   fingersLHDesc = [],   // LH descending
   completeScale = false
 }) {
-  let rhDegrees = [];
-  let lhDegrees = [];
-  let rhFingers = [];
-  let lhFingers = [];
+  let rhDegrees = []
+  let lhDegrees = []
+  let rhFingers = []
+  let lhFingers = []
 
   // Ascending
-  const startingDegree = scaleNotes.indexOf(key[0].toUpperCase());
-  let currentDegree = startingDegree;
+  const startingDegree = scaleNotes.indexOf(key[0].toUpperCase())
+  let currentDegree = startingDegree
 
-  function pushPattern(pattern, fingersRH, fingersLH, degree){
+  function pushPattern(pattern, fingersRH, fingersLH, degree) {
     pattern.forEach((step, i) => {
-        rhDegrees.push(degree + step);
-        rhFingers.push(fingersRH[i % fingersRH.length] || ''); // repeat pattern if shorter
-        lhDegrees.push(degree + step - 7);
-        lhFingers.push(fingersLH[i % fingersLH.length] || '');
-        });
+      rhDegrees.push(degree + step)
+      rhFingers.push(fingersRH[i % fingersRH.length] || '') // repeat pattern if shorter
+      lhDegrees.push(degree + step - 7)
+      lhFingers.push(fingersLH[i % fingersLH.length] || '')
+    })
   }
 
-  if(completeScale){
+  if (completeScale) {
     while (currentDegree <= lastAscending + startingDegree) {
-        pushPattern(ascendingPattern, fingersRHAsc, fingersLHAsc, currentDegree);
-        currentDegree +=  1;
+      pushPattern(ascendingPattern, fingersRHAsc, fingersLHAsc, currentDegree)
+      currentDegree += 1
     }
-    currentDegree--;
+    currentDegree--
     while (currentDegree >= lastDescending + startingDegree) {
-        pushPattern(descendingPattern, fingersRHDesc, fingersLHDesc, currentDegree);
-        currentDegree -= 1;
+      pushPattern(descendingPattern, fingersRHDesc, fingersLHDesc, currentDegree)
+      currentDegree -= 1
     }
-  }else {
-    pushPattern(ascendingPattern, fingersRHAsc, fingersLHAsc, startingDegree);
-    pushPattern(ascendingPattern, fingersRHAsc, fingersLHAsc, startingDegree + lastAscending);
-    pushPattern(descendingPattern, fingersRHDesc, fingersLHDesc, startingDegree + lastAscending);
-    pushPattern(descendingPattern, fingersRHDesc, fingersLHDesc, startingDegree + lastDescending);
-  }
-    
-
-  function degreeToNoteWithOctave(degree, baseOctave = 4) {
-    const octave = Math.floor(degree / 7) + baseOctave;
-    const note = scaleNotes[(degree + 7) % 7];
-    if (octave < baseOctave) return note + ','.repeat(baseOctave - octave);
-    if (octave > baseOctave) return note + "'".repeat(octave - baseOctave);
-    return note;
+  } else {
+    pushPattern(ascendingPattern, fingersRHAsc, fingersLHAsc, startingDegree)
+    pushPattern(ascendingPattern, fingersRHAsc, fingersLHAsc, startingDegree + lastAscending)
+    pushPattern(descendingPattern, fingersRHDesc, fingersLHDesc, startingDegree + lastAscending)
+    pushPattern(descendingPattern, fingersRHDesc, fingersLHDesc, startingDegree + lastDescending)
   }
 
-  const rhNotes = rhDegrees.map((d,i) => {
-    const fing = rhFingers[i] ? `!${rhFingers[i]}!` : '';
-    return fing + degreeToNoteWithOctave(d, baseOctaveRH);
-  });
-  const lhNotes = lhDegrees.map((d,i) => {
-    const fing = lhFingers[i] ? `!${lhFingers[i]}!` : '';
-    return fing + degreeToNoteWithOctave(d, baseOctaveLH);
-  });
+  const rhNotes = rhDegrees.map((d, i) => {
+    const fing = rhFingers[i] ? `!${rhFingers[i]}!` : ''
+    return fing + degreeToNoteWithOctave(d, baseOctaveRH)
+  })
+  const lhNotes = lhDegrees.map((d, i) => {
+    const fing = lhFingers[i] ? `!${lhFingers[i]}!` : ''
+    return fing + degreeToNoteWithOctave(d, baseOctaveLH)
+  })
 
-  function notesToString(notes) {
-    let str = '';
-    for (let i = 0; i < notes.length; i++) {
-      str += notes[i] + '';
-      if ((i+1) % (notesPerBar / 2) === 0) str = str.trim() + ' ';
-      if ((i+1) % notesPerBar === 0) str = str.trim() + ' | ';
-      if ((i+1) % (notesPerBar*barsPerLine) === 0) str += '\n';
-    }
-    return str.trim();
-  }
-
-  const rhStr = notesToString(rhNotes);
-  const lhStr = notesToString(lhNotes);
+  const rhStr = notesToString(rhNotes, notesPerBar, barsPerLine)
+  const lhStr = notesToString(lhNotes, notesPerBar, barsPerLine)
 
   const header = `
 X:1
@@ -114,7 +92,7 @@ L:${L}
 K:${key}
 V:RH clef=treble
 V:LH clef=bass
-`;
+`
 
-  return header + 'V:RH\n' + rhStr + '\nV:LH\n' + lhStr;
+  return header + 'V:RH\n' + rhStr + '\nV:LH\n' + lhStr
 }
