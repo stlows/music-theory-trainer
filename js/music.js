@@ -414,12 +414,27 @@ const keySignatureMap = {
   "C♭": ["B♭", "E♭", "A♭", "D♭", "G♭", "C♭", "F♭"],
 }
 
-const scaleNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-
+const scaleNotes = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 function degreeToNoteWithOctave(degree, baseOctave = 4) {
   const octave = Math.floor(degree / 7) + baseOctave
   const note = scaleNotes[(degree + 7) % 7]
   if (octave < baseOctave) return note + ','.repeat(baseOctave - octave)
   if (octave > baseOctave) return note + "'".repeat(octave - baseOctave)
   return note
+}
+
+// Ne prend pas en compte les shraps/flats, prend pour acquis que la notes est un degré de la gamme majeure
+function midiToAbc(midi, baseOctave = 4) {
+  const pitchClass = ((midi % 12) + 12) % 12
+  const octave = Math.floor(midi / 12) - 1
+  let abcNote = midiNaturals[pitchClass]
+
+  // Octaves ABC
+  if (octave > baseOctave) {
+    abcNote = abcNote + "'".repeat(octave - baseOctave)
+  } else if (octave < baseOctave) {
+    abcNote += ",".repeat(baseOctave - octave)
+  }
+
+  return abcNote
 }

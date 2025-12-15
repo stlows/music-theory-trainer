@@ -36,34 +36,61 @@ const possibleBeat = {
     // [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
   ]
 }
+function degreesGapToMidiOffset(startDegree, gapInDegrees) {
+  // degrés de la gamme majeure (Do)
+  const scaleSemitones = [0, 2, 4, 5, 7, 9, 11]
+
+  const startIndex = ((startDegree % 7) + 7) % 7
+  const targetDegree = startDegree + gapInDegrees
+  const targetIndex = ((targetDegree % 7) + 7) % 7
+
+  const octaveShift =
+    Math.floor(targetDegree / 7) - Math.floor(startDegree / 7)
+
+  return (
+    scaleSemitones[targetIndex] -
+    scaleSemitones[startIndex] +
+    octaveShift * 12
+  )
+}
 
 const maxGap = 2
-
-let degrees = [-3, -1, 0, 2, 4, 5, 7, 9, 11, 12]
-function generateMeasure(seeded, startingNote, beatCount, measure) {
+const keyOffset = { C: 0, "D♭": 1, D: 2, "E♭": 3, E: 4, F: 5, "G♭": 6, G: 7, "A♭": -4, A: -3, B: -1, "B♭": -2 }
+function generateMeasure(seeded, startDegree, startMidi, beatCount, measure, key) {
   let rythm = seeded.chooseOne(possibleBeat[beatCount])
-  let degreeIndex = degrees.indexOf(startingNote)
   let melodyNotes = []
-  let midiBase = 60
-  let decalage = degrees.indexOf(0)
-  for (let note = 0; note < rythm.length; note++) {
-    let deltaIndex = degreeIndex == 0 ? seeded.int(maxGap + 1) : (degreeIndex == degrees.length - 1 ? seeded.int(1, -maxGap) : seeded.int(maxGap + 1, -maxGap))
-    let lastDegree = degrees[degreeIndex]
-    degreeIndex += deltaIndex
-    degreeIndex = Math.max(0, Math.min(degreeIndex, degrees.length - 1))
+
+  let currentDegree = startDegree
+  let currentMidi = startMidi
+
+  for (let i = 0; i < rythm.length; i++) {
+    let gap = 0
+    if (currentDegree < -3) {
+      gap = seeded.int(maxGap + 1, 0)
+    }
+    else if (currentDegree > 6) {
+      gap = seeded.int(0, -maxGap)
+    }
+    else {
+      gap = seeded.int(maxGap + 1, -maxGap)
+    }
+    let midiOffset = degreesGapToMidiOffset(currentDegree, gap)
+
+    currentDegree += gap
+    currentMidi += midiOffset
+
     melodyNotes.push({
-      noteStr: degreeToNoteWithOctave(degreeIndex - decalage) + rythm[note] * 4,
-      degree: degrees[degreeIndex],
-      degreeIndex,
-      lastDegree,
-      deltaIndex,
-      midi: midiBase + degrees[degreeIndex],
-      tempo: rythm[note],
+      noteStr: midiToAbc(currentMidi) + rythm[i] * 4,
+      degree: currentDegree,
+      midi: currentMidi,
+      lastDegree: currentDegree - gap,
+      tempo: rythm[i],
       measure
     })
   }
   return melodyNotes
 }
+
 let dicteePlaying = false
 async function playMeasures(start, end, melodyNotes) {
   while (dicteePlaying) {
@@ -110,14 +137,19 @@ function dictee(seededRandom, {
 X:1
 M:${M}/4
 L:1/16
-K:${key}
+K:${key.replace("♭", "b").replace("♯", "#")}
 `
 
-  let lastNote = 0
+  let startDegree = 0
+  if (keyOffset[key] == undefined) {
+    error("Cette clé n'est pas prise en compte pour la dictée.")
+  }
+  let startMidi = 60 + keyOffset[key]
   let melodyNotes = []
   for (let measure = 0; measure < measureCount; measure++) {
-    melodyNotes = melodyNotes.concat(generateMeasure(seededRandom, lastNote, M, measure))
-    lastNote = melodyNotes[melodyNotes.length - 1].degree
+    melodyNotes.push(...generateMeasure(seededRandom, startDegree, startMidi, M, measure, key))
+    startDegree = melodyNotes.at(-1).degree
+    startMidi = melodyNotes.at(-1).midi
   }
 
   let measuresParams = []
@@ -125,7 +157,7 @@ K:${key}
     measuresParams.push({ measure: i, showAllMeasure: false, showFirstNote: false })
   }
   measuresParams[0].showFirstNote = true
-  //console.table(melodyNotes)
+  console.table(melodyNotes)
   const staffDiv = div()
   const answerDiv = div()
 
@@ -212,7 +244,7 @@ K:${key}
   controls.appendChild(barShowControls)
 
 
-  let questionText = t("dicteeMusicale")
+  let questionText = t("dicteeMusicale") + " en " + key
   let question = createQuestion({
     light: true,
     questionText,

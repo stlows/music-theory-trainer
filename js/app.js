@@ -945,7 +945,8 @@ function addBadNote() {
 
 function melodyByEar(seededRandom) {
   let measureCount = screen.width < 700 ? 2 : 4
-  return dictee(seededRandom, { M: 4, measureCount })
+  let key = getRandomEnharmonicKey(seededRandom)
+  return dictee(seededRandom, { M: 4, measureCount, key })
 }
 
 function log(msg, type = "success") {
