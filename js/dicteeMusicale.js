@@ -56,7 +56,7 @@ function degreesGapToMidiOffset(startDegree, gapInDegrees) {
 
 const maxGap = 2
 const keyOffset = { C: 0, "D♭": 1, D: 2, "E♭": 3, E: 4, F: 5, "G♭": 6, G: 7, "A♭": -4, A: -3, B: -1, "B♭": -2 }
-function generateMeasure(seeded, startDegree, startMidi, beatCount, measure, key) {
+function generateMeasure(seeded, startDegree, startMidi, beatCount, measure) {
   let rythm = seeded.chooseOne(possibleBeat[beatCount])
   let melodyNotes = []
 
@@ -76,6 +76,7 @@ function generateMeasure(seeded, startDegree, startMidi, beatCount, measure, key
     }
     let midiOffset = degreesGapToMidiOffset(currentDegree, gap)
 
+    // TODO: ajouter sharp ou flat sur la note (+1 ou -1 au midi le cas échéant, et ajouter _ ou ^ avant la noteStr)
     currentDegree += gap
     currentMidi += midiOffset
 
