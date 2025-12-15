@@ -486,11 +486,16 @@ function playPianoNote(note) {
   }
 }
 
-async function playPianoNotes(notes, bpm = 60) {
+async function playPianoNotes(notes, bpm = 60, kickBefore = 2) {
   const beatDuration = 60000 / bpm // ms per beat
   const fadeTime = beatDuration / 5
   let currentAudio = null
-
+  if (kickBefore > 0) {
+    metronomeVolume = 0.25
+    startMetronome()
+    await new Promise(r => setTimeout(r, (kickBefore + 1) * beatDuration))
+    stopMetronome()
+  }
   for (let i = 0; i < notes.length; i++) {
     // Stop & fade out previous note if needed
     if (currentAudio) {
@@ -939,7 +944,8 @@ function addBadNote() {
 // }
 
 function melodyByEar(seededRandom) {
-  return dictee(seededRandom, { M: 4, measureCount: 4 })
+  let measureCount = screen.width < 700 ? 2 : 4
+  return dictee(seededRandom, { M: 4, measureCount })
 }
 
 function log(msg, type = "success") {

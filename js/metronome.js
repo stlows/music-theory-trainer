@@ -4,6 +4,7 @@ let metronomeId = undefined
 let metronomeTempo = 60
 let metronomePlaying = false
 let beat = 0
+let metronomeVolume = 0.5
 
 function setMetronomeTempo(newTempo) {
   metronomeTempo = newTempo
@@ -24,6 +25,7 @@ function stopMetronome() {
 function startMetronome(callbackEachBeat = undefined) {
   stopMetronome()
   metronomeId = setInterval(() => {
+    kickdrum.volume = metronomeVolume
     kickdrum.pause()
     kickdrum.currentTime = 0
     kickdrum.play()

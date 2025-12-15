@@ -64,9 +64,11 @@ function generateMeasure(seeded, startingNote, beatCount, measure) {
   }
   return melodyNotes
 }
-
-function playMeasures(start, end, melodyNotes) {
-  playPianoNotes(melodyNotes.filter(x => x.measure >= start && x.measure <= end))
+let dicteePlaying = false
+async function playMeasures(start, end, melodyNotes) {
+  while (dicteePlaying) {
+    await playPianoNotes(melodyNotes.filter(x => x.measure >= start && x.measure <= end), 60, kickBefore = 2)
+  }
 }
 
 function secretStaffString(measuresToShow, measureCount, melodyNotes, M) {
@@ -85,7 +87,11 @@ function secretStaffString(measuresToShow, measureCount, melodyNotes, M) {
     }
     else if (measureParam.showFirstNote) {
       let firstNote = melodyNotes.filter(x => x.measure == i)[0]
-      melodyStr += firstNote.noteStr + "z" + (M - firstNote.tempo) * 4 + "|"
+      melodyStr += firstNote.noteStr
+      if (firstNote.tempo < M) {
+        melodyStr += "z" + (M - firstNote.tempo) * 4
+      }
+      melodyStr += "|"
       continue
     }
     else {
@@ -102,7 +108,6 @@ function dictee(seededRandom, {
 }) {
   const header = `
 X:1
-T:${t("dicteeMusicale")}
 M:${M}/4
 L:1/16
 K:${key}
@@ -133,54 +138,78 @@ K:${key}
 
   answerDiv.appendChild(staffDiv)
   let controls = div("dictee-controls")
+  let playStopControls = div("grid")
+  playStopControls.style = "display: grid; grid-template-columns: 1fr 1fr 1fr;align-items: center;margin-bottom: 5px"
   answerDiv.appendChild(controls)
 
   let measureStart = document.createElement("input")
   measureStart.type = "number"
   measureStart.value = 1
-  measureStart.style = "background-color: white; color: var(--background-color); margin-right: 10px"
+  measureStart.style = "background-color: white; color: var(--background-color); margin-right: 10px; padding: 0.2em; height: 100%; width: 100%;margin-bottom: 0; text-align: center"
   let measureEnd = document.createElement("input")
   measureEnd.type = "number"
-  measureEnd.value = measureCount
-  measureEnd.style = "background-color: white; color: var(--background-color); margin-right: 10px"
-  controls.appendChild(measureStart)
-  controls.appendChild(measureEnd)
+  measureEnd.value = 2
+  measureEnd.style = "background-color: white; color: var(--background-color); margin-right: 10px; padding: 0.2em; height: 100%;width: 100%;margin-bottom: 0; text-align: center"
   let playButton = document.createElement("button")
-  playButton.classList.add("gameBtn")
+  playButton.style = "background-color: white; border: none; font-size: 2em; line-height: 1.2em"
   playButton.classList.add("small")
   playButton.innerText = t("playBars")
   playButton.addEventListener("click", () => {
-    playMeasures(measureStart.value - 1, measureEnd.value - 1, melodyNotes)
+    if (dicteePlaying) {
+      playButton.innerText = t("playBars")
+      dicteePlaying = false
+    }
+    else {
+      playButton.innerText = t("stopBars")
+      dicteePlaying = true
+      playMeasures(measureStart.value - 1, measureEnd.value - 1, melodyNotes)
+    }
   })
-  controls.appendChild(playButton)
+  playStopControls.appendChild(measureStart)
+  playStopControls.appendChild(playButton)
+  playStopControls.appendChild(measureEnd)
+  controls.appendChild(playStopControls)
 
+  let barShowControls = div("grid")
+  barShowControls.style = "display: grid; gap: 5px; grid-template-columns: 1fr 1fr"
   for (let i = 0; i < measureCount; i++) {
-    let mesureControlsDiv = div("mb-small")
     let firstNote = document.createElement("button")
     firstNote.classList.add("gameBtn")
     firstNote.classList.add("small")
     firstNote.style = "margin-right: 10px"
-    let all = document.createElement("button")
-    all.classList.add("gameBtn")
-    all.classList.add("small")
     let measureParam = measuresParams.find(x => x.measure == i)
-    all.innerText = t("fullBar") + (i + 1)
-    all.addEventListener("click", () => {
-      measureParam.showAllMeasure = !measureParam.showAllMeasure
-      renderStaff()
-    })
-
-    firstNote.innerText = t("firstNoteForMeasure") + (i + 1)
+    firstNote.innerText = t("showFirstNote") + (i + 1)
+    if (i == 0) {
+      firstNote.innerText = t("showFullBar") + (i + 1)
+    }
     firstNote.addEventListener("click", () => {
-      measureParam.showFirstNote = !measureParam.showFirstNote
+      if (measureParam.showFirstNote) {
+        // Toute la mesure est montré, on cache tout
+        if (measureParam.showAllMeasure) {
+          measureParam.showAllMeasure = false
+          measureParam.showFirstNote = false
+          firstNote.innerText = t("showFirstNote") + (i + 1)
+        }
+        // La première note est montré, on dévoile tout
+        else {
+          measureParam.showAllMeasure = true
+          measureParam.showFirstNote = true
+          firstNote.innerText = t("hideBar") + (i + 1)
+        }
+      } else {
+        // Aucune note n'est montré, on dévoile la première
+        measureParam.showAllMeasure = false
+        measureParam.showFirstNote = true
+        firstNote.innerText = t("showFullBar") + (i + 1)
+      }
       renderStaff()
     })
 
-    mesureControlsDiv.appendChild(firstNote)
-    mesureControlsDiv.appendChild(all)
-
-    controls.appendChild(mesureControlsDiv)
+    barShowControls.appendChild(firstNote)
+    //barShowControls.appendChild(all)
   }
+
+  controls.appendChild(barShowControls)
 
 
   let questionText = t("dicteeMusicale")
