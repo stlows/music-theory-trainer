@@ -8,7 +8,6 @@ const possibleBeat = {
     [1, 1, 1, 1],
     [2, 2],
     [3, 1],
-    [3.5, 0.5],
     [1, 3],
     [1, 1, 2],
     [2, 1, 1],
@@ -41,7 +40,7 @@ function degreesGapToMidiOffset(startDegree, gapInDegrees) {
 }
 
 const maxGap = 2;
-const keyOffset = { C: 0, "D♭": 1, D: 2, "E♭": 3, E: 4, F: 5, "G♭": 6, G: 7, "A♭": -4, A: -3, B: -1, "B♭": -2 };
+const keyOffset = { C: 0, "D♭": 1, D: 2, "E♭": 3, E: 4, F: 5, "F♯": 6, G: 7, "A♭": -4, A: -3, B: -1, "B♭": -2 };
 function generateMeasure(seeded, startDegree, startMidi, beatCount, measure) {
   let rythm = seeded.chooseOne(possibleBeat[beatCount]);
   let melodyNotes = [];
@@ -129,7 +128,7 @@ K:${key.replace("♭", "b").replace("♯", "#")}
 
   let startDegree = 0;
   if (keyOffset[key] == undefined) {
-    error("Cette clé n'est pas prise en compte pour la dictée.");
+    throw new Error(`Cette clé ${key} n'est pas prise en compte pour la dictée.`);
   }
   let startMidi = 60 + keyOffset[key];
   let melodyNotes = [];
@@ -144,7 +143,7 @@ K:${key.replace("♭", "b").replace("♯", "#")}
     measuresParams.push({ measure: i, showAllMeasure: false, showFirstNote: false });
   }
   measuresParams[0].showFirstNote = true;
-  console.table(melodyNotes);
+  //console.table(melodyNotes);
   const staffDiv = div();
   const answerDiv = div();
 
