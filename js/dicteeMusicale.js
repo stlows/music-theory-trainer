@@ -39,38 +39,81 @@ function degreesGapToMidiOffset(startDegree, gapInDegrees) {
   return scaleSemitones[targetIndex] - scaleSemitones[startIndex] + octaveShift * 12;
 }
 
-const maxGap = 2;
 const keyOffset = { C: 0, "D♭": 1, D: 2, "E♭": 3, E: 4, F: 5, "F♯": 6, G: 7, "A♭": -4, A: -3, B: -1, "B♭": -2 };
-function generateMeasure(seeded, startDegree, startMidi, beatCount, measure) {
+function generateMeasure(seeded, startDegree, startMidi, beatCount, measure, key) {
   let rythm = seeded.chooseOne(possibleBeat[beatCount]);
   let melodyNotes = [];
-
+  let maxGap = settings.melodyMaxGapInDegrees || 2;
   let currentDegree = startDegree;
   let currentMidi = startMidi;
-
   for (let i = 0; i < rythm.length; i++) {
     let gap = 0;
-    if (currentDegree < -3) {
+    if (currentDegree < (settings.melodyDegreeLimitLow || -3)) {
       gap = seeded.int(maxGap + 1, 0);
-    } else if (currentDegree > 6) {
+    } else if (currentDegree > (settings.melodyDegreeLimitHigh || 7)) {
       gap = seeded.int(0, -maxGap);
     } else {
       gap = seeded.int(maxGap + 1, -maxGap);
     }
     let midiOffset = degreesGapToMidiOffset(currentDegree, gap);
 
-    // TODO: ajouter sharp ou flat sur la note (+1 ou -1 au midi le cas échéant, et ajouter _ ou ^ avant la noteStr)
     currentDegree += gap;
     currentMidi += midiOffset;
 
+    let accidentalRandom = seeded.next();
+    let signature = keySignatureMap[key];
+    let abcAlteration = ""
+    let isSharp = false
+    let isFlat = false
+    let abcBaseNote = midiToAbc(currentMidi, key)
+    if ((settings.melodyAccidentals === "some" && accidentalRandom < 0.1) || settings.melodyAccidentals === "lots" && accidentalRandom < 1) {
+      let naturalNote = abcBaseNote[0]
+      isSharp = seeded.next() < 0.5
+      isFlat = !isSharp
+      if(isSharp){
+        currentMidi += 1;
+        if(signature.includes(naturalNote)){
+          // Déjà sharp, donc, double sharp
+          abcAlteration = "^^"
+        }else if(signature.includes(naturalNote + "♭")){
+          // Déjà flat, donc, naturel
+          abcAlteration = "="
+        }else{
+          abcAlteration = "^"
+        }
+      }else{
+        currentMidi -= 1;
+        if(signature.includes(naturalNote + "♭")){
+          // Déjà flat, donc, double flat
+          abcAlteration = "__"
+        }else if(signature.includes(naturalNote)){
+          // Déjà sharp, donc, naturel
+          abcAlteration = "="
+        }else{
+          abcAlteration = "_"
+        }
+      }
+    }
+
     melodyNotes.push({
-      noteStr: midiToAbc(currentMidi) + rythm[i] * 4,
+      noteStr: abcAlteration + abcBaseNote + rythm[i] * 4,
       degree: currentDegree,
       midi: currentMidi,
       lastDegree: currentDegree - gap,
       tempo: rythm[i],
       measure,
+      isSharp,
+      isFlat
     });
+
+    // Reset le midi sans l'altération
+    if(isSharp){
+      currentMidi -=1;
+    }else if(isFlat){
+      currentMidi +=1;
+    }
+
+
   }
   return melodyNotes;
 }
@@ -135,7 +178,7 @@ K:${key.replace("♭", "b").replace("♯", "#")}
   for (let measure = 0; measure < measureCount; measure++) {
     melodyNotes.push(...generateMeasure(seededRandom, startDegree, startMidi, M, measure, key));
     startDegree = melodyNotes.at(-1).degree;
-    startMidi = melodyNotes.at(-1).midi;
+    startMidi = melodyNotes.at(-1).midi + (melodyNotes.at(-1).isSharp ? -1 : (melodyNotes.at(-1).isFlat ? 1 : 0));
   }
 
   let measuresParams = [];
@@ -143,7 +186,9 @@ K:${key.replace("♭", "b").replace("♯", "#")}
     measuresParams.push({ measure: i, showAllMeasure: false, showFirstNote: false });
   }
   measuresParams[0].showFirstNote = true;
-  //console.table(melodyNotes);
+  console.log(key)
+  console.table(melodyNotes);
+  console.log(melodyNotes.map(x => x.degree));
   const staffDiv = div();
   const answerDiv = div();
 

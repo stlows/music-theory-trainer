@@ -697,6 +697,7 @@ const midiPianoNotes = [
   83, 84, 86, 88, 89, 91, 93, 95, 96, 98, 100, 101, 103,
 ];
 const midiNaturals = ["C", "C", "D", "D", "E", "F", "F", "G", "G", "A", "A", "B"];
+const midiNaturalsFlats = ["C", "D", "D", "E", "E", "F", "G", "G", "A", "A", "B", "B"];
 function notesSample(start, end) {
   return midiPianoNotes.filter((n) => n >= start && n <= end);
 }
