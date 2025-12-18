@@ -256,11 +256,10 @@ createOptions(["non", "sameClef", "differentClef"], "continuousReading", false)
 //createOptions(["4/4", "2/4","3/4","6/4"], "timeSignatures", true)
 createOptions(["treble", "bass"], "clefs", true)
 createOptions(["easy", "medium", "hard"], "octavesDifficulty", false)
-createOptions([1,2, 3,4,5,6], "melodyMaxGapInDegrees", false);
-createOptions([6,8,10,15], "melodyDegreeLimitHigh", false);
-createOptions([-3,-4,-5,-6], "melodyDegreeLimitLow", false);
-createOptions(["none","some","lots"], "melodyAccidentals", false);
-// createOptions([4, 6, 8, 12], "melodyTrainingNotesCount", false);
+createOptions([1, 2, 3, 4, 5, 6], "melodyMaxGapInDegrees", false)
+createOptions([6, 8, 10, 15], "melodyDegreeLimitHigh", false)
+createOptions([-3, -4, -5, -6], "melodyDegreeLimitLow", false)
+createOptions(["none", "some", "lots"], "melodyAccidentals", false)
 
 function encodeSettings(settings) {
   return btoa(JSON.stringify(settings).replaceAll("♭", "!b!").replaceAll("♯", "!s!"))
