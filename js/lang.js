@@ -187,7 +187,10 @@ const res = {
   selectAll: { fr: "Tout", en: "All" },
   unselectAll: { fr: "Aucun", en: "None" },
   selectAllEnharmonicKeys: { fr: "Uniques", en: "All unique" },
-  showNotes: { fr: "Montrez les notes (intervalles, accords, gammes)", en: "Show notes (intervals, chords, scales)" },
+  showNotes: {
+    fr: "Montrez les notes sur l'instrument (intervalles, accords, gammes)",
+    en: "Show notes on the instrument (intervals, chords, scales)",
+  },
   diveIn: { fr: "Allez !", en: "Dive in !" },
   fretboardKnowledge: { fr: "Teste tes connaissances du manche", en: "Test your fretboard knowledge" },
   dontShow: { fr: "Ne plus afficher", en: "Do not show again" },
@@ -281,6 +284,12 @@ const res = {
   hideBar: { fr: "Cacher la mesure ", en: "Hide bar " },
   playBars: { fr: "▶️", en: "▶️" },
   stopBars: { fr: "⏹️", en: "⏹️" },
+  melodyMaxGapInDegrees: { fr: "Saut maximum d'une note à l'autre", en: "Max gap beetween 2 notes" },
+  melodyDegreeLimitHigh: { fr: "Degré le plus élévé possible (de la gamme majeure)", en: "Highest degree possible (of the major key)" },
+  melodyDegreeLimitLow: { fr: "Degré le plus bas possible (de la gamme majeure)", en: "Lowest degree possible (of the major key)" },
+  melodyAccidentals: { fr: "Altérations sur les notes", en: "Accidentals on the notes" },
+  some: { fr: "Un peu (Une note sur huit)", en: "Some (One in eight note)" },
+  lots: { fr: "Beaucoup (Une note sur cinq)", en: "Lots (One in five note)" },
 };
 
 function t(key) {

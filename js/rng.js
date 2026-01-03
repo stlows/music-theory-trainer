@@ -17,4 +17,22 @@ class SeededRandom {
   chooseOne(list) {
     return list[this.int(list.length)]
   }
+
+  chooseOneWithAttraction(list, current)
+  {
+    if(Math.abs(cumulativeDistribution.at(-1) - 1) > 0.00001){
+      throw new Error("Cumulative distribution function must end with 1. Found " + cumulativeDistribution.at(-1) )
+    }
+    if(cumulativeDistribution.length !== list.length){
+      throw new Error("Cumulative distribution function length must match list length.")
+    }
+    const nextValue = this.next()
+    for(let i = 0; i < cumulativeDistribution.length; i++){
+      if(nextValue < cumulativeDistribution[i]){
+        return list[i]
+      }
+    }
+    throw new Error("Cumulative distribution function over and no value returned.")
+
+  }
 }

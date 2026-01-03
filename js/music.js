@@ -854,10 +854,16 @@ function degreeToNoteWithOctave(degree, baseOctave = 4) {
 }
 
 // Ne prend pas en compte les shraps/flats, prend pour acquis que la notes est un degré de la gamme majeure
-function midiToAbc(midi, baseOctave = 4) {
+function midiToAbc(midi, key, baseOctave = 4) {
   const pitchClass = ((midi % 12) + 12) % 12;
   const octave = Math.floor(midi / 12) - 1;
-  let abcNote = midiNaturals[pitchClass];
+
+  let abcNote = "";
+  if (key === "F" || key.includes("♭")) {
+    abcNote = midiNaturalsFlats[pitchClass];
+  } else {
+    abcNote = midiNaturals[pitchClass];
+  }
 
   // Octaves ABC
   if (octave > baseOctave) {
