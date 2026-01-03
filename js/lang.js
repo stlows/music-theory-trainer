@@ -69,6 +69,7 @@ const res = {
   mineur: { fr: "Mineur", en: "Minor" },
   chord_m9: { fr: "m9", en: "m9" },
   chord_m6: { fr: "m6", en: "m6" },
+  chord_m7: { fr: "m7", en: "m7" },
   ionian: { fr: "Majeur (Ionien), I", en: "Major (Ionian), I" },
   dorian: { fr: "Dorien, II", en: "Dorian, II" },
   phrygian: { fr: "Phrygien, III", en: "Phrygian, III" },
@@ -185,7 +186,7 @@ const res = {
   none: { fr: "Aucun", en: "None" },
   selectAll: { fr: "Tout", en: "All" },
   unselectAll: { fr: "Aucun", en: "None" },
-  selectAllEnharmonicKeys: { fr: "Uniques", "en": "All unique" },
+  selectAllEnharmonicKeys: { fr: "Uniques", en: "All unique" },
   showNotes: { fr: "Montrez les notes (intervalles, accords, gammes)", en: "Show notes (intervals, chords, scales)" },
   diveIn: { fr: "Allez !", en: "Dive in !" },
   fretboardKnowledge: { fr: "Teste tes connaissances du manche", en: "Test your fretboard knowledge" },
@@ -225,12 +226,24 @@ const res = {
   easy: { fr: "Facile", en: "Easy" },
   medium: { fr: "Moyen", en: "Medium" },
   hard: { fr: "Difficile", en: "Hard" },
-  octavesDifficultyDescriptionEasy: { fr: "Octaves entre C4 et C5 (clé de sol) et entre C3 et C4 (clé de fa)", en: "Octaves between C4 and C5 (treble clef) and between C3 and C4 (bass clef)" },
-  octavesDifficultyDescriptionMedium: { fr: "Octaves entre G3 et A5 (clé de sol) et entre G2 et D4 (clé de fa)", en: "Octaves between G3 and A5 (treble clef) and between G2 and D4 (bass clef)" },
-  octavesDifficultyDescriptionHard: { fr: "Octaves entre F3 et E6 (clé de sol) et entre B2 et E4 (clé de fa)", en: "Octaves between F3 and E6 (treble clef) and between B2 and E4 (bass clef)" },
+  octavesDifficultyDescriptionEasy: {
+    fr: "Octaves entre C4 et C5 (clé de sol) et entre C3 et C4 (clé de fa)",
+    en: "Octaves between C4 and C5 (treble clef) and between C3 and C4 (bass clef)",
+  },
+  octavesDifficultyDescriptionMedium: {
+    fr: "Octaves entre G3 et A5 (clé de sol) et entre G2 et D4 (clé de fa)",
+    en: "Octaves between G3 and A5 (treble clef) and between G2 and D4 (bass clef)",
+  },
+  octavesDifficultyDescriptionHard: {
+    fr: "Octaves entre F3 et E6 (clé de sol) et entre B2 et E4 (clé de fa)",
+    en: "Octaves between F3 and E6 (treble clef) and between B2 and E4 (bass clef)",
+  },
   sightReadingStats: { fr: "Stats de lecture à vue", en: "Sight-reading stats" },
   filterByKey: { fr: "Filtrer par tonalité", en: "Filter by key" },
-  noStatsYet: { fr: "Aucune statistique pour le moment pour cette tonalité. Commencez à pratiquer !", en: "No stats yet for this key. Start practicing!" },
+  noStatsYet: {
+    fr: "Aucune statistique pour le moment pour cette tonalité. Commencez à pratiquer !",
+    en: "No stats yet for this key. Start practicing!",
+  },
   note: { fr: "Note", en: "Note" },
   successRate: { fr: "Taux de succès", en: "Success rate" },
   succeeded: { fr: "Succès", en: "Succeeded" },
@@ -243,7 +256,7 @@ const res = {
   hanonExerciseDescription: { fr: "🎹 Pratiquez les exercices de Hanon au piano", en: "🎹 Practice Hanon exercises on piano" },
   hanonExerciseQuestion: {
     fr: (exercise, key) => `Jouez l'exercice de Hanon #${exercise} en ${key}.`,
-    en: (exercise, key) => `Play Hanon Exercice ${exercise.name} in the key of ${key}.`
+    en: (exercise, key) => `Play Hanon Exercice ${exercise.name} in the key of ${key}.`,
   },
   melodyByEarDescription: { fr: "👂 Mélodie à l'oreille", en: "👂 Melody by ear" },
   indice1: { fr: "Révélez la première note", en: "Reveal first note" },
@@ -267,24 +280,24 @@ const res = {
   showFullBar: { fr: "Dévoiler la mesure ", en: "Show bar " },
   hideBar: { fr: "Cacher la mesure ", en: "Hide bar " },
   playBars: { fr: "▶️", en: "▶️" },
-  stopBars: { fr: "⏹️", en: "⏹️" }
-}
+  stopBars: { fr: "⏹️", en: "⏹️" },
+};
 
 function t(key) {
   if (!res[key] || !res[key][settings.lang]) {
-    return `${key}`
+    return `${key}`;
   }
-  return res[key][settings.lang]
+  return res[key][settings.lang];
 }
 
 function trad() {
   document.querySelectorAll("[data-t]").forEach((x) => {
     if (x.dataset.html === "true") {
-      x.innerHTML = t(x.dataset.t)
+      x.innerHTML = t(x.dataset.t);
     } else {
-      x.innerText = t(x.dataset.t)
+      x.innerText = t(x.dataset.t);
     }
-  })
-  printAllAccords()
-  window.scrollTo(0, 0)
+  });
+  printAllAccords();
+  window.scrollTo(0, 0);
 }
