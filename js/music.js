@@ -464,23 +464,28 @@ const notes = [
 const accords = [
   { name: "majeur", notes: ["root", "M3", "P5"], title: "Majeur" },
   { name: "mineur", notes: ["root", "m3", "P5"], title: "Mineur" },
+
   { name: "dim", notes: ["root", "m3", "d5"], title: "Diminué" },
   { name: "aug", notes: ["root", "M3", "A5"], title: "Augmenté" },
+
+  { name: "sus2", notes: ["root", "M2", "P5"], title: "Suspendu 2" },
+  { name: "sus4", notes: ["root", "P4", "P5"], title: "Suspendu 4" },
+
+  { name: "6", notes: ["root", "M3", "P5", "M6"], title: "6" },
+  { name: "chord_m6", notes: ["root", "m3", "P5", "M6"], title: "m6" },
+
   { name: "maj7", notes: ["root", "M3", "P5", "M7"], title: "Majeur 7" },
-  { name: "7", notes: ["root", "M3", "P5", "m7"], title: "Dominant 7" },
   { name: "chord_m7", notes: ["root", "m3", "P5", "m7"], title: "Mineur 7" },
+  { name: "7", notes: ["root", "M3", "P5", "m7"], title: "Dominant 7" },
   { name: "m(maj7)", notes: ["root", "m3", "P5", "M7"], title: "Majeur 7e mineur" },
+
   { name: "dim7", notes: ["root", "m3", "d5", "d7"], title: "Diminué 7" },
   { name: "m7b5", notes: ["root", "m3", "d5", "m7"], title: "Demi-Diminué 7" },
   { name: "add9", notes: ["root", "M3", "P5", "M9"], title: "Additionné 9" },
   { name: "m(add9)", notes: ["root", "m3", "P5", "M9"], title: "Mineur additionné 9" },
   { name: "add4", notes: ["root", "M3", "P4", "P5"], title: "Additionné 4" },
-  { name: "sus2", notes: ["root", "M2", "P5"], title: "Suspendu 2" },
-  { name: "sus4", notes: ["root", "P4", "P5"], title: "Suspendu 4" },
-  { name: "6", notes: ["root", "M3", "P5", "M6"], title: "6" },
-  { name: "chord_m6", notes: ["root", "m3", "P5", "M6"], title: "m6" },
-  { name: "9", notes: ["root", "M3", "P5", "m7", "M9"], title: "9" },
   { name: "maj9", notes: ["root", "M3", "P5", "M7", "M9"], title: "maj9" },
+  { name: "9", notes: ["root", "M3", "P5", "m7", "M9"], title: "9" },
   { name: "chord_m9", notes: ["root", "m3", "P5", "m7", "M9"], title: "m9" },
   { name: "m(maj9)", notes: ["root", "m3", "P5", "M7", "M9"], title: "m(maj9)" },
   { name: "7(b9)", notes: ["root", "M3", "P5", "m7", "m9"], title: "7(b9)" },
