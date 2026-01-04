@@ -92,8 +92,8 @@ const res = {
     en: (tonique, name) => `${name} scale of ${tonique}`,
   },
   chord: {
-    fr: (tonique, name) => `Accord de ${tonique} ${name}`,
-    en: (tonique, name) => `${tonique} ${name} chord`,
+    fr: (tonique, name) => `Accord de ${tonique}${name}`,
+    en: (tonique, name) => `${tonique}${name} chord`,
   },
   whatIsThisNote: { fr: "Quelle est cette note?", en: "What is this note?" },
   findSome: { fr: "Trouvez des", en: "Find some" },
