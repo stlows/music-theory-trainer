@@ -516,7 +516,7 @@ const accords = [
   { name: "7(#11)", notes: ["root", "M3", "P5", "m7", "M9", "A11"], title: "7(#11)", symbol: "7♯11" },
 
   { name: "13", notes: ["root", "M3", "P5", "m7", "M9", "P11", "M13"], title: "13", symbol: "13" },
-  { name: "m13", notes: ["root", "m3", "P5", "m7", "M9", "P11", "M13"], title: "m13", symbol: "m13" },
+  { name: "chord_m13", notes: ["root", "m3", "P5", "m7", "M9", "P11", "M13"], title: "m13", symbol: "m13" },
 ];
 
 // Major (Ionian) – the most common “happy” sounding scale.

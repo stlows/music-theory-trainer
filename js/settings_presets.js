@@ -132,7 +132,7 @@ const settingsPresets = {
       repeats: 4,
       progressionChords: "C",
       plingAtFirstTempo: false,
-      accords: ["majeur", "mineur", "7", "add9", "sus2", "sus4"],
+      accords: ["majeur", "mineur", "7", "chord_m7"],
       gammes: ["ionian", "minorPentatonic", "majorPentatonic", "blues"],
       lang: "en",
       roots: ["C", "G", "D", "A", "F", "E", "B"],

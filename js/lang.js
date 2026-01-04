@@ -67,6 +67,7 @@ const res = {
   practice: { fr: "Pratique", en: "Practice" },
   majeur: { fr: "Majeur", en: "Major" },
   mineur: { fr: "Mineur", en: "Minor" },
+  chord_m13: { fr: "m13", en: "m13" },
   chord_m9: { fr: "m9", en: "m9" },
   chord_m6: { fr: "m6", en: "m6" },
   chord_m7: { fr: "m7", en: "m7" },
