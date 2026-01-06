@@ -237,7 +237,7 @@ function intervalle(seededRandom) {
     answerNode.appendChild(guitarWrapper);
     highlightNotes(guitarWrapper, [notes[rootIndex].root, notes[rootIndex][intervalle]], notes[rootIndex].root);
   }
-  if (settings.showNotes === "piano") {
+  if (settings.showNotes.startsWith("piano")) {
     let pianoWrapper = createPiano({ notes: [notes[rootIndex].root, notes[rootIndex][intervalle]] });
     answerNode.appendChild(pianoWrapper._svg);
   }
@@ -263,9 +263,13 @@ function chord(seededRandom) {
     answerNode.appendChild(guitarWrapper);
     highlightNotes(guitarWrapper, accord.notes, accord.tonique);
   }
-  if (settings.showNotes === "piano") {
+  if (settings.showNotes.startsWith("piano")) {
     let pianoWrapper = createPiano({ notes: accord.notes });
+    console.log(accord.notes)
     answerNode.appendChild(pianoWrapper._svg);
+    if(settings.showNotes === "pianoAndStaff"){
+      answerNode.appendChild(simpleNotesStaff(accord.notes, stacked = true))
+    }
   }
   let questionText = t("chord")(printNote(accord.tonique), accord.type.symbol) + " ?";
   createQuestion({
@@ -291,7 +295,7 @@ function gamme(seededRandom) {
     answerNode.appendChild(guitarWrapper);
     highlightNotes(guitarWrapper, gamme.notes, gamme.tonique);
   }
-  if (settings.showNotes === "piano") {
+  if (settings.showNotes.startsWith("piano")) {
     let pianoWrapper = createPiano({ notes: gamme.notes }, true);
     answerNode.appendChild(pianoWrapper._svg);
     if (gamme.type.fingers) {
@@ -300,6 +304,9 @@ function gamme(seededRandom) {
         answerNode.appendChild(p("RH: " + join(fingering.RH)));
         answerNode.appendChild(p("LH: " + join(fingering.LH)));
       }
+    }
+    if(settings.showNotes === "pianoAndStaff"){
+      answerNode.appendChild(simpleNotesStaff(gamme.notes, stacked = false))
     }
   }
   let questionText = t("gamme")(printNote(gamme.tonique), t(gamme.type.name)) + " ?";
@@ -748,7 +755,7 @@ function pratiquezLecturePiano(seededRandom, key) {
 
   el.appendChild(staffDiv);
 
-  if (MIDI_ACCESS && MIDI_ACCESS.inputs.size === 0) {
+  if (!MIDI_ACCESS || (MIDI_ACCESS && MIDI_ACCESS.inputs.size === 0)) {
     notify("No MIDI controller found, showing a fake piano.");
     spawnPiano();
   }

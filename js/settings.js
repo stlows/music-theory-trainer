@@ -251,7 +251,7 @@ createOptions(
 createOptions(["practice", ...possibleProgressionChords], "progressionChords", false)
 createOptions(["fr", "en"], "lang", false)
 createOptions(["guitar", "piano"], "instruments", false)
-createOptions(["none", "piano", "guitar"], "showNotes", false)
+createOptions(["none", "piano", "pianoAndStaff", "guitar"], "showNotes", false)
 createOptions(["non", "sameClef", "differentClef"], "continuousReading", false)
 //createOptions(["4/4", "2/4","3/4","6/4"], "timeSignatures", true)
 createOptions(["treble", "bass"], "clefs", true)

@@ -101,3 +101,28 @@ function notesToString(notes, notesPerBar, barsPerLine) {
     }
     return str.trim()
 }
+
+function simpleNotesStaff(notes, stacked = false){
+    let order = "CDEFGAB"
+    const header = `
+    X:1
+    M:4/4
+    L:1/4
+    K:C
+    `;
+    let notesStr = ""
+    let octave = 0
+    for(let i = 0; i < notes.length; i++){
+        if(i > 0 && order.indexOf(notes[i][0]) < order.indexOf(notes[i-1][0])){
+            octave += 1
+        }
+        notesStr += getAbcNote({note: notes[i], octave})
+    }
+    const staffDiv = div();
+
+    let staffwidth = Math.min(screen.width * 0.65, 600);
+    let melodyStr = header + (stacked ? "[" : "") + notesStr + (stacked ? "]" : "");
+    //console.log(melodyStr)
+    ABCJS.renderAbc(staffDiv, melodyStr, { scale: 1.4, selectTypes: [], add_classes: false, staffwidth });
+    return staffDiv;
+}

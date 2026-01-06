@@ -184,6 +184,7 @@ const res = {
   instrument: { fr: "Instrument (Pratique à l'oreille)", en: "Instrument (Ear training)" },
   guitar: { fr: "Guitare", en: "Guitar" },
   piano: { fr: "Piano", en: "Piano" },
+  pianoAndStaff: { fr: "Piano et partition", en: "Piano and staff" },
   none: { fr: "Aucun", en: "None" },
   selectAll: { fr: "Tout", en: "All" },
   unselectAll: { fr: "Aucun", en: "None" },

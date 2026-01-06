@@ -227,7 +227,7 @@ class Keyboard {
   }
 }
 
-function createPiano({ notes = [], min = "B4", max = "D7", onKeyClicked = null }, repeatFirstNote = false, fullNoteGiven = false) {
+function createPiano({ notes = [], min = "B4", max = "A7", onKeyClicked = null }, repeatFirstNote = false, fullNoteGiven = false) {
   let order = "CDEFGAB";
   const keyboard = new Keyboard({
     lowest: min,
