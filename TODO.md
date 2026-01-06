@@ -3,3 +3,4 @@
 - Question favorite dans l'historique et dans la question
 - Revoir la génération de la dictée musicale pour pas être trop biaisé quand on est en haut ou en bas
 - Ajouter sharp/flat sur la dictée musicale
+- Intervalle sur staff (gérer l'octave)
