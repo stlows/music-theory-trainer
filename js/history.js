@@ -18,12 +18,12 @@ function renderHistory() {
     historyContainer.appendChild(p(t("noHistory")))
     return
   }
-  for (const { questionFunc, questionTitle, seed, date } of history) {
+  for (const { questionFunc, questionTitle, key, seed, date } of history) {
     let liEl = document.createElement("li")
     liEl.classList.add("mb-small")
     let questionText = document.createElement("a")
     questionText.href = "#"
-    questionText.innerText = questionTitle || questionFunc
+    questionText.innerText = (key ? `[${key}] ` : "") + questionTitle || questionFunc
     questionText.addEventListener("click", (a) => {
       a.preventDefault()
       toggleActive("history")

@@ -506,6 +506,7 @@ const accords = [
   { name: "maj9", notes: ["root", "M3", "P5", "M7", "M9"], title: "maj9", symbol: "maj9" },
   { name: "6/9", notes: ["root", "M3", "P5", "M6", "M9"], title: "6/9", symbol: "6/9" },
 
+  { name: "7sus4", notes: ["root", "P4", "P5", "m7"], title: "7sus4", symbol: "7sus4" },
   { name: "7(#5)", notes: ["root", "M3", "A5", "m7"], title: "7(#5)", symbol: "7♯5" },
   { name: "7(b5)", notes: ["root", "M3", "d5", "m7"], title: "7(#5)", symbol: "7♭5" },
   { name: "7(#9)", notes: ["root", "M3", "P5", "m7", "s9"], title: "7(#9)", symbol: "7♯9" },

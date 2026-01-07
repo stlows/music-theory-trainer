@@ -6,7 +6,7 @@ function tests(questions, count, seed) {
   for (q of questions) {
     for (let i = 0; i < count; i++) {
       try {
-        window[q](seededRandom)
+        let { key, questionText } = window[q](seededRandom)
         clearGame()
         noErrors++
       } catch (ex) {
@@ -14,6 +14,7 @@ function tests(questions, count, seed) {
       }
     }
   }
+
   console.log(`Tests completed with seed ${seed}. ${noErrors} questions passed without errors, ${errors.length} failed.`)
   if (errors.length > 0) {
     console.log(errors)
@@ -22,8 +23,22 @@ function tests(questions, count, seed) {
 
 function testSample(count) {
   enabledNotifications = false
+
+  const currentKeys = settings.roots
+  const currentChords = settings.accords
+  const currentGammes = settings.gammes
+  settings.roots = enharmonicKeys
+  settings.accords = [...accords.map((x) => x.name)]
+  settings.gammes = [...gammes.map((x) => x.name)]
+
   tests(possibleQuestions.map(x => x.func).filter(x => x !== "intervalByEar"), count)
+
   enabledNotifications = true
+
   const pianoSimulationEl = document.getElementById("pianoSimulation")
   pianoSimulationEl.innerHTML = ""
+
+  settings.roots = currentKeys
+  settings.accords = currentChords
+  settings.gammes = currentGammes
 }

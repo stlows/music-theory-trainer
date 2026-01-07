@@ -119,7 +119,7 @@ w:${measures.map((m) => m.map((x, index) => x.text.replace("#", index + 1)).join
     }
   })
   question.appendChild(playTheBeat)
-  return questionText
+  return { questionText, key: "NA" };
 }
 
 let beatPlaying = false

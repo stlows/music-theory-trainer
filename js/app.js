@@ -9,8 +9,8 @@ function question() {
     gtag("event", "question", { questionFunc, seed });
     let seededRandom = new SeededRandom(seed);
     try {
-      let questionTitle = window[questionFunc](seededRandom);
-      addHistory({ questionFunc, questionTitle, seed, date: new Date().valueOf() });
+      let { questionText, key } = window[questionFunc](seededRandom);
+      addHistory({ questionFunc, questionTitle: questionText, key, seed, date: new Date().valueOf() });
     } catch (ex) {
       console.error("Erreur pour la question:");
       console.error(`${questionFunc}(new SeededRandom(${seed}))`);
@@ -118,7 +118,7 @@ function quelleNoteSurManche(seededRandom) {
     answerText: printNote(note(corde - 1, fret)),
     notes: [{ corde, fret, color: "#1E90FF", selected: true }],
   });
-  return questionTitle;
+  return { questionText: questionTitle, key: note(corde - 1, fret) };
 }
 
 function noteSurManche(seededRandom) {
@@ -139,7 +139,7 @@ function noteSurManche(seededRandom) {
     delayedNotes: true,
   });
 
-  return questionText;
+  return { questionText, key: noteATrouver };
 }
 
 function correction() {
@@ -229,6 +229,7 @@ function intervalle(seededRandom) {
   let key = seededRandom.chooseOne(settings.roots);
   let rootIndex = keyIndex(key);
   const intervalle = chooseOne(Object.keys(notes[rootIndex]));
+  const intervalleIndex = Object.keys(notes[rootIndex]).indexOf(intervalle);
   //const notesDansIntervalle = gammeChromatic.slice(0, gammeChromatic.indexOf(intervalle) + 1)
   answerNode = div("mw-100");
   answerNode.appendChild(p(printNote(notes[rootIndex][intervalle])));
@@ -237,9 +238,13 @@ function intervalle(seededRandom) {
     answerNode.appendChild(guitarWrapper);
     highlightNotes(guitarWrapper, [notes[rootIndex].root, notes[rootIndex][intervalle]], notes[rootIndex].root);
   }
-  if (settings.showNotes.startsWith("piano")) {
-    let pianoWrapper = createPiano({ notes: [notes[rootIndex].root, notes[rootIndex][intervalle]] });
+  let forceOctaveBreaks = intervalleIndex > 14 ? [1] : []
+  if (settings.showNotes.includes("piano")) {
+    let pianoWrapper = createPiano({ notes: [notes[rootIndex].root, notes[rootIndex][intervalle]], forceOctaveBreaks });
     answerNode.appendChild(pianoWrapper._svg);
+  }
+  if (settings.showNotes.includes("staff")) {
+    answerNode.appendChild(simpleNotesStaff([notes[rootIndex].root, notes[rootIndex][intervalle]], stacked = false, forceOctaveBreaks));
   }
   let questionText = `${t(intervalle)} ${t("of")} ${printNote(notes[rootIndex].root)} ?`;
   createQuestion({
@@ -247,7 +252,7 @@ function intervalle(seededRandom) {
     answerNode,
     //extraInfos: join(notesDansIntervalle.map((x) => printNote(notes[rootIndex][x]))),
   });
-  return questionText;
+  return { questionText, key };
 }
 
 function chord(seededRandom) {
@@ -263,11 +268,10 @@ function chord(seededRandom) {
     answerNode.appendChild(guitarWrapper);
     highlightNotes(guitarWrapper, accord.notes, accord.tonique);
   }
-  if (settings.showNotes.startsWith("piano")) {
+  if (settings.showNotes.includes("piano")) {
     let pianoWrapper = createPiano({ notes: accord.notes });
-    console.log(accord.notes)
     answerNode.appendChild(pianoWrapper._svg);
-    if(settings.showNotes === "pianoAndStaff"){
+    if (settings.showNotes.includes("staff")) {
       answerNode.appendChild(simpleNotesStaff(accord.notes, stacked = true))
     }
   }
@@ -278,7 +282,7 @@ function chord(seededRandom) {
     extraInfos: join(accords[accordIndex].notes),
   });
 
-  return questionText;
+  return { questionText, key };
 }
 
 function gamme(seededRandom) {
@@ -295,7 +299,7 @@ function gamme(seededRandom) {
     answerNode.appendChild(guitarWrapper);
     highlightNotes(guitarWrapper, gamme.notes, gamme.tonique);
   }
-  if (settings.showNotes.startsWith("piano")) {
+  if (settings.showNotes.includes("piano")) {
     let pianoWrapper = createPiano({ notes: gamme.notes }, true);
     answerNode.appendChild(pianoWrapper._svg);
     if (gamme.type.fingers) {
@@ -305,7 +309,7 @@ function gamme(seededRandom) {
         answerNode.appendChild(p("LH: " + join(fingering.LH)));
       }
     }
-    if(settings.showNotes === "pianoAndStaff"){
+    if (settings.showNotes.includes("staff")) {
       answerNode.appendChild(simpleNotesStaff(gamme.notes, stacked = false))
     }
   }
@@ -317,7 +321,7 @@ function gamme(seededRandom) {
     extraInfos: join(gammes[gammeIndex].notes),
   });
 
-  return questionText;
+  return { questionText, key };
 }
 
 function chordChange(seededRandom) {
@@ -347,7 +351,7 @@ function chordChange(seededRandom) {
     questionText,
     answerNode,
   });
-  return questionText;
+  return { questionText, key: "NA" };
 }
 
 function getRandomEnharmonicKey(seededRandom) {
@@ -361,7 +365,7 @@ function chordsInKey(seededRandom) {
     questionText,
     answerText: join(getChordDegrees(key)),
   });
-  return questionText;
+  return { questionText, key };
 }
 
 function nthNoteInKey(seededRandom) {
@@ -373,7 +377,7 @@ function nthNoteInKey(seededRandom) {
     answerText: getChordDegree(key, degree),
     extraInfos: join(getChordDegrees(key)),
   });
-  return questionText;
+  return { questionText, key };
 }
 
 function chordsInProgression(seededRandom) {
@@ -390,7 +394,7 @@ function chordsInProgression(seededRandom) {
     answerText: join(chords.map((x) => getChordDegree(key, x))),
     extraInfos: join(getChordDegrees(key)),
   });
-  return questionText;
+  return { questionText, key };
 }
 
 function relativeKey(seededRandom) {
@@ -400,7 +404,7 @@ function relativeKey(seededRandom) {
     questionText,
     answerText: getChordDegree(key, 6),
   });
-  return questionText;
+  return { questionText, key };
 }
 
 function intervalByEar(seededRandom) {
@@ -432,7 +436,7 @@ function intervalByEar(seededRandom) {
     // )} `,
     playNotes: () => playNotes(bassIndex, interval),
   });
-  return questionText;
+  return { questionText, key: "NA" };
 }
 
 function chordSimilarities(seededRandom) {
@@ -453,7 +457,7 @@ function chordSimilarities(seededRandom) {
     questionText,
     answerNode: answerDiv,
   });
-  return questionText;
+  return { questionText, key: accord1.tonique };
 }
 
 function alignNotes(arr1, arr2) {
@@ -773,7 +777,7 @@ function pratiquezLecturePiano(seededRandom, key) {
 
   updateCorrectionButton(1);
   updateCorrectionButton(2);
-  return questionText;
+  return { questionText, key: currentKey };
 }
 
 function updateCorrectionButton(n) {
@@ -854,7 +858,7 @@ function hanonExercise(seededRandom) {
     answerNode: staffDiv,
   });
   question.querySelector(".answer").click();
-  return questionText;
+  return { questionText, key: notes[rootIndex].root };
 }
 
 function noteToMidiNumber(note, octave, key = "C") {
@@ -950,7 +954,7 @@ function addBadNote() {
 function melodyByEar(seededRandom) {
   let measureCount = screen.width < 700 ? 2 : 4;
   let key = getRandomEnharmonicKey(seededRandom);
-  return dictee(seededRandom, { M: 4, measureCount, key });
+  return { questionText: dictee(seededRandom, { M: 4, measureCount, key }), key };
 }
 
 function log(msg, type = "success") {

@@ -264,6 +264,8 @@ function strummingQuestion() {
       status = "pause";
     }
   });
+
+  return { questionText: "Strumming", key: "NA" }
 }
 
 function printAllStrumming() {
