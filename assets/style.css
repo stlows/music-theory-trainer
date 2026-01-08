@@ -10,7 +10,7 @@
   --button-color: #2379ca;
   --button-color-hover: #2e82d0;
   --button-text-color: #ffffff;
-  --accent-color: #6fd2e3;
+  --accent-color: #95dcff;
   --table-border: #dedede;
 
   --settingBtns-background-color: #4f4f4f;
@@ -467,7 +467,8 @@ footer {
 
 a {
   text-decoration: none;
-  color: var(--button-color-hover);
+  color: var(--accent-color);
+  font-size: 1.1em;
 }
 
 .question {

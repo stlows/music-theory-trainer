@@ -1,5 +1,6 @@
 {
-  "name": "Music Trainer",
+  "name": "Assisted musical practice",
+  "short_name": "AssitedMusicalPractice",
   "icons": [
     {
       "src": "images/logo.png",

@@ -256,7 +256,26 @@
           <h2 class="mb-small"><span data-t="history"></span></h2>
           <button class="settingBtn" onclick="clearHistory()"><span data-t="clearHistory"></span></button>
         </div>
-        <ul id="historyContainer"></ul>
+
+        <details open>
+          <summary data-t="last24h"></summary>
+          <ul id="historyContainer_last24h"></ul>
+        </details>
+
+        <details>
+          <summary data-t="lastWeek"></summary>
+          <ul id="historyContainer_lastWeek"></ul>
+        </details>
+
+        <details>
+          <summary data-t="lastMonth"></summary>
+          <ul id="historyContainer_lastMonth"></ul>
+        </details>
+
+        <details>
+          <summary data-t="before"></summary>
+          <ul id="historyContainer_before"></ul>
+        </details>
 
       </div>
     </div>
@@ -354,6 +373,7 @@
     <script src="js/tests.js?v=1767559346504"></script>
     <script src="js/reviews.js?v=1767559346504"></script>
     <script src="js/history.js?v=1767559346504"></script>
+    <script src="js/encourageMe.js?v=1767559346504"></script>
     <script>
       trad();
     </script>

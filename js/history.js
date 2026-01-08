@@ -12,7 +12,16 @@ function addHistory(questionInfo) {
 
 function renderHistory() {
   const history = JSON.parse(localStorage.getItem("history")) || []
-  const historyContainer = document.getElementById("historyContainer")
+  const last24h = 24 * 60 * 60 * 1000
+  const lastWeek = 7 * 24 * 60 * 60 * 1000
+  const lastMonth = 30 * 24 * 60 * 60 * 1000
+  renderHistoryToElement(document.getElementById("historyContainer_last24h"), history.filter(h => (Date.now() - h.date) <= last24h))
+  renderHistoryToElement(document.getElementById("historyContainer_lastWeek"), history.filter(h => (Date.now() - h.date) <= lastWeek && (Date.now() - h.date) > last24h))
+  renderHistoryToElement(document.getElementById("historyContainer_lastMonth"), history.filter(h => (Date.now() - h.date) <= lastMonth && (Date.now() - h.date) > lastWeek))
+  renderHistoryToElement(document.getElementById("historyContainer_before"), history.filter(h => (Date.now() - h.date) > lastMonth))
+}
+
+function renderHistoryToElement(historyContainer, history) {
   historyContainer.innerHTML = ""
   if (history.length === 0) {
     historyContainer.appendChild(p(t("noHistory")))
@@ -43,12 +52,24 @@ function renderHistory() {
     liEl.style = "display: flex; justify-content: space-between"
     if (date) {
       let dateEl = document.createElement("span")
-      dateEl.innerText = new Date(date).toLocaleString()
+      dateEl.innerText = formatDateFr(new Date(date))
       liEl.appendChild(dateEl)
     }
 
     historyContainer.prepend(liEl)
   }
+}
+
+function formatDateFr(date = new Date()) {
+  const pad = (n) => String(n).padStart(2, "0")
+
+  const yyyy = date.getFullYear()
+  const MM = pad(date.getMonth() + 1)
+  const dd = pad(date.getDate())
+  const HH = pad(date.getHours())
+  const mm = pad(date.getMinutes())
+
+  return `${yyyy}-${MM}-${dd} ${HH}h${mm}`
 }
 
 renderHistory()

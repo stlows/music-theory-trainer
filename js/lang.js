@@ -282,6 +282,39 @@ const res = {
   melodyAccidentals: { fr: "Altérations sur les notes", en: "Accidentals on the notes" },
   some: { fr: "Un peu (Une note sur huit)", en: "Some (One in eight note)" },
   lots: { fr: "Beaucoup (Une note sur cinq)", en: "Lots (One in five note)" },
+  encouragementTitle: { fr: "Tu aimes l'application ?", en: "Enjoying the app ?" },
+  encouragementText_1: {
+    fr: "Si tu aimes l'application, pense à laisser un pourboire. Ton soutien m'aide à continuer de l'améliorer. Merci et bonne pratique! 🙂",
+    en: "If you're enjoying the app, please consider leaving a tip. Your support helps me keep improving it. Thank you and happy practice! 🙂",
+  },
+
+  encouragementText_2: {
+    fr: "Un petit pourboire fait toute la différence et m'aide à l'améliorer continuellement. 🙂 Merci beaucoup et bonne pratique!",
+    en: "A small tip goes a long way and helps support ongoing improvements. 🙂 Thanks so much and happy practice!",
+  },
+
+  encouragementText_3: {
+    fr: "L'application te plaît ? Gêne-toi pas pour laisser un pourboire 🙂 Ça m'aide à la rendre encore meilleure. Merci et bonne pratique!",
+    en: "Like the app? Feel free to leave a tip 🙂 It helps me make it even better. Thanks for your support and happy practice!",
+  },
+
+  encouragementText_4: {
+    fr: "Ton soutien permet à l'application de continuer d'évoluer. Si tu aimes l'utiliser, pense à laisser un pourboire. Merci et bonne pratique! 🙂",
+    en: "Your support keeps the app growing. If you enjoy using it, consider leaving a tip. Thank you and happy practice! 🙂",
+  },
+
+  encouragementText_5: {
+    fr: "Si l'application t'apporte quelque chose, un pourboire est une belle façon de me soutenir. Ça compte vraiment beaucoup. 🙂 Merci et bonne pratique!",
+    en: "If the app brings you value, a tip is a great way to show your support. It truly means a lot. 🙂 Thank you and happy practice!",
+  },
+  encouragementPaiement: {
+    fr: "Virement Interac: vincent_beaulieu@live.ca. Question: Chanson. Réponse: LetItBe",
+    en: "Interac e-transfer: vincent_beaulieu@live.ca. Question: Song. Answer: LetItBe"
+  },
+  last24h: { fr: "Dernières 24h", en: "Last 24h" },
+  lastWeek: { fr: "Dernière semaine", en: "Last week" },
+  lastMonth: { fr: "Dernier mois", en: "Last month" },
+  before: { fr: "Avant", en: "Before" },
 };
 
 function t(key) {

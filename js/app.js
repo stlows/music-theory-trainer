@@ -1,9 +1,14 @@
 const gameEl = document.getElementById("game");
-//let questionCount = 0
 
 function question() {
+  if (questionCount >= 5) {
+    encourageMe()
+    return
+  }
+
   resetLectureQuestion();
   const questionFunc = chooseOne(settings.questions);
+
   if (window[questionFunc]) {
     let seed = random(2147483647);
     gtag("event", "question", { questionFunc, seed });
@@ -11,6 +16,7 @@ function question() {
     try {
       let { questionText, key } = window[questionFunc](seededRandom);
       addHistory({ questionFunc, questionTitle: questionText, key, seed, date: new Date().valueOf() });
+      questionCount++;
     } catch (ex) {
       console.error("Erreur pour la question:");
       console.error(`${questionFunc}(new SeededRandom(${seed}))`);
