@@ -37,25 +37,26 @@
 
         <details>
           <summary data-t="presets"></summary>
-          <div class="presets">
-            <button class="gameBtn" onclick="presetSetting(settingsPresets.piano.beginner)">
-              <div><span data-t="piano"></span> <span data-t="beginner"></span></div>
-            </button>
-            <button class="gameBtn" onclick="presetSetting(settingsPresets.piano.intermediate)">
-              <div><span data-t="piano"></span> <span data-t="intermediate"></span></div>
-            </button>
-            <button class="gameBtn" onclick="presetSetting(settingsPresets.piano.advanced)">
-              <div><span data-t="piano"></span> <span data-t="advanced"></span></div>
-            </button>
-            <button class="gameBtn" onclick="presetSetting(settingsPresets.guitar.beginner)">
-              <div><span data-t="guitar"></span> <span data-t="beginner"></span></div>
-            </button>
-            <button class="gameBtn" onclick="presetSetting(settingsPresets.guitar.intermediate)">
-              <div><span data-t="guitar"></span> <span data-t="intermediate"></span></div>
-            </button>
-            <button class="gameBtn" onclick="presetSetting(settingsPresets.guitar.advanced)">
-              <div><span data-t="guitar"></span> <span data-t="advanced"></span></div>
-            </button>
+          <div class="">
+            <h5 data-t="system"></h5>
+            <ul style="list-style-type: none;">
+              <li><a href="#" onclick="presetSetting(settingsPresets.piano.beginner)"><span data-t="piano"></span> <span data-t="beginner"></span></a></li>
+              <li><a href="#" onclick="presetSetting(settingsPresets.piano.intermediate)"><span data-t="piano"></span> <span data-t="intermediate"></span></a></li>
+              <li><a href="#" onclick="presetSetting(settingsPresets.piano.advanced)"><span data-t="piano"></span> <span data-t="advanced"></span></a></li>
+
+              <li><a href="#" onclick="presetSetting(settingsPresets.guitar.beginner)"><span data-t="guitar"></span> <span data-t="beginner"></span></a></li>
+              <li><a href="#" onclick="presetSetting(settingsPresets.guitar.intermediate)"><span data-t="guitar"></span> <span data-t="intermediate"></span></a></li>
+              <li><a href="#" onclick="presetSetting(settingsPresets.guitar.advanced)"><span data-t="guitar"></span> <span data-t="advanced"></span></a></li>
+            </ul>
+            
+            <hr class="mt">
+            <h5 data-t="user"></h5>
+            <ul style="list-style-type: none;" id="savedSettingsContainer"></ul>
+            <hr class="mt">
+            
+            <div class="mt">
+              <a href="#" class="mt" onclick="saveCurrentSettings()"><span data-t="saveCurrentSettings"></span></a>
+            </div>
           </div>
         </details>
 
@@ -90,8 +91,8 @@
             <a href="#" onclick="selectEnharmonic(event)" data-t="selectAllEnharmonicKeys"></a> |
             <a href="#" onclick="unselectAllSetting(event, 'roots')" data-t="unselectAll"></a>
           </div>
-          <p class="mb-small"><span data-t="rootsExplanation"></span></p>
           <div class="settingBtns" id="rootsSettings"></div>
+          <p class="mb-small" style="font-style: italic"><span data-t="rootsExplanation"></span></p>
         </div>
         <div class="mb">
           <h4><span data-t="notation"></span>:</h4>

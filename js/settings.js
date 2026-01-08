@@ -222,6 +222,7 @@ function readSettings() {
 }
 
 loadSettings()
+renderSavedSettings()
 createRootsOptions()
 createQuestionsOptions()
 createTimerOptions()

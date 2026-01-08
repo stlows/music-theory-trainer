@@ -155,8 +155,8 @@ const res = {
   rootsAsked: { fr: "Tonique demandée", en: "Roots asked" },
   rythmCategory: { fr: "Strumming", en: "Strumming" },
   rootsExplanation: {
-    fr: "Les toniques non-entourées ont une correspondance enharmonique",
-    en: "Roots without borders have an enharmonic equivalent",
+    fr: "* Les toniques non-entourées ont une correspondance enharmonique",
+    en: "* Roots without borders have an enharmonic equivalent",
   },
   subtitle: {
     fr: "Bienvenue ! Utilisez ce site pour apprendre et tester vos connaissances musicales. Vous pouvez personnaliser les questions et leur niveau de difficulté dans vos paramètres. Vous pouvez ajouter l'application à votre téléphone pour usage hors-ligne.",
@@ -205,10 +205,10 @@ const res = {
   bass: { fr: "Clé de fa", en: "Bass" },
   resetDefaultSettings: { fr: "Restaurez les paramètres par défaut", en: "Reset to default settings" },
   hidePiano: { fr: "Cacher le piano", en: "Hide piano" },
-  beginner: { fr: "Débutant", en: "Beginner" },
-  intermediate: { fr: "Intermédiaire", en: "Intermediate" },
-  advanced: { fr: "Avancé", en: "Advanced" },
-  presets: { fr: "Sélectionner un préréglages pour votre niveau", en: "Select a preset settings for your level" },
+  beginner: { fr: "débutant", en: "beginner" },
+  intermediate: { fr: "intermédiaire", en: "intermediate" },
+  advanced: { fr: "avancé", en: "advanced" },
+  presets: { fr: "Paramètres enregistrés", en: "Saved settings" },
   afficherCorrection: { fr: "Afficher les boutons d'auto-correction (stats)", en: "Show auto-correct buttons (for stats)" },
   randomPattern: { fr: "Pattern aléatoire", en: "Random pattern" },
   metronome: { fr: "Métronome", en: "Metronome" },
@@ -315,6 +315,11 @@ const res = {
   lastWeek: { fr: "Dernière semaine", en: "Last week" },
   lastMonth: { fr: "Dernier mois", en: "Last month" },
   before: { fr: "Avant", en: "Before" },
+  saveCurrentSettings: { fr: "Sauvegarder les paramètres actuels", en: "Save current settings" },
+  settingNamePlaceholder: { fr: "Nom du paramétrage", en: "Setting name" },
+  delete: { fr: " ❌ Supprimer", en: " ❌ Delete" },
+  system: { fr: "Système", en: "System" },
+  user: { fr: "Utilisateur", en: "User" },
 };
 
 function t(key) {

@@ -11,7 +11,7 @@ const settingsPresets = {
       gammes: ["ionian"],
       lang: "en",
       roots: ["C", "G", "D", "F"],
-      questions: ["intervalle", "gamme", "chord", "relativeKey", "pratiquezLecturePiano", "pianoRythm"],
+      questions: ["intervalle", "gamme", "chord", "relativeKey"],
       timerInSeconds: 0,
       autoSelectBadAfterTimer: "true",
       instruments: "piano",
@@ -41,12 +41,11 @@ const settingsPresets = {
         "intervalle",
         "gamme",
         "chord",
+        "chordChange",
         "chordsInKey",
         "nthNoteInKey",
         "chordsInProgression",
         "relativeKey",
-        "pratiquezLecturePiano",
-        "pianoRythm",
       ],
       timerInSeconds: 0,
       autoSelectBadAfterTimer: "true",
@@ -77,12 +76,14 @@ const settingsPresets = {
         "intervalle",
         "gamme",
         "chord",
+        "chordChange",
         "chordsInKey",
         "nthNoteInKey",
         "chordsInProgression",
         "relativeKey",
         "chordSimilarities",
         "pratiquezLecturePiano",
+        "melodyByEar",
         "pianoRythm",
       ],
       timerInSeconds: 0,
@@ -140,6 +141,7 @@ const settingsPresets = {
         "intervalle",
         "gamme",
         "chord",
+        "chordChange",
         "chordsInKey",
         "nthNoteInKey",
         "chordsInProgression",
@@ -204,3 +206,56 @@ const settingsPresets = {
     },
   },
 };
+
+
+function saveCurrentSettings() {
+  let settingName = prompt(t("settingNamePlaceholder"))
+  if (settingName) {
+    const savedSettings = JSON.parse(localStorage.getItem("savedSettings")) || []
+    savedSettings.push({ name: settingName, settings: settings })
+    localStorage.setItem("savedSettings", JSON.stringify(savedSettings))
+    notify(t("settingsSaved"), "success")
+    renderSavedSettings()
+  }
+  else {
+    alert(t("invalidSettingName"))
+  }
+}
+
+function renderSavedSettings() {
+  const savedSettings = JSON.parse(localStorage.getItem("savedSettings")) || []
+  const container = document.getElementById("savedSettingsContainer")
+  container.innerHTML = ""
+  if (savedSettings.length === 0) {
+    let pEl = document.createElement("p")
+    pEl.innerText = t("noSavedSettings")
+    container.appendChild(pEl)
+    return
+  }
+  for (const { name, settings } of savedSettings) {
+    let li = document.createElement("li")
+    li.style = "display: flex; justify-content: space-between; align-items: center; gap: 1em"
+    let link = document.createElement("a")
+    link.href = "#"
+    link.innerText = name
+    link.addEventListener("click", (a) => {
+      a.preventDefault()
+      presetSetting(settings)
+    })
+    li.appendChild(link)
+
+    let deleteLink = document.createElement("a")
+    deleteLink.href = "#"
+    deleteLink.innerText = t("delete")
+    deleteLink.addEventListener("click", (a) => {
+      a.preventDefault()
+      savedSettings.splice(savedSettings.indexOf(settings), 1)
+      localStorage.setItem("savedSettings", JSON.stringify(savedSettings))
+      renderSavedSettings()
+    })
+    li.appendChild(deleteLink)
+
+    container.appendChild(li)
+  }
+}
+
