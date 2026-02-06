@@ -20,11 +20,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
 
-    <link rel="stylesheet" href="assets/style.css?v=1767559346504" />
-    <link rel="stylesheet" href="assets/guitar.css?v=1767559346504" />
-    <link rel="stylesheet" href="assets/stats.css?v=1767559346504" />
-    <link rel="stylesheet" href="assets/notifications.css?v=1767559346504" />
-    <link rel="stylesheet" href="assets/practiceTimers.css?v=1767559346504" />
+    <link rel="stylesheet" href="assets/style.css?v=1770392873837" />
+    <link rel="stylesheet" href="assets/guitar.css?v=1770392873837" />
+    <link rel="stylesheet" href="assets/stats.css?v=1770392873837" />
+    <link rel="stylesheet" href="assets/notifications.css?v=1770392873837" />
+    <link rel="stylesheet" href="assets/practiceTimers.css?v=1770392873837" />
     <link rel="manifest" href="manifest.json" />
   </head>
 
@@ -338,7 +338,10 @@
         <p onclick="clearGame()" style="cursor: pointer; padding: 0.5em" data-t="clear"></p>
       </div>
       <div id="pianoSimulation"></div>
-      <div id="game"></div>
+      <div id="game">
+        <button id="holdBtn" class="gameBtn">Start pitch detection</button>
+<div id="pitch">Pitch: -- Hz</div>
+      </div>
     </div>
     <footer data-t="footer" data-html="true"></footer>
 
@@ -346,35 +349,36 @@
     <div id="timerWrapper">
       <div id="timer"></div>
     </div>
-    <script src="js/constants.js?v=1767559346504"></script>
-    <script src="vendor/abc.js?v=1767559346504"></script>
-    <script src="js/notifications.js?v=1767559346504"></script>
-    <script src="js/rng.js?v=1767559346504"></script>
-    <script src="js/lang.js?v=1767559346504"></script>
-    <script src="js/music.js?v=1767559346504"></script>
-    <script src="js/acoustic_guitar_sounds.js?v=1767559346504"></script>
-    <script src="js/grand_piano_sounds.js?v=1767559346504"></script>
-    <script src="js/instruments.js?v=1767559346504"></script>
-    <script src="js/utils.js?v=1767559346504"></script>
-    <script src="js/dom.js?v=1767559346504"></script>
-    <script src="js/guitar.js?v=1767559346504"></script>
-    <script src="js/piano.js?v=1767559346504"></script>
-    <script src="js/app.js?v=1767559346504"></script>
-    <script src="js/dicteeMusicale.js?v=1767559346504"></script>
-    <script src="js/pianoRythm.js?v=1767559346504"></script>
-    <script src="js/settings_presets.js?v=1767559346504"></script>
-    <script src="js/settings.js?v=1767559346504"></script>
-    <script src="js/stats.js?v=1767559346504"></script>
-    <script src="js/strumming.js?v=1767559346504"></script>
-    <script src="js/staff.js?v=1767559346504"></script>
-    <script src="js/midi.js?v=1767559346504"></script>
-    <script src="js/practiceTimers.js?v=1767559346504"></script>
-    <script src="js/metronome.js?v=1767559346504"></script>
-    <script src="js/hanon.js?v=1767559346504"></script>
-    <script src="js/tests.js?v=1767559346504"></script>
-    <script src="js/reviews.js?v=1767559346504"></script>
-    <script src="js/history.js?v=1767559346504"></script>
-    <script src="js/encourageMe.js?v=1767559346504"></script>
+    <script src="js/constants.js?v=1770392873837"></script>
+    <script src="vendor/abc.js?v=1770392873837"></script>
+    <script src="js/notifications.js?v=1770392873837"></script>
+    <script src="js/rng.js?v=1770392873837"></script>
+    <script src="js/lang.js?v=1770392873837"></script>
+    <script src="js/music.js?v=1770392873837"></script>
+    <script src="js/pitch.js?v=1770392873837"></script>
+    <script src="js/acoustic_guitar_sounds.js?v=1770392873837"></script>
+    <script src="js/grand_piano_sounds.js?v=1770392873837"></script>
+    <script src="js/instruments.js?v=1770392873837"></script>
+    <script src="js/utils.js?v=1770392873837"></script>
+    <script src="js/dom.js?v=1770392873837"></script>
+    <script src="js/guitar.js?v=1770392873837"></script>
+    <script src="js/piano.js?v=1770392873837"></script>
+    <script src="js/app.js?v=1770392873837"></script>
+    <script src="js/dicteeMusicale.js?v=1770392873837"></script>
+    <script src="js/pianoRythm.js?v=1770392873837"></script>
+    <script src="js/settings_presets.js?v=1770392873837"></script>
+    <script src="js/settings.js?v=1770392873837"></script>
+    <script src="js/stats.js?v=1770392873837"></script>
+    <script src="js/strumming.js?v=1770392873837"></script>
+    <script src="js/staff.js?v=1770392873837"></script>
+    <script src="js/midi.js?v=1770392873837"></script>
+    <script src="js/practiceTimers.js?v=1770392873837"></script>
+    <script src="js/metronome.js?v=1770392873837"></script>
+    <script src="js/hanon.js?v=1770392873837"></script>
+    <script src="js/tests.js?v=1770392873837"></script>
+    <script src="js/reviews.js?v=1770392873837"></script>
+    <script src="js/history.js?v=1770392873837"></script>
+    <script src="js/encourageMe.js?v=1770392873837"></script>
     <script>
       trad();
     </script>
