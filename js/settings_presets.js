@@ -211,6 +211,15 @@ const settingsPresets = {
 function saveCurrentSettings() {
   let settingName = prompt(t("settingNamePlaceholder"))
   if (settingName) {
+    saveSettings(settingName, settings)
+  }
+  else {
+    alert(t("invalidSettingName"))
+  }
+}
+
+function saveSettings(settingName, settings) {
+  if (settingName) {
     const savedSettings = JSON.parse(localStorage.getItem("savedSettings")) || []
     savedSettings.push({ name: settingName, settings: settings })
     localStorage.setItem("savedSettings", JSON.stringify(savedSettings))
@@ -218,7 +227,7 @@ function saveCurrentSettings() {
     renderSavedSettings()
   }
   else {
-    alert(t("invalidSettingName"))
+    return;
   }
 }
 
@@ -244,18 +253,43 @@ function renderSavedSettings() {
     })
     li.appendChild(link)
 
+    let actions = div()
+    actions.style = "font-size: 0.8em; color: var(--text-secondary)"
+
+    let shareLink = document.createElement("a")
+    shareLink.href = "#"
+    shareLink.innerText = t("share")
+    shareLink.addEventListener("click", (a) => {
+      a.preventDefault()
+      let settingName = prompt(t("settingNamePlaceholder"), name)
+      if (settingName) {
+        const shareableSettings = { name: settingName, settings: settings }
+        const shareableString = encodeSettings(shareableSettings)
+        navigator.clipboard.writeText(window.location.href + "?settings=" + shareableString).then(() => {
+          notify(t("settingsCopiedToClipboard"), "success")
+        })
+      }
+    })
+    actions.appendChild(shareLink)
+    actions.appendChild(document.createTextNode(" | "))
     let deleteLink = document.createElement("a")
     deleteLink.href = "#"
     deleteLink.innerText = t("delete")
     deleteLink.addEventListener("click", (a) => {
       a.preventDefault()
+      if (!confirm(t("deleteConfirmation"))) {
+        return
+      }
       savedSettings.splice(savedSettings.indexOf(settings), 1)
       localStorage.setItem("savedSettings", JSON.stringify(savedSettings))
       renderSavedSettings()
     })
-    li.appendChild(deleteLink)
+    actions.appendChild(deleteLink)
+
+    li.appendChild(actions)
 
     container.appendChild(li)
   }
 }
+
 

@@ -6,6 +6,9 @@ function addResult(result) {
 }
 
 function clearStats() {
+  if (!confirm(t("clearStatsConfirmation"))) {
+    return
+  }
   localStorage.setItem("stats", JSON.stringify([]))
   localStorage.setItem("pianoStats", JSON.stringify([]))
   printStats()
@@ -68,7 +71,7 @@ function printPianoStats(key) {
   container.innerHTML = ""
   tableContainer.innerHTML = ""
 
-  if(getStatsCount(stats, "all", "all", "all", key) === 0){
+  if (getStatsCount(stats, "all", "all", "all", key) === 0) {
     container.innerHTML = t("noStatsYet")
     return
   }
@@ -107,10 +110,10 @@ function printPianoStats(key) {
 }
 
 const colorsFormats = [
-  {successRate: 0.75, color: "#ff0000", avgTime: 3},
-  {successRate: 0.80, color: "#ff9900", avgTime: 2.5},
-  {successRate: 0.95, color: "#eeff00", avgTime: 2},
-  {successRate: 1, color: "#09ff00", avgTime: 0 }
+  { successRate: 0.75, color: "#ff0000", avgTime: 3 },
+  { successRate: 0.80, color: "#ff9900", avgTime: 2.5 },
+  { successRate: 0.95, color: "#eeff00", avgTime: 2 },
+  { successRate: 1, color: "#09ff00", avgTime: 0 }
 ]
 
 function getColor(successRate, avgTime) {

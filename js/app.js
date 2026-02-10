@@ -234,7 +234,7 @@ function createQuestion({ questionText, answerText, extraInfos, answerNode, ligh
 function intervalle(seededRandom) {
   let key = seededRandom.chooseOne(settings.roots);
   let rootIndex = keyIndex(key);
-  const intervalle = chooseOne(Object.keys(notes[rootIndex]));
+  const intervalle = seededRandom.chooseOne(Object.keys(notes[rootIndex]));
   const intervalleIndex = Object.keys(notes[rootIndex]).indexOf(intervalle);
   //const notesDansIntervalle = gammeChromatic.slice(0, gammeChromatic.indexOf(intervalle) + 1)
   answerNode = div("mw-100");
