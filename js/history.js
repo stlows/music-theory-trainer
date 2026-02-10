@@ -1,4 +1,7 @@
 function clearHistory() {
+  if (!confirm(t("clearHistoryConfirmation"))) {
+    return
+  }
   localStorage.setItem("history", JSON.stringify([]))
   renderHistory()
 }
@@ -50,12 +53,28 @@ function renderHistoryToElement(historyContainer, history) {
     })
     liEl.appendChild(questionText)
     liEl.style = "display: flex; justify-content: space-between"
+    let rightDiv = div()
+    rightDiv.style = "font-size: 0.8em; color: var(--text-secondary)"
+
+    let shareLink = document.createElement("a")
+    shareLink.href = "#"
+    shareLink.innerText = t("share")
+    shareLink.addEventListener("click", (a) => {
+      a.preventDefault()
+      navigator.clipboard.writeText(window.location.href + "?question=" + questionFunc + "&seed=" + seed).then(() => {
+        notify(t("questionLinkCopiedToClipboard"), "success")
+      })
+    })
+    rightDiv.appendChild(shareLink)
+
     if (date) {
       let dateEl = document.createElement("span")
       dateEl.innerText = formatDateFr(new Date(date))
-      liEl.appendChild(dateEl)
+      rightDiv.appendChild(document.createTextNode(" | "))
+      rightDiv.appendChild(dateEl)
     }
 
+    liEl.appendChild(rightDiv)
     historyContainer.prepend(liEl)
   }
 }

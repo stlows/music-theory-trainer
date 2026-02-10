@@ -317,10 +317,19 @@ const res = {
   before: { fr: "Avant", en: "Before" },
   saveCurrentSettings: { fr: "Sauvegarder les paramètres actuels", en: "Save current settings" },
   settingNamePlaceholder: { fr: "Nom du paramétrage", en: "Setting name" },
-  delete: { fr: " ❌ Supprimer", en: " ❌ Delete" },
+  delete: { fr: " Supprimer", en: " Delete" },
   system: { fr: "Système", en: "System" },
   user: { fr: "Utilisateur", en: "User" },
+  settingsCopiedToClipboard: { fr: "Lien URL avec les paramètres copiés dans le presse-papier", en: "URL link with settings copied to clipboard" },
+  importedFromUrl: { fr: "Importé depuis l'URL", en: "Imported from URL" },
+  settingsNameConflict: { fr: "Un paramétrage avec ce nom existe déjà. Voulez-vous continuer ?", en: "A setting with this name already exists. Do you want to continue ?" },
+  share: { fr: "Partager", en: "Share" },
+  deleteConfirmation: { fr: "Êtes-vous sûr de vouloir supprimer ce paramétrage ?", en: "Are you sure you want to delete this setting ?" },
+  clearHistoryConfirmation: { fr: "Êtes-vous sûr de vouloir vider l'historique ?", en: "Are you sure you want to clear the history ?" },
+  clearStatsConfirmation: { fr: "Êtes-vous sûr de vouloir écraser les statistiques ?", en: "Are you sure you want to clear the stats ?" },
+  questionLinkCopiedToClipboard: { fr: "Lien de la question copié dans le presse-papier", en: "Question link copied to clipboard" },
 };
+
 
 function t(key) {
   if (!res[key] || !res[key][settings.lang]) {
