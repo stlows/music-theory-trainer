@@ -481,43 +481,43 @@ const notes = [
 ];
 
 const accords = [
-  { name: "majeur", notes: ["root", "M3", "P5"], title: "Majeur", symbol: "" },
-  { name: "mineur", notes: ["root", "m3", "P5"], title: "Mineur", symbol: "m" },
+  { name: "majeur", notes: ["root", "M3", "P5"], symbol: "" },
+  { name: "mineur", notes: ["root", "m3", "P5"], symbol: "m" },
 
-  { name: "dim", notes: ["root", "m3", "d5"], title: "Diminué", symbol: "°" },
-  { name: "aug", notes: ["root", "M3", "A5"], title: "Augmenté", symbol: "+" },
+  { name: "dim", notes: ["root", "m3", "d5"], symbol: "°" },
+  { name: "aug", notes: ["root", "M3", "A5"], symbol: "+" },
 
-  { name: "sus2", notes: ["root", "M2", "P5"], title: "Suspendu 2", symbol: "sus2" },
-  { name: "sus4", notes: ["root", "P4", "P5"], title: "Suspendu 4", symbol: "sus4" },
+  { name: "sus2", notes: ["root", "M2", "P5"], symbol: "sus2" },
+  { name: "sus4", notes: ["root", "P4", "P5"], symbol: "sus4" },
 
-  { name: "6", notes: ["root", "M3", "P5", "M6"], title: "6", symbol: "6" },
-  { name: "chord_m6", notes: ["root", "m3", "P5", "M6"], title: "m6", symbol: "m6" },
+  { name: "6", notes: ["root", "M3", "P5", "M6"], symbol: "6" },
+  { name: "chord_m6", notes: ["root", "m3", "P5", "M6"], symbol: "m6" },
 
-  { name: "maj7", notes: ["root", "M3", "P5", "M7"], title: "Majeur 7", symbol: "maj7" },
-  { name: "chord_m7", notes: ["root", "m3", "P5", "m7"], title: "Mineur 7", symbol: "m7" },
-  { name: "7", notes: ["root", "M3", "P5", "m7"], title: "Dominant 7", symbol: "7" },
-  { name: "m(maj7)", notes: ["root", "m3", "P5", "M7"], title: "Majeur 7e mineur", symbol: "m(maj7)" },
+  { name: "maj7", notes: ["root", "M3", "P5", "M7"], symbol: "maj7" },
+  { name: "chord_m7", notes: ["root", "m3", "P5", "m7"], symbol: "m7" },
+  { name: "7", notes: ["root", "M3", "P5", "m7"], symbol: "7" },
+  { name: "m(maj7)", notes: ["root", "m3", "P5", "M7"], symbol: "m(maj7)" },
 
-  { name: "dim7", notes: ["root", "m3", "d5", "d7"], title: "Diminué 7", symbol: "°7" },
-  { name: "m7b5", notes: ["root", "m3", "d5", "m7"], title: "Demi-Diminué 7", symbol: "⌀7" },
-  { name: "add9", notes: ["root", "M3", "P5", "M9"], title: "Additionné 9", symbol: "add9" },
-  { name: "9", notes: ["root", "M3", "P5", "m7", "M9"], title: "9", symbol: "9" },
-  { name: "chord_m9", notes: ["root", "m3", "P5", "m7", "M9"], title: "m9" },
-  { name: "maj9", notes: ["root", "M3", "P5", "M7", "M9"], title: "maj9", symbol: "maj9" },
-  { name: "6/9", notes: ["root", "M3", "P5", "M6", "M9"], title: "6/9", symbol: "6/9" },
+  { name: "dim7", notes: ["root", "m3", "d5", "d7"], symbol: "°7" },
+  { name: "m7b5", notes: ["root", "m3", "d5", "m7"], symbol: "⌀7" },
+  { name: "add9", notes: ["root", "M3", "P5", "M9"], symbol: "add9" },
+  { name: "9", notes: ["root", "M3", "P5", "m7", "M9"], symbol: "9" },
+  { name: "chord_m9", notes: ["root", "m3", "P5", "m7", "M9"], symbol: "m9" },
+  { name: "maj9", notes: ["root", "M3", "P5", "M7", "M9"], symbol: "maj9" },
+  { name: "6/9", notes: ["root", "M3", "P5", "M6", "M9"], symbol: "6/9" },
 
-  { name: "7sus4", notes: ["root", "P4", "P5", "m7"], title: "7sus4", symbol: "7sus4" },
-  { name: "7(#5)", notes: ["root", "M3", "A5", "m7"], title: "7(#5)", symbol: "7♯5" },
-  { name: "7(b5)", notes: ["root", "M3", "d5", "m7"], title: "7(#5)", symbol: "7♭5" },
-  { name: "7(#9)", notes: ["root", "M3", "P5", "m7", "s9"], title: "7(#9)", symbol: "7♯9" },
-  { name: "7(b9)", notes: ["root", "M3", "P5", "m7", "m9"], title: "7(b9)", symbol: "7♭9" },
+  { name: "7sus4", notes: ["root", "P4", "P5", "m7"], symbol: "7sus4" },
+  { name: "7♯5", notes: ["root", "M3", "A5", "m7"], symbol: "7♯5" },
+  { name: "7♭5", notes: ["root", "M3", "d5", "m7"], symbol: "7♭5" },
+  { name: "7♯9", notes: ["root", "M3", "P5", "m7", "s9"], symbol: "7♯9" },
+  { name: "7♭9", notes: ["root", "M3", "P5", "m7", "m9"], symbol: "7♭9" },
 
-  { name: "11", notes: ["root", "M3", "P5", "m7", "M9", "P11"], title: "11", symbol: "11" },
-  { name: "m11", notes: ["root", "m3", "P5", "m7", "M9", "P11"], title: "m11", symbol: "m11" },
-  { name: "7(#11)", notes: ["root", "M3", "P5", "m7", "M9", "A11"], title: "7(#11)", symbol: "7♯11" },
+  { name: "11", notes: ["root", "M3", "P5", "m7", "M9", "P11"], symbol: "11" },
+  { name: "m11", notes: ["root", "m3", "P5", "m7", "M9", "P11"], symbol: "m11" },
+  { name: "7♯11", notes: ["root", "M3", "P5", "m7", "M9", "A11"], symbol: "7♯11" },
 
-  { name: "13", notes: ["root", "M3", "P5", "m7", "M9", "P11", "M13"], title: "13", symbol: "13" },
-  { name: "chord_m13", notes: ["root", "m3", "P5", "m7", "M9", "P11", "M13"], title: "m13", symbol: "m13" },
+  { name: "13", notes: ["root", "M3", "P5", "m7", "M9", "P11", "M13"], symbol: "13" },
+  { name: "chord_m13", notes: ["root", "m3", "P5", "m7", "M9", "P11", "M13"], symbol: "m13" },
 ];
 
 // Major (Ionian) – the most common “happy” sounding scale.

@@ -456,9 +456,8 @@ function chordSimilarities(seededRandom) {
     const rotated = rotateArray(notes1, i);
     answerDiv.appendChild(p(join(rotated) + " | " + join(alignNotes(notes2, rotated)), "mb-small"));
   }
-
   let questionText =
-    t("chord")(printNote(accord1.tonique), t(accord1.type.name)) + " - " + t("chord")(printNote(accord2.tonique), t(accord2.type.name));
+    t("chord")(printNote(accord1.tonique), accord1.type.symbol) + " - " + t("chord")(printNote(accord2.tonique), accord2.type.symbol);
   createQuestion({
     questionText,
     answerNode: answerDiv,
@@ -645,7 +644,7 @@ function printAllAccords() {
     let keyIndex = notes.findIndex((n) => n.root === selectedKey);
     let chordIndex = accords.findIndex((a) => a.name === selectedChord);
     let chord = getAccord(keyIndex, chordIndex);
-    const chordTitle = h5(t("chord")(printNote(notes[keyIndex].root), t(chord.type.name)));
+    const chordTitle = h5(t("chord")(printNote(notes[keyIndex].root), chord.type.symbol));
     wrapper.appendChild(chordTitle);
     wrapper.appendChild(p(join(chord.notes.map((x) => printNote(x)))));
     accordSelectorResult.innerHTML = "";
@@ -661,13 +660,16 @@ function printAllAccords() {
 
   for (let accordIndex = 0; accordIndex < accords.length; accordIndex++) {
     let { detailsEl, summary } = details();
-    summary.innerText = t(accords[accordIndex].title);
+    summary.innerText = t(accords[accordIndex].name);
+    if (accords[accordIndex].symbol && accords[accordIndex].symbol !== t(accords[accordIndex].name)) {
+      summary.innerText += ` (${accords[accordIndex].symbol})`
+    }
     detailsEl.appendChild(p(join(accords[accordIndex].notes), "mb-small"));
     detailsEl.appendChild(p(getDescriptionAccord(accordIndex), "mb-small"));
     for (let noteIndex = 0; noteIndex < notes.length; noteIndex++) {
       let wrapper = div("accord");
       let accord = getAccord(noteIndex, accordIndex);
-      const accordTitle = h5(t("chord")(printNote(notes[noteIndex].root), t(accord.type.name)));
+      const accordTitle = h5(t("chord")(printNote(notes[noteIndex].root), accord.type.symbol));
       wrapper.appendChild(accordTitle);
       wrapper.appendChild(p(join(accord.notes)));
       detailsEl.appendChild(wrapper);
