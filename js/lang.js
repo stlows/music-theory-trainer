@@ -328,6 +328,16 @@ const res = {
   clearHistoryConfirmation: { fr: "Êtes-vous sûr de vouloir vider l'historique ?", en: "Are you sure you want to clear the history ?" },
   clearStatsConfirmation: { fr: "Êtes-vous sûr de vouloir écraser les statistiques ?", en: "Are you sure you want to clear the stats ?" },
   questionLinkCopiedToClipboard: { fr: "Lien de la question copié dans le presse-papier", en: "Question link copied to clipboard" },
+  whichDegreeInKey: {
+    fr: (chord, key) => `Quel est le degré de ${chord} en ${key} ?`,
+    en: (chord, key) => `What is the degree of ${chord} in the key of ${key}?`,
+  },
+  whichDegreeInKeyDescription: { fr: "Degré d'un accord dans une clé", en: "Degree of a chord in a key" },
+  transpositionDescription: { fr: "Transposition d'une progression", en: "Transposition of a progression" },
+  transposition: {
+    fr: (progression, key, transpose) => `Transposer la progression ${progression} de ${key} en ${transpose}`,
+    en: (progression, key, transpose) => `Transpose the progression ${progression} from ${key} in ${transpose}`,
+  }
 };
 
 

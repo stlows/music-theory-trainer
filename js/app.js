@@ -403,12 +403,46 @@ function chordsInProgression(seededRandom) {
   return { questionText, key };
 }
 
+function transposition(seededRandom) {
+  let key = seededRandom.chooseOne(settings.roots);
+  const chords = [1, 2, 3, 4, 5, 6]
+    .sort((a, b) => {
+      return seededRandom.next() - 0.5;
+    })
+    .slice(0, 4);
+  const progression = join(chords.map(x => getChordDegree(key, x)));
+  let newKey = seededRandom.chooseOne(settings.roots);
+  while (settings.roots.length > 1 && newKey == key) {
+    console.log("Same key, choosing another one" + key);
+    newKey = seededRandom.chooseOne(settings.roots);
+  }
+  let questionText = t("transposition")(progression, key, newKey);
+  createQuestion({
+    questionText,
+    answerText: join(chords.map(x => getChordDegree(newKey, x))),
+    extraInfos: join(chords.map(getRoman)),
+  });
+  return { questionText, key };
+}
+
 function relativeKey(seededRandom) {
   let key = seededRandom.chooseOne(settings.roots);
   let questionText = t("relativeKey")(key);
   createQuestion({
     questionText,
     answerText: getChordDegree(key, 6),
+  });
+  return { questionText, key };
+}
+
+function whichDegreeInKey(seededRandom) {
+  let key = seededRandom.chooseOne(settings.roots);
+  const degree = seededRandom.int(7, 1);
+  let questionText = t("whichDegreeInKey")(getChordDegree(key, degree), key);
+  createQuestion({
+    questionText,
+    answerText: getRoman(degree),
+    extraInfos: join(getChordDegrees(key)),
   });
   return { questionText, key };
 }
