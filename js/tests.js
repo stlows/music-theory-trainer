@@ -3,10 +3,11 @@ function tests(questions, count, seed) {
   let seededRandom = new SeededRandom(seed)
   let noErrors = 0
   let errors = []
+  let testedQuestions = []
   for (q of questions) {
     for (let i = 0; i < count; i++) {
       try {
-        let { key, questionText } = window[q](seededRandom)
+        testedQuestions.push({ ...window[q](seededRandom), q })
         clearGame()
         noErrors++
       } catch (ex) {
@@ -19,6 +20,7 @@ function tests(questions, count, seed) {
   if (errors.length > 0) {
     console.log(errors)
   }
+  console.table(testedQuestions)
 }
 
 function testSample(count) {
@@ -27,9 +29,16 @@ function testSample(count) {
   const currentKeys = settings.roots
   const currentChords = settings.accords
   const currentGammes = settings.gammes
+  const continuousQuestions = settings.continuousQuestions
+  const tts = settings.ttsQuestion
+  const timer = settings.timerInSeconds
+
   settings.roots = enharmonicKeys
   settings.accords = [...accords.map((x) => x.name)]
   settings.gammes = [...gammes.map((x) => x.name)]
+  settings.continuousQuestions = "false"
+  settings.ttsQuestion = "false"
+  settings.timerInSeconds = 0
 
   tests(possibleQuestions.map(x => x.func).filter(x => x !== "intervalByEar"), count)
 
@@ -41,4 +50,7 @@ function testSample(count) {
   settings.roots = currentKeys
   settings.accords = currentChords
   settings.gammes = currentGammes
+  settings.continuousQuestions = continuousQuestions
+  settings.ttsQuestion = tts
+  settings.timerInSeconds = timer
 }

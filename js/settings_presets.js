@@ -25,6 +25,8 @@ const settingsPresets = {
       melodyDegreeLimitHigh: 6,
       melodyDegreeLimitLow: -3,
       melodyAccidentals: "none", // none, some, lot
+      continuousQuestions: "false",
+      ttsQuestion: "false",
     },
     intermediate: {
       notation: "letter",
@@ -60,6 +62,8 @@ const settingsPresets = {
       melodyDegreeLimitHigh: 8,
       melodyDegreeLimitLow: -3,
       melodyAccidentals: "none", // none, some, lot
+      continuousQuestions: "false",
+      ttsQuestion: "false",
     },
     advanced: {
       notation: "letter",
@@ -81,6 +85,7 @@ const settingsPresets = {
         "nthNoteInKey",
         "chordsInProgression",
         "relativeKey",
+        "transposition",
         "chordSimilarities",
         "pratiquezLecturePiano",
         "melodyByEar",
@@ -98,6 +103,8 @@ const settingsPresets = {
       melodyDegreeLimitHigh: 10,
       melodyDegreeLimitLow: -4,
       melodyAccidentals: "none", // none, some, lot
+      continuousQuestions: "false",
+      ttsQuestion: "false",
     },
   },
   guitar: {
@@ -126,13 +133,15 @@ const settingsPresets = {
       melodyDegreeLimitHigh: 6,
       melodyDegreeLimitLow: -3,
       melodyAccidentals: "none", // none, some, lot
+      continuousQuestions: "false",
+      ttsQuestion: "false",
     },
     intermediate: {
       notation: "letter",
       tempo: 80,
       repeats: 4,
       progressionChords: "C",
-      plingAtFirstTempo: false,
+      plingAtFirstTempo: "false",
       accords: ["majeur", "mineur", "7", "chord_m7"],
       gammes: ["ionian", "minorPentatonic", "majorPentatonic", "blues"],
       lang: "en",
@@ -165,6 +174,8 @@ const settingsPresets = {
       melodyDegreeLimitHigh: 8,
       melodyDegreeLimitLow: -3,
       melodyAccidentals: "none", // none, some, lot
+      continuousQuestions: "false",
+      ttsQuestion: "false"
     },
     advanced: {
       notation: "letter",
@@ -203,9 +214,39 @@ const settingsPresets = {
       melodyDegreeLimitHigh: 10,
       melodyDegreeLimitLow: -4,
       melodyAccidentals: "none", // none, some, lot
+      continuousQuestions: "false",
+      ttsQuestion: "false"
     },
   },
-};
+  handsfree: {
+    notation: "letter",
+    tempo: 60,
+    repeats: 2,
+    frets: 7,
+    progressionChords: "C",
+    plingAtFirstTempo: true,
+    accords: ["majeur", "mineur"],
+    gammes: ["ionian"],
+    lang: "fr",
+    roots: enharmonicKeys,
+    questions: ["intervalle", "nthNoteInKey", "relativeKey"],
+    timerInSeconds: 5,
+    autoSelectBadAfterTimer: "true",
+    instruments: "piano",
+    showNotes: "none",
+    continuousReading: "non",
+    continuousQuestions: "true",
+    clefs: ["treble", "bass"],
+    octavesDifficulty: "easy",
+    afficherCorrection: "false",
+    pianoRythm: ["2-Eights", "Quarter", "Rest Eight"],
+    melodyMaxGapInDegrees: 2,
+    melodyDegreeLimitHigh: 6,
+    melodyDegreeLimitLow: -3,
+    melodyAccidentals: "none", // none, some, lot
+    ttsQuestion: "true"
+  },
+}
 
 
 function saveCurrentSettings() {
@@ -227,7 +268,7 @@ function saveSettings(settingName, settings) {
     renderSavedSettings()
   }
   else {
-    return;
+    return
   }
 }
 

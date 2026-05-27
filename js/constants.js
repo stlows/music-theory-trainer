@@ -6,7 +6,6 @@ const possibleQuestions = [
   { func: "chordsInKey", t: "chordsInTheKey" },
   { func: "relativeKey", t: "relativeKey" },
   { func: "nthNoteInKey", t: "nthNoteInKey" },
-  { func: "whichDegreeInKey", t: "whichDegreeInKey" },
   { func: "transposition", t: "transposition" },
   { func: "chordChange", t: "chordChange" },
   { func: "chordsInProgression", t: "chordsInProgression" },

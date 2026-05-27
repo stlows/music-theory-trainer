@@ -47,6 +47,7 @@
               <li><a href="#" onclick="presetSetting(settingsPresets.guitar.beginner)"><span data-t="guitar"></span> <span data-t="beginner"></span></a></li>
               <li><a href="#" onclick="presetSetting(settingsPresets.guitar.intermediate)"><span data-t="guitar"></span> <span data-t="intermediate"></span></a></li>
               <li><a href="#" onclick="presetSetting(settingsPresets.guitar.advanced)"><span data-t="guitar"></span> <span data-t="advanced"></span></a></li>
+              <li><a href="#" onclick="presetSetting(settingsPresets.handsfree)"><span data-t="handsfree"></span></a></li>
             </ul>
             
             <hr class="mt">
@@ -124,6 +125,14 @@
           <div class="mb">
             <h4><span data-t="autoBad"></span>:</h4>
             <div class="settingBtns" id="autoBad"></div>
+          </div>
+           <div class="mb">
+            <h4><span data-t="continuousQuestions"></span>:</h4>
+            <div class="settingBtns" id="continuousQuestions"></div>
+          </div>
+          <div class="mb">
+            <h4><span data-t="ttsQuestion"></span>:</h4>
+            <div class="settingBtns" id="ttsQuestion"></div>
           </div>
         </details>
         <details>
@@ -330,8 +339,11 @@
 
       <div class="center mb">
         <div class="gameBtns">
-          <button class="gameBtn" onclick="question()">
-            <div data-t="question"></div>
+          <button class="gameBtn" style="display:block" onclick="question()" id="newQuestion">
+            <div data-t="question" id="newQuestionText"></div>
+          </button>
+          <button class="gameBtn red" style="display: none;" onclick="stopContinuousQuestions()" id="stopContinuousQuestions">
+            <div data-t="stop"></div>
           </button>
         </div>
         <p onclick="clearGame()" style="cursor: pointer; padding: 0.5em" data-t="clear"></p>
@@ -349,6 +361,7 @@
     <script src="vendor/abc.js?v=1767559346504"></script>
     <script src="js/notifications.js?v=1767559346504"></script>
     <script src="js/rng.js?v=1767559346504"></script>
+    <script src="js/tts-parser.js?v=1767559346504"></script>
     <script src="js/lang.js?v=1767559346504"></script>
     <script src="js/music.js?v=1767559346504"></script>
     <script src="js/acoustic_guitar_sounds.js?v=1767559346504"></script>

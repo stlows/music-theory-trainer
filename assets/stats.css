@@ -4,6 +4,7 @@
   --barBorderRadius: 5px;
   --barColor1: #52dd4d;
   --barColor2: #992929;
+  --barColor2Light: #a03434;
   --statNumber-border: var(--button-color);
 }
 

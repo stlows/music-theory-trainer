@@ -1,9 +1,12 @@
 checkSettingsInUrl()
 checkQuestionInUrl()
-
+let voice = null
+loadVoices().then(function (x) {
+  voice = x.find(x => x.name === 'Microsoft Antoine Online (Natural) - French (Canada)')
+})
 
 function checkSettingsInUrl() {
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(window.location.search)
   if (urlParams.has("settings")) {
     try {
       console.log("Settings found in URL, loading...")
@@ -30,21 +33,40 @@ function checkSettingsInUrl() {
 }
 
 function removeSettingsFromUrl() {
-  const url = new URL(window.location);
-  url.searchParams.delete("settings");
-  url.searchParams.delete("question");
-  url.searchParams.delete("seed");
-  window.history.replaceState({}, document.title, url.toString());
+  const url = new URL(window.location)
+  url.searchParams.delete("settings")
+  url.searchParams.delete("question")
+  url.searchParams.delete("seed")
+  window.history.replaceState({}, document.title, url.toString())
 }
 
 
 function checkQuestionInUrl() {
-  const url = new URL(window.location);
-  const questionFunc = url.searchParams.get("question");
-  const seedParam = url.searchParams.get("seed");
+  const url = new URL(window.location)
+  const questionFunc = url.searchParams.get("question")
+  const seedParam = url.searchParams.get("seed")
   if (window[questionFunc]) {
-    let seededRandom = new SeededRandom(seedParam);
+    let seededRandom = new SeededRandom(seedParam)
     window[questionFunc](seededRandom)
     removeSettingsFromUrl()
   }
+}
+
+function loadVoices() {
+
+  return new Promise(resolve => {
+
+    let voices = speechSynthesis.getVoices()
+
+    if (voices.length) {
+      resolve(voices)
+      return
+    }
+
+    speechSynthesis.addEventListener(
+      'voiceschanged',
+      () => resolve(speechSynthesis.getVoices()),
+      { once: true }
+    )
+  })
 }

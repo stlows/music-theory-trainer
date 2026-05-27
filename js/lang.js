@@ -119,8 +119,8 @@ const res = {
     en: (key, roman) => `In the key of ${key}, what is the ${roman} chord ?`,
   },
   relativeKey: {
-    fr: (key) => `Quelle est la clé relative mineure de ${key} ?`,
-    en: (key) => `What is the relative minor of ${key}?`,
+    fr: (key, minorMajor) => `Quelle est la clé relative ${minorMajor == 'm' ? 'mineure' : 'majeure'} de ${key} ?`,
+    en: (key, minorMajor) => `What is the relative ${minorMajor == 'm' ? 'minor' : 'major'} of ${key}?`,
   },
   chordsInProgression: {
     fr: (key, progression) => `Quels sont les accords de la progression ${progression} en ${key} ?`,
@@ -173,6 +173,7 @@ const res = {
   succesRatio: { fr: "Pourcentage de succès", en: "Success percentage" },
   timedQuestionCategory: { fr: "Questions chronométrées", en: "Timed questions" },
   autoBad: { fr: "Échec automatique de la question après délai expiré", en: "Fail question automatically after delay" },
+  continuousQuestions: { fr: "Posez automatiquement une autre question après le délai", en: "Immediately ask a new question after delay" },
   aucun: { fr: "Aucun", en: "None" },
   oui: { fr: "Oui", en: "Yes" },
   non: { fr: "Non", en: "No" },
@@ -332,30 +333,33 @@ const res = {
     fr: (chord, key) => `Quel est le degré de ${chord} en ${key} ?`,
     en: (chord, key) => `What is the degree of ${chord} in the key of ${key}?`,
   },
-  whichDegreeInKeyDescription: { fr: "Degré d'un accord dans une clé", en: "Degree of a chord in a key" },
   transpositionDescription: { fr: "Transposition d'une progression", en: "Transposition of a progression" },
   transposition: {
     fr: (progression, key, transpose) => `Transposer la progression ${progression} de ${key} en ${transpose}`,
     en: (progression, key, transpose) => `Transpose the progression ${progression} from ${key} in ${transpose}`,
+  },
+  handsfree: {
+    fr: "Mode mains libres",
+    en: "Hands-free"
   }
-};
+}
 
 
 function t(key) {
   if (!res[key] || !res[key][settings.lang]) {
-    return `${key}`;
+    return `${key}`
   }
-  return res[key][settings.lang];
+  return res[key][settings.lang]
 }
 
 function trad() {
   document.querySelectorAll("[data-t]").forEach((x) => {
     if (x.dataset.html === "true") {
-      x.innerHTML = t(x.dataset.t);
+      x.innerHTML = t(x.dataset.t)
     } else {
-      x.innerText = t(x.dataset.t);
+      x.innerText = t(x.dataset.t)
     }
-  });
-  printAllAccords();
-  window.scrollTo(0, 0);
+  })
+  printAllAccords()
+  window.scrollTo(0, 0)
 }

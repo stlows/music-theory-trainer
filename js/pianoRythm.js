@@ -67,10 +67,10 @@ w:${measures.map((m) => m.map((x, index) => x.text.replace("#", index + 1)).join
     light: true,
     questionText,
     answerNode: el,
+    autoAnswer: true,
   })
   question.querySelector(".answer").style.paddingLeft = 0
   question.querySelector(".answer").style.paddingRight = 0
-  question.querySelector(".answer").click()
 
   const metronomeEl = h4()
   updateMetronomeText(metronomeEl)
@@ -119,7 +119,7 @@ w:${measures.map((m) => m.map((x, index) => x.text.replace("#", index + 1)).join
     }
   })
   question.appendChild(playTheBeat)
-  return { questionText, key: "NA" };
+  return { questionText, key: "NA" }
 }
 
 let beatPlaying = false

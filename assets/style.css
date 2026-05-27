@@ -158,6 +158,13 @@ button.gameBtn:hover {
   background-color: var(--button-color-hover);
 }
 
+button.gameBtn.red{
+  background-color: var(--barColor2);
+}
+button.gameBtn.red:hover{
+  background-color: var(--barColor2Light);
+}
+
 button.gameBtn.small {
   font-size: 0.7em;
   padding: 1em 2em;
