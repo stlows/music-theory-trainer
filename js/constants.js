@@ -1,11 +1,11 @@
 const possibleProgressionChords = ["A", "Am", "C", "D", "Dm", "E", "Em", "F", "G"]
 const possibleQuestions = [
-  { func: "intervalle", t: "intervalles" },
+  { func: "intervalle", t: "intervalles", continuous: true },
   { func: "gamme", t: "gammes" },
   { func: "chord", t: "chords" },
   { func: "chordsInKey", t: "chordsInTheKey" },
-  { func: "relativeKey", t: "relativeKey" },
-  { func: "nthNoteInKey", t: "nthNoteInKey" },
+  { func: "relativeKey", t: "relativeKey", continuous: true },
+  { func: "nthNoteInKey", t: "nthNoteInKey", continuous: true },
   { func: "transposition", t: "transposition" },
   { func: "chordChange", t: "chordChange" },
   { func: "chordsInProgression", t: "chordsInProgression" },

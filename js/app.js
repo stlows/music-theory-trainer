@@ -9,7 +9,8 @@ function question() {
   resetLectureQuestion()
   const questionFunc = chooseOne(settings.questions)
 
-  if (settings.continuousQuestions == "true") {
+  let isContinuousType = possibleQuestions.find(x => x.func === questionFunc).continuous
+  if (isContinuousType && settings.continuousQuestions == "true") {
     stopContinousQuestionsFlag = false
     document.querySelector("#newQuestion").style.display = "none"
     document.querySelector("#stopContinuousQuestions").style.display = "block"
@@ -608,9 +609,33 @@ function playNotes(bassIndex, interval) {
 
 function playPianoNote(note) {
   const noteFormat = allNotes[note - 21]
+  console.log(noteFormat)
   if (noteFormat) {
     const audio = new Audio(instruments.piano[noteFormat])
     audio.play()
+  }
+}
+
+// playChord([48,55,60,64,67])
+function playChord(notesMidi) {
+  for (let i = 0; i < notesMidi.length; i++) {
+    playPianoNote(notesMidi[i])
+  }
+}
+
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+// Actuellement: playProgression([[48,55,60,64,67],[53,60,65,69,72]])
+// TODO: playProgression(["I", "V", "vi", "IV"], "G")
+async function playProgression(progression, bpm = 60) {
+  const beatMs = 60000 / bpm * 4
+
+  for (const chord of progression) {
+    playChord(chord)
+    await sleep(beatMs)
   }
 }
 
