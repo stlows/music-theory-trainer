@@ -564,7 +564,7 @@ function chordSimilarities(seededRandom) {
     answerNode: answerDiv,
     notTimed: true
   })
-  return { questionText, key: accord1.tonique }
+  return { questionText, key: "NA" }
 }
 
 function alignNotes(arr1, arr2) {
