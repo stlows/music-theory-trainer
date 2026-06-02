@@ -60,10 +60,10 @@ ${bassNotes}
 
 function getAbcNote(note) {
   let prefix = ""
-  if (note.note.includes("♭♭")) prefix = "__"
-  else if (note.note.includes("♯♯")) prefix = "^^"
-  else if (note.note.includes("♯")) prefix = "^"
-  else if (note.note.includes("♭")) prefix = "_"
+  if (note.note.includes("♭♭") || note.note.includes("bb")) prefix = "__"
+  else if (note.note.includes("♯♯") || note.note.includes("##")) prefix = "^^"
+  else if (note.note.includes("♯") || note.note.includes("#")) prefix = "^"
+  else if (note.note.includes("♭") || note.note.includes("b")) prefix = "_"
 
   // Strip accidental symbol to get base note (A-G)
   let baseNote = note.note.replace(/[^A-G]/g, "").toUpperCase()

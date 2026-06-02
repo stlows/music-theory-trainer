@@ -84,57 +84,6 @@ function createGuitarQuestion({ questionText = "Test", notes = [], answerText = 
   gameEl.prepend(questionWrapper)
 }
 
-function createEarQuestion({ questionText, answerText, playNotes, indices }) {
-  const questionWrapper = div("question")
-  const question = h4(questionText)
-  const replay = button(t("replay"))
-  replay.classList.add("gameBtn")
-  replay.classList.add("small")
-  replay.classList.add("mb-small")
-  replay.addEventListener("click", playNotes)
-  questionWrapper.appendChild(question)
-  questionWrapper.appendChild(replay)
-
-  const answer = div("answer")
-
-  if (answerText) {
-    answer.innerText = t("clickForAnswer")
-    questionWrapper.appendChild(answer)
-    const timeoutId = addCorrectionAndTimer(questionWrapper, answer)
-    answer.addEventListener("click", (a) => {
-      if (!questionWrapper.classList.contains("answered")) {
-        a.target.innerText = answerText
-        questionWrapper.classList.add("answered")
-        clearInterval(timeoutId)
-      }
-    })
-  }
-  if (indices) {
-    let currentIndex = 0
-    let indicesWrapper = div("answer")
-    function showNextIndice() {
-      if (currentIndex > indices.length) {
-        return
-      }
-      indicesWrapper.innerHTML = ""
-      if (currentIndex < indices.length) {
-        let indiceText = p(t("indice" + (currentIndex + 1)))
-        indicesWrapper.appendChild(indiceText)
-      }
-      if (currentIndex > 0) {
-        indicesWrapper.appendChild(indices[currentIndex - 1])
-      }
-      currentIndex++
-    }
-    indicesWrapper.addEventListener("click", showNextIndice)
-    showNextIndice()
-    questionWrapper.appendChild(indicesWrapper)
-  }
-  gameEl.prepend(questionWrapper)
-
-  playNotes()
-}
-
 function quelleNoteSurManche(seededRandom) {
   const corde = seededRandom.int(7, 1)
   const fret = seededRandom.int(parseInt(settings.frets) + 1, 1)
@@ -523,27 +472,76 @@ function intervalByEar(seededRandom) {
   const bassIndex = seededRandom.int(endMidi + 1, startMidi)
   const interval = seededRandom.int(maxInterval + 1)
   let questionText = t("whatIsThisInterval")
-  let indice1 = createPiano(
-    { notes: [midiToPianoNote(bassIndex)], min: midiToPianoNote(bassIndex - 5), max: midiToPianoNote(bassIndex + maxInterval + 5) },
-    false,
-    (fullNoteGiven = true)
-  )._svg
-  let indice2 = createPiano(
-    {
-      notes: [midiToPianoNote(bassIndex), midiToPianoNote(bassIndex + interval)],
-      min: midiToPianoNote(bassIndex - 5),
-      max: midiToPianoNote(bassIndex + maxInterval + 5),
-    },
-    false,
-    (fullNoteGiven = true)
-  )._svg
-  createEarQuestion({
+
+  let forceOctaveBreaks = interval >= 14 ? [1] : []
+  let indice1Div = div()
+  indice1Div.appendChild(p(midiToPianoNote(bassIndex).replace(/#/g, "♯").replace(/b/g, "♭")))
+  if (settings.showNotes.includes("piano")) {
+    let pianoWrapper = createPiano(
+      { notes: [midiToPianoNote(bassIndex)], min: midiToPianoNote(bassIndex - 5), max: midiToPianoNote(bassIndex + maxInterval + 5), forceOctaveBreaks },
+      false,
+      (fullNoteGiven = true)
+    )
+    indice1Div.appendChild(pianoWrapper._svg)
+  }
+  if (settings.showNotes.includes("staff")) {
+    indice1Div.appendChild(simpleNotesStaff([midiToPianoNote(bassIndex)]), stacked = false, forceOctaveBreaks)
+  }
+
+  let indice2Div = div()
+  indice2Div.appendChild(p(midiToPianoNote(bassIndex).replace(/#/g, "♯").replace(/b/g, "♭") + " - " + midiToPianoNote(bassIndex + interval).replace(/#/g, "♯").replace(/b/g, "♭")))
+  indice2Div.appendChild(p(interval))
+  if (settings.showNotes.includes("piano")) {
+    let pianoWrapper = createPiano(
+      { notes: [midiToPianoNote(bassIndex), midiToPianoNote(bassIndex + interval)], min: midiToPianoNote(bassIndex - 5), max: midiToPianoNote(bassIndex + maxInterval + 5), forceOctaveBreaks },
+      false,
+      (fullNoteGiven = true)
+    )
+    indice2Div.appendChild(pianoWrapper._svg)
+  }
+  if (settings.showNotes.includes("staff")) {
+    indice2Div.appendChild(simpleNotesStaff([midiToPianoNote(bassIndex), midiToPianoNote(bassIndex + interval)]), stacked = false, forceOctaveBreaks)
+  }
+
+  let answerNode = div()
+
+  const replay = button(t("replay"))
+  replay.classList.add("gameBtn")
+  replay.classList.add("small")
+  replay.classList.add("mb-small")
+  replay.addEventListener("click", () => playNotes(bassIndex, interval))
+  answerNode.appendChild(replay)
+
+  let indices = [indice1Div, indice2Div]
+
+  let currentIndex = 0
+  let indicesWrapper = div()
+  function showNextIndice() {
+    if (currentIndex > indices.length) {
+      return
+    }
+    indicesWrapper.innerHTML = ""
+    if (currentIndex < indices.length) {
+      let indiceText = p(t("indice" + (currentIndex + 1)))
+      indicesWrapper.appendChild(indiceText)
+    }
+    if (currentIndex > 0) {
+      indicesWrapper.appendChild(indices[currentIndex - 1])
+    }
+    currentIndex++
+  }
+  indicesWrapper.addEventListener("click", showNextIndice)
+  showNextIndice()
+  answerNode.appendChild(indicesWrapper)
+  playNotes(bassIndex, interval)
+  createQuestion({
     questionText,
-    indices: [indice1, indice2],
+    answerNode,
+    //indices: [indice1, indice2],
     // answerText: `${t(Object.keys(notes[0])[interval])} - Basse: ${printNote(allNotes[bassIndex])} - High note: ${printNote(
     //   allNotes[bassIndex + interval]
     // )} `,
-    playNotes: () => playNotes(bassIndex, interval),
+    autoAnswer: true,
   })
   return { questionText, key: "NA" }
 }
