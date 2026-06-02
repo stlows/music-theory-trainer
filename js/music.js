@@ -720,6 +720,19 @@ function getRoman(degree) {
   return ["I", "ii", "iii", "IV", "V", "vi", "vii°"][degree - 1];
 }
 
+const romanChordNotes = {
+  "I": [0, 4, 7], // C-E-G
+  "ii": [2, 5, 9], // D-F-A
+  "iii": [-1, 4, 7], // B-E-G
+  "IV": [0, 5, 9], // C-F-A
+  "V": [-1, 2, 7], // B-D-G
+  "vi": [0, 4, 9], // C-E-A
+  "II": [2, 6, 9], // D-F#-A
+  "III": [-1, 5, 8], // B-E-G#
+  "bVII": [-1, 2, 5], // Bb-D-F
+  "V7": [-1, 2, 5, 7] // B-D-G-F
+}
+
 function note(corde, fret) {
   const root = cordes[corde].root;
   const noteIndex = chromatic.indexOf(root);

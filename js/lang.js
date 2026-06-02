@@ -341,6 +341,14 @@ const res = {
   handsfree: {
     fr: "Mode mains libres",
     en: "Hands-free"
+  },
+  whatIsThisProgression: {
+    fr: (key) => `Quelle est cette progression d'accords en ${key} ?`,
+    en: (key) => `What is this chord progression in ${key} ?`
+  },
+  progressionByEarDescription: {
+    fr: "👂 Progression d'accords à l'oreille [BETA]",
+    en: "👂 Chord progression by ear [BETA]"
   }
 }
 

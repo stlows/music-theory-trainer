@@ -541,3 +541,18 @@ input {
 .abcjs-note.incorrect {
   fill: red;
 }
+
+.chordBoxWrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+.chordBox{
+  display: inline-block;
+  padding: 0.5em 1em;
+  border: 1px solid var(--table-border);
+  border-radius: 5px;
+  margin: 0.2em;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+}

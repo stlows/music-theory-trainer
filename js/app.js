@@ -15,6 +15,9 @@ function question() {
     document.querySelector("#newQuestion").style.display = "none"
     document.querySelector("#stopContinuousQuestions").style.display = "block"
   }
+  if (!isContinuousType) {
+    stopContinousQuestionsFlag = true
+  }
 
   if (window[questionFunc]) {
     let seed = random(2147483647)
@@ -609,7 +612,6 @@ function playNotes(bassIndex, interval) {
 
 function playPianoNote(note) {
   const noteFormat = allNotes[note - 21]
-  console.log(noteFormat)
   if (noteFormat) {
     const audio = new Audio(instruments.piano[noteFormat])
     audio.play()
@@ -628,12 +630,67 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-// Actuellement: playProgression([[48,55,60,64,67],[53,60,65,69,72]])
-// TODO: playProgression(["I", "V", "vi", "IV"], "G")
+
+function progressionByEar(seededRandom) {
+
+  let key = seededRandom.chooseOne(settings.roots)
+  let numberOfChords = 4
+  const availableChords = ["I", "ii", "iii", "IV", "V", "vi"] // TODO: ajouter les accords non-diatoniques et dans romanChordNotes (dans music.js) e.g. "II", "III", "bVII", "V7"
+  const chords = Array.from({ length: numberOfChords - 1 }, () => {
+    return seededRandom.chooseOne(availableChords)
+  })
+  chords.unshift("I")
+  let startDegree = 0
+  if (keyOffset[key] == undefined) {
+    throw new Error(`Cette clé ${key} n'est pas prise en compte pour la dictée.`)
+  }
+  let startMidi = 60 + keyOffset[key]
+
+  console.log(key, chords, startMidi)
+
+  let chordMidis = chords.map(chord => romanChordNotes[chord].map(interval => interval + startMidi))
+
+  playProgression(chordMidis, 80)
+
+  let answerNode = div()
+
+  let chordBoxesWrapper = div("chordBoxWrapper")
+
+  for (let i = 0; i < chords.length; i++) {
+    let chordBox = div("chordBox")
+    chordBox.innerText = "?"
+    chordBox.addEventListener("click", () => {
+      chordBox.innerText = chords[i]
+    })
+    if (i === 0) {
+      chordBox.click()
+    }
+    chordBoxesWrapper.appendChild(chordBox)
+  }
+  answerNode.appendChild(chordBoxesWrapper)
+
+  let replay = button(t("replay"))
+  replay.classList.add("gameBtn")
+  replay.classList.add("small")
+  replay.classList.add("mb-small")
+  replay.addEventListener("click", () => playProgression(chordMidis, 60))
+  answerNode.appendChild(replay)
+
+  return createQuestion({
+    questionText: t("whatIsThisProgression")(key),
+    answerNode: answerNode,
+    notTimed: true,
+    autoAnswer: true,
+  })
+
+}
+
+// playProgression([[48,55,60,64,67],[53,60,65,69,72]])
 async function playProgression(progression, bpm = 60) {
   const beatMs = 60000 / bpm * 4
 
   for (const chord of progression) {
+    console.log("Playing chord:", chord)
     playChord(chord)
     await sleep(beatMs)
   }
