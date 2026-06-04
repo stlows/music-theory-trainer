@@ -1,7 +1,7 @@
 const gameEl = document.getElementById("game")
 
 function question() {
-  if (questionCount >= 5) {
+  if (questionCount === 0 && settings.desactiverEncouragements == "false") {
     encourageMe()
     return
   }
@@ -26,7 +26,7 @@ function question() {
     try {
       let { questionText, key } = window[questionFunc](seededRandom)
       addHistory({ questionFunc, questionTitle: questionText, key, seed, date: new Date().valueOf() })
-      questionCount++
+      questionCount = (questionCount + 1) % 6
     } catch (ex) {
       console.error("Erreur pour la question:")
       console.error(`${questionFunc}(new SeededRandom(${seed}))`)
@@ -224,7 +224,7 @@ function createQuestion({ questionText, answerText, extraInfos, answerNode, ligh
 }
 
 function checkContinuousQuestion() {
-  if (settings.continuousQuestions == "true" && !stopContinousQuestionsFlag) {
+  if (settings.continuousQuestions == "true" && settings.timerInSeconds > 0 && !stopContinousQuestionsFlag) {
     requestAnimationFrame(() => window.question())
     stopContinousQuestionsFlag = false
   }

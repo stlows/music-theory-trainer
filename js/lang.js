@@ -349,6 +349,14 @@ const res = {
   progressionByEarDescription: {
     fr: "👂 Progression d'accords à l'oreille [BETA]",
     en: "👂 Chord progression by ear [BETA]"
+  },
+  ttsQuestion: {
+    fr: "Lire la question à voix haute (Text-to-Speech)",
+    en: "Read the question out loud (Text-to-Speech)"
+  },
+  desactiverEncouragements: {
+    fr: "Désactiver les messages d'encouragements de développement de l'application",
+    en: "Disable messages encouraging the development of the app"
   }
 }
 

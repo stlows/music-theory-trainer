@@ -1,4 +1,4 @@
-let questionCount = 0
+let questionCount = 1
 function encourageMe() {
   let seed = random(2147483647)
   let seededRandom = new SeededRandom(seed)
@@ -14,5 +14,5 @@ function encourageMe() {
     answerNode: answerDiv,
     autoAnswer: true
   })
-  questionCount = 0
+  questionCount = 1
 }

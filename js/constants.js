@@ -14,7 +14,7 @@ const possibleQuestions = [
   { func: "strummingQuestion", t: "strummingQuestion" },
   { func: "intervalByEar", t: "intervalByEar" },
   { func: "melodyByEar", t: "melodyByEar" },
-  { func: "progressionByEar", t: "progressionByEar", continuous: true },
+  { func: "progressionByEar", t: "progressionByEar", continuous: false },
   { func: "chordSimilarities", t: "chordSimilarities" },
   { func: "pratiquezLecturePiano", t: "pratiquezLecturePiano" },
   { func: "hanonExercise", t: "hanonExercise" },

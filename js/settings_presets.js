@@ -27,6 +27,7 @@ const settingsPresets = {
       melodyAccidentals: "none", // none, some, lot
       continuousQuestions: "false",
       ttsQuestion: "false",
+      desactiverEncouragements: "false"
     },
     intermediate: {
       notation: "letter",
@@ -64,6 +65,7 @@ const settingsPresets = {
       melodyAccidentals: "none", // none, some, lot
       continuousQuestions: "false",
       ttsQuestion: "false",
+      desactiverEncouragements: "false"
     },
     advanced: {
       notation: "letter",
@@ -105,6 +107,7 @@ const settingsPresets = {
       melodyAccidentals: "none", // none, some, lot
       continuousQuestions: "false",
       ttsQuestion: "false",
+      desactiverEncouragements: "false"
     },
   },
   guitar: {
@@ -135,6 +138,7 @@ const settingsPresets = {
       melodyAccidentals: "none", // none, some, lot
       continuousQuestions: "false",
       ttsQuestion: "false",
+      desactiverEncouragements: "false"
     },
     intermediate: {
       notation: "letter",
@@ -175,7 +179,8 @@ const settingsPresets = {
       melodyDegreeLimitLow: -3,
       melodyAccidentals: "none", // none, some, lot
       continuousQuestions: "false",
-      ttsQuestion: "false"
+      ttsQuestion: "false",
+      desactiverEncouragements: "false"
     },
     advanced: {
       notation: "letter",
@@ -215,7 +220,8 @@ const settingsPresets = {
       melodyDegreeLimitLow: -4,
       melodyAccidentals: "none", // none, some, lot
       continuousQuestions: "false",
-      ttsQuestion: "false"
+      ttsQuestion: "false",
+      desactiverEncouragements: "false"
     },
   },
   handsfree: {
@@ -244,7 +250,8 @@ const settingsPresets = {
     melodyDegreeLimitHigh: 6,
     melodyDegreeLimitLow: -3,
     melodyAccidentals: "none", // none, some, lot
-    ttsQuestion: "true"
+    ttsQuestion: "true",
+    desactiverEncouragements: "true"
   },
 }
 

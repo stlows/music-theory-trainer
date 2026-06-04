@@ -140,7 +140,7 @@ function unselectAllSetting(event, settingKey) {
 }
 
 function createTimerOptions() {
-  const timers = [3, 5, 10, 15, 20, 40, 60]
+  const timers = [3, 5, 7, 10, 15, 20, 30]
   const button = createOptionbutton("timerInSeconds", 0, false, "aucun")
   document.getElementById("timers").appendChild(button)
   for (let i = 0; i < timers.length; i++) {
@@ -230,10 +230,11 @@ createOuiNonOptions("afficherCorrection")
 createOuiNonOptions("autoSelectBadAfterTimer", "autoBad")
 createOuiNonOptions("continuousQuestions")
 createOuiNonOptions("ttsQuestion")
+createOuiNonOptions("desactiverEncouragements")
 createOptions([40, 60, 80, 100, 110, 120, 135, 150, 180], "tempo", false)
 createOptions([1, 2, 3, 4], "repeats", false)
-createOptions([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "frets", false)
-createOptions(["word", "letter"], "notation", false)
+createOptions([5, 7, 10, 15], "frets", false)
+//createOptions(["word", "letter"], "notation", false)
 createOptions(
   accords.map((x) => x.name),
   "accords",
