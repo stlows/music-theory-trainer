@@ -22,6 +22,8 @@ fs.readFile(filePath, 'utf8', (err, data) => {
   // Remove existing version query strings and add the new version query string to JS imports
   updatedHtml = updatedHtml.replace(jsRegex, `$1?v=${version}$3`)
 
+  updatedHtml = updatedHtml.replace(/version:\[(.*)\]/g, `version:[${new Date().toLocaleString("fr-CA")}]`)
+
   // Write the modified content back to the index.html file
   fs.writeFile(filePath, updatedHtml, 'utf8', (err) => {
     if (err) {

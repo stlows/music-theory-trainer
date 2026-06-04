@@ -51,8 +51,17 @@ p {
   font-size: 1.5em;
 }
 
+.caption {
+  font-size: 0.8em;
+  color: var(--table-border);
+}
+
 .text-primary {
   color: var(--accent-color);
+}
+
+.text-right {
+  text-align: right;
 }
 
 body {
