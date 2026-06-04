@@ -357,6 +357,14 @@ const res = {
   desactiverEncouragements: {
     fr: "Désactiver les messages d'encouragements de développement de l'application",
     en: "Disable messages encouraging the development of the app"
+  },
+  chordQualityByEarDescription: {
+    fr: "👂 Qualité d'accord à l'oreille [BETA]",
+    en: "👂 Chord quality by ear [BETA]"
+  },
+  qualityOfThisChord: {
+    fr: "Quelle est la qualité de cet accord ?",
+    en: "What is the quality of this chord ?"
   }
 }
 

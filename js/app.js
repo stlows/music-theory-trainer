@@ -611,7 +611,7 @@ function playNotes(bassIndex, interval) {
 function playPianoNote(note) {
   const noteFormat = allNotes[note - 21]
   if (noteFormat) {
-    const audio = new Audio(instruments.piano[noteFormat])
+    const audio = pianoSamples[noteFormat].cloneNode()
     audio.play()
   }
 }
@@ -628,6 +628,33 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+function chordQualityByEar(seededRandom) {
+  let key = seededRandom.chooseOne(settings.roots)
+  let noteIndex = keyIndex(key)
+  const accordSettingsIndex = seededRandom.int(settings.accords.length)
+  const accordIndex = accords.findIndex((x) => x.name === settings.accords[accordSettingsIndex])
+  const accord = getAccord(noteIndex, accordIndex)
+
+  let startDegree = 0
+  if (keyOffset[key] == undefined) {
+    throw new Error(`Cette clé ${key} n'est pas prise en compte pour la dictée.`)
+  }
+  let startMidi = 60 + keyOffset[key]
+
+  console.log(key + accord.type.symbol)
+
+  let midis = accord.type.notes.map(x => intervalToMidi[x] + startMidi)
+  playChord(midis)
+  console.log(accord.type.notes.map(x => intervalToMidi[x] + startMidi))
+
+  let questionText = t("qualityOfThisChord")
+  let answerText = t(accord.type.name) + " (" + key + accord.type.symbol + ")"
+  return createQuestion({
+    questionText,
+    answerText
+  })
+
+}
 
 function progressionByEar(seededRandom) {
 
@@ -713,7 +740,7 @@ async function playPianoNotes(notes, bpm = 60, kickBefore = 0) {
     // Play the new note
     const noteFormat = allNotes[notes[i].midi - 21]
     if (noteFormat) {
-      currentAudio = new Audio(instruments.piano[noteFormat])
+      currentAudio = pianoSamples[noteFormat].cloneNode()
       currentAudio.volume = 1
       currentAudio.play()
     }
