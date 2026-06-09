@@ -385,5 +385,7 @@ function trad() {
     }
   })
   printAllAccords()
+  printAllGammes()
+  printAllIntervalles()
   window.scrollTo(0, 0)
 }

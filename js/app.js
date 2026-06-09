@@ -770,6 +770,16 @@ async function fadeOutAndStop(audio, fadeTime) {
   audio.currentTime = 0
 }
 
+Array.prototype.sortEnharmonicFirst = function () {
+  return this.sort((a, b) => {
+    const aPriority = enharmonicKeys.includes(a)
+    const bPriority = enharmonicKeys.includes(b)
+
+    if (aPriority === bPriority) return 0
+    return aPriority ? -1 : 1
+  })
+}
+
 function printAllGammes() {
   const gammesEl = document.getElementById("gammes")
   gammesEl.innerHTML = ""
@@ -785,7 +795,7 @@ function printAllGammes() {
     ],
     { id: "gammeSelect", style: "margin-right: 10px;" }
   )
-  const keySelect = select([...new Set(notes.map((n) => n.root))], { id: "keyGammeSelect" })
+  const keySelect = select([...new Set(notes.map((n) => n.root))].sortEnharmonicFirst(), { id: "keyGammeSelect" })
   const gammeSelectorResult = div("")
   gammeSelectorResult.id = "gammeSelectorResult"
 
@@ -799,12 +809,14 @@ function printAllGammes() {
     const gammeTitle = h5(t("gamme")(printNote(notes[keyIndex].root), t(gamme.type.name)))
     wrapper.appendChild(gammeTitle)
     wrapper.appendChild(p(join(gamme.notes.map((x) => printNote(x)))))
+    let gammeHint = p(join(gamme.type.notes))
+    gammeHint.classList.add("hint")
+    wrapper.appendChild(gammeHint)
     gammeSelectorResult.innerHTML = ""
     gammeSelectorResult.appendChild(wrapper)
   }
   gammeSelect.addEventListener("change", updateGammeDisplay)
   keySelect.addEventListener("change", updateGammeDisplay)
-
   gammeSelector.appendChild(gammeSelect)
   gammeSelector.appendChild(keySelect)
   gammesEl.appendChild(gammeSelector)
@@ -824,6 +836,8 @@ function printAllGammes() {
     }
     gammesEl.appendChild(detailsEl)
   }
+  updateGammeDisplay()
+
 }
 
 function printAllAccords() {
@@ -840,7 +854,7 @@ function printAllAccords() {
     ],
     { id: "accordSelect" }
   )
-  const keySelect = select([...new Set(notes.map((n) => n.root))], { id: "keyAccordSelect", style: "margin-right: 10px;" })
+  const keySelect = select([...new Set(notes.map((n) => n.root))].sortEnharmonicFirst(), { id: "keyAccordSelect", style: "margin-right: 10px;" })
   const accordSelectorResult = div("")
   accordSelectorResult.id = "accordSelectorResult"
 
@@ -891,25 +905,48 @@ function printAllAccords() {
     }
     accordsEl.appendChild(detailsEl)
   }
+  updateAccordDisplay()
 }
 
 function printAllIntervalles() {
-  const intervalles = document.getElementById("intervalles")
-  intervalles.innerHTML = ""
-  for (let noteIndex = 0; noteIndex < notes.length; noteIndex++) {
-    const tableEl = table("intervalle")
-    const rowNotes = tr()
-    const rowIndex = tr()
-    rowNotes.appendChild(td("Note"))
-    rowIndex.appendChild(td("Int."))
-    for (let i = 0; i < 12; i++) {
-      rowNotes.appendChild(td(notes[(noteIndex + i) % 12][settings.notation]))
-      rowIndex.appendChild(td(i))
-    }
-    tableEl.appendChild(rowNotes)
-    tableEl.appendChild(rowIndex)
-    intervalles.appendChild(tableEl)
+  const intervallesEl = document.getElementById("intervalles")
+  intervallesEl.innerHTML = ""
+  const intervalleSelector = div("flex")
+  const intervalles = Object.keys(notes[0])
+
+  const intervalleSelect = select(
+    [
+      ...new Set(
+        Object.keys(notes[0]).map((i) => {
+          return { value: i, label: t(i) }
+        })
+      ),
+    ],
+    { id: "intervalleSelect", style: "margin-right: 10px;" }
+  )
+  const keySelect = select([...new Set(notes.map((n) => n.root))].sortEnharmonicFirst(), { id: "keyIntervalleSelect" })
+  const intervalleSelectorResult = div("")
+  intervalleSelectorResult.id = "intervalleSelectorResult"
+
+  function updateIntervalleDisplay() {
+    const selectedIntervalle = document.getElementById("intervalleSelect").value
+    const selectedKey = document.getElementById("keyIntervalleSelect").value
+    let wrapper = div("intervalle")
+    const intervalleTitle = h5(`${t(selectedIntervalle)} ${t("of")} ${selectedKey}`)
+    wrapper.appendChild(intervalleTitle)
+    wrapper.appendChild(p(notes.find((n) => n.root === selectedKey)[selectedIntervalle]))
+    intervalleSelectorResult.innerHTML = ""
+    intervalleSelectorResult.appendChild(wrapper)
   }
+  intervalleSelect.addEventListener("change", updateIntervalleDisplay)
+  keySelect.addEventListener("change", updateIntervalleDisplay)
+
+  intervalleSelector.appendChild(intervalleSelect)
+  intervalleSelector.appendChild(keySelect)
+  intervallesEl.appendChild(intervalleSelector)
+  intervallesEl.appendChild(intervalleSelectorResult)
+
+  updateIntervalleDisplay()
 }
 
 let currentNoteIndexToBePlayed = -1

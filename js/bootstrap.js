@@ -5,7 +5,6 @@ loadVoices().then(function (x) {
   voice = x.find(x => x.name === 'Microsoft Antoine Online (Natural) - French (Canada)')
 })
 
-
 function checkSettingsInUrl() {
   const urlParams = new URLSearchParams(window.location.search)
   if (urlParams.has("settings")) {
