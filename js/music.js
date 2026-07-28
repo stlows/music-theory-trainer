@@ -550,7 +550,7 @@ const gammes = [
   },
   { name: "dorian", notes: ["root", "M2", "m3", "P4", "P5", "M6", "m7"] },
   { name: "phrygian", notes: ["root", "m2", "m3", "P4", "P5", "m6", "m7"] },
-  { name: "lydian", notes: ["root", "M2", "M3", "d5", "P5", "M6", "M7"] },
+  { name: "lydian", notes: ["root", "M2", "M3", "A4", "P5", "M6", "M7"] },
   { name: "mixolydian", notes: ["root", "M2", "M3", "P4", "P5", "M6", "m7"] },
   { name: "aeolian", notes: ["root", "M2", "m3", "P4", "P5", "m6", "m7"] }, // Natural Minor
   { name: "locrian", notes: ["root", "m2", "m3", "P4", "d5", "m6", "m7"] },
