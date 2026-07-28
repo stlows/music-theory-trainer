@@ -210,6 +210,7 @@ const res = {
   intermediate: { fr: "intermédiaire", en: "intermediate" },
   advanced: { fr: "avancé", en: "advanced" },
   presets: { fr: "Paramètres enregistrés", en: "Saved settings" },
+  noSavedSettings: { fr: "Aucun paramètres enregistrés", en: "No saved settings" },
   afficherCorrection: { fr: "Afficher les boutons d'auto-correction (stats)", en: "Show auto-correct buttons (for stats)" },
   randomPattern: { fr: "Pattern aléatoire", en: "Random pattern" },
   metronome: { fr: "Métronome", en: "Metronome" },
@@ -366,6 +367,7 @@ const res = {
     fr: "Quelle est la qualité de cet accord ?",
     en: "What is the quality of this chord ?"
   }
+
 }
 
 
