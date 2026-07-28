@@ -721,7 +721,7 @@ async function playProgression(progression, bpm = 60) {
   }
 }
 
-async function playPianoNotes(notes, bpm = 60, kickBefore = 0) {
+async function playPianoNotes(notes, bpm = 60, kickBefore = 0, checkStop = () => false) {
   const beatDuration = 60000 / bpm // ms per beat
   const fadeTime = beatDuration / 5
   let currentAudio = null
@@ -732,6 +732,9 @@ async function playPianoNotes(notes, bpm = 60, kickBefore = 0) {
     stopMetronome()
   }
   for (let i = 0; i < notes.length; i++) {
+    if (checkStop()) {
+      break
+    }
     // Stop & fade out previous note if needed
     if (currentAudio) {
       await fadeOutAndStop(currentAudio, fadeTime)

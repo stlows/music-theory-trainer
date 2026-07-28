@@ -122,7 +122,8 @@ async function playMeasures(start, end, melodyNotes) {
     await playPianoNotes(
       melodyNotes.filter((x) => x.measure >= start && x.measure <= end),
       60,
-      (kickBefore = 2)
+      (kickBefore = 0),
+      checkStop = () => !dicteePlaying
     )
   }
 }
@@ -156,7 +157,7 @@ function secretStaffString(measuresToShow, measureCount, melodyNotes, M) {
       melodyStr += "z" + M * 4 + "|"
     }
   }
-  return melodyStr
+  return melodyStr.slice(0, -1) + ":|" // barre de reprise
 }
 
 function dictee(seededRandom, { key = "C", M = 2, measureCount = 4 }) {
@@ -200,36 +201,51 @@ K:${key.replace("♭", "b").replace("♯", "#")}
   answerDiv.appendChild(staffDiv)
   let controls = div("dictee-controls")
   let playStopControls = div("grid")
-  playStopControls.style = "display: grid; grid-template-columns: 1fr 1fr 1fr;align-items: center;margin-bottom: 5px"
+  playStopControls.style = "display: grid; grid-template-columns: 4fr 1fr;align-items: center;margin-bottom: 15px"
+  let playFromBars = div("playFromBars")
+  playFromBars.style = "display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;align-items: center;"
+  playStopControls.appendChild(playFromBars)
   answerDiv.appendChild(controls)
 
-  let measureStart = document.createElement("input")
-  measureStart.type = "number"
-  measureStart.value = 1
-  measureStart.style =
-    "background-color: white; color: var(--background-color); margin-right: 10px; padding: 0.2em; height: 100%; width: 100%;margin-bottom: 0; text-align: center"
-  let measureEnd = document.createElement("input")
-  measureEnd.type = "number"
-  measureEnd.value = 2
-  measureEnd.style =
-    "background-color: white; color: var(--background-color); margin-right: 10px; padding: 0.2em; height: 100%;width: 100%;margin-bottom: 0; text-align: center"
-  let playButton = document.createElement("button")
-  playButton.style = "background-color: white; border: none; font-size: 2em; line-height: 1.2em"
-  playButton.classList.add("small")
-  playButton.innerText = t("playBars")
-  playButton.addEventListener("click", () => {
+  let stopButton = document.createElement("button")
+  stopButton.classList.add("gameBtn")
+  stopButton.classList.add("small")
+  stopButton.innerText = t("stopBars")
+  stopButton.disabled = true
+  stopButton.addEventListener("click", () => {
     if (dicteePlaying) {
-      playButton.innerText = t("playBars")
+      stopButton.disabled = true
+      Array.from(document.querySelectorAll(".playFromBars button")).forEach((btn) => {
+        btn.disabled = false
+      })
       dicteePlaying = false
-    } else {
-      playButton.innerText = t("stopBars")
-      dicteePlaying = true
-      playMeasures(measureStart.value - 1, measureEnd.value - 1, melodyNotes)
     }
   })
-  playStopControls.appendChild(measureStart)
-  playStopControls.appendChild(playButton)
-  playStopControls.appendChild(measureEnd)
+
+  for (let i = 0; i < measureCount; i++) {
+
+    const buttonPlayFrom = document.createElement("button");
+    buttonPlayFrom.classList.add("gameBtn")
+    buttonPlayFrom.classList.add("small")
+    buttonPlayFrom.style = "margin-right: 10px"
+    buttonPlayFrom.innerText = t("playFrom") + " " + (i + 1)
+    buttonPlayFrom.addEventListener("click", () => {
+
+      if (!dicteePlaying) {
+        Array.from(document.querySelectorAll(".playFromBars button")).forEach((btn) => {
+          btn.disabled = true
+        })
+        stopButton.disabled = false
+        dicteePlaying = true
+        playMeasures(i, measureCount - 1, melodyNotes)
+      }
+    })
+    playFromBars.appendChild(buttonPlayFrom)
+  }
+
+
+
+  playStopControls.appendChild(stopButton)
   controls.appendChild(playStopControls)
 
   let barShowControls = div("grid")

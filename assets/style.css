@@ -163,6 +163,12 @@ button.gameBtn {
   font-size: 1em;
 }
 
+button.gameBtn:disabled {
+  background-color: var(--button-color);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 button.gameBtn:hover {
   background-color: var(--button-color-hover);
 }
