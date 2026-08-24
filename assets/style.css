@@ -194,6 +194,10 @@ button.gameBtn>span {
   display: inline-block;
 }
 
+@media screen and (max-width: 480px) {
+  .settingToggle { text-align: center; }
+}
+
 .settingToggle {
   padding: 0.5em 1em;
   display: inline-block;
